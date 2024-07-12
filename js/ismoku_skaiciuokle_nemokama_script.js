@@ -56,3 +56,4 @@ jQuery(window).on('elementor/frontend/init', () => {
         new MyCustomWidgetHandler({ $element: $scope });
     });
 });
+
