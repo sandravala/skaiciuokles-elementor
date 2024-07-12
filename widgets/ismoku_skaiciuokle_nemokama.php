@@ -23,6 +23,10 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         return ['custom-skaiciuokles'];
 
     }
+    
+    public function get_script_depends() {
+        return [ 'ismoku_skaiciuokle_nemokama_script' ];
+    }
 
     public function get_keywords()
     {
@@ -187,86 +191,85 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         echo '</pre>';
 
         ?>
-<form action="https://gretauzkuraite.lt/motinystes-tevystes-ir-vaiko-prieziuros-ismoku-skaiciuokle-pilna-versija/" name="formbox" id="calculator_8">
-  <fieldset id="fieldset-1">
-    <legend>Pažymėkite, kurias išmokas skaičiuoti</legend>
-    <label><input type="checkbox" value="1" name="formbox-field-1">Nėštumo ir gimdymo atostogų</label>
-    <label><input type="checkbox" value="1" name="formbox-field-2">Tėvystės (30 atostogų dienų)</label>
-    <label><input type="checkbox" value="1" name="formbox-field-3">Vaiko priežiūros atostogų (VPA)</label>
-  </fieldset>
+        <div>
+            <form name="formbox" id="ismoku_skaiciuokle_nemokama">
+            <fieldset id="fieldset-1">
+                <legend>Pažymėkite, kurias išmokas skaičiuoti</legend>
+                <label><input type="checkbox" value="1" name="formbox-field-1">Nėštumo ir gimdymo atostogų</label>
+                <label><input type="checkbox" value="1" name="formbox-field-2">Tėvystės (30 atostogų dienų)</label>
+                <label><input type="checkbox" value="1" name="formbox-field-3">Vaiko priežiūros atostogų (VPA)</label>
+            </fieldset>
 
-  <fieldset id="fieldset-2">
-    <legend>VPA išmokos gavimo trukmė</legend>
-    <label><input type="radio" value="18" name="formbox-field-4">18 mėn.</label>
-    <label><input type="radio" value="24" name="formbox-field-4">24 mėn.</label>
-  </fieldset>
+            <fieldset id="fieldset-2">
+                <legend>VPA išmokos gavimo trukmė</legend>
+                <label><input type="radio" value="18" name="formbox-field-4">18 mėn.</label>
+                <label><input type="radio" value="24" name="formbox-field-4">24 mėn.</label>
+            </fieldset>
 
-  <fieldset id="fieldset-3">
-    <legend>Vaiko priežiūros atostogomis naudosis:</legend>
-    <label><input type="radio" value="1" name="formbox-field-5">mama</label>
-    <label><input type="radio" value="2" name="formbox-field-5">tėtis</label>
-  </fieldset>
+            <fieldset id="fieldset-3">
+                <legend>Vaiko priežiūros atostogomis naudosis:</legend>
+                <label><input type="radio" value="1" name="formbox-field-5">mama</label>
+                <label><input type="radio" value="2" name="formbox-field-5">tėtis</label>
+            </fieldset>
 
-  <fieldset id="fieldset-4">
-    <legend>Naudosis 2 neperleidžiamais VPA mėnesiais?</legend>
-    <label><input type="radio" value="1" name="formbox-field-6">Taip</label>
-    <label><input type="radio" value="2" name="formbox-field-6">Ne</label>
-  </fieldset>
+            <fieldset id="fieldset-4">
+                <legend>Naudosis 2 neperleidžiamais VPA mėnesiais?</legend>
+                <label><input type="radio" value="1" name="formbox-field-6">Taip</label>
+                <label><input type="radio" value="2" name="formbox-field-6">Ne</label>
+            </fieldset>
 
-  <fieldset id="fieldset-5">
-    <legend>Mamos pajamų tipas</legend>
-    <label><input type="radio" value="1" name="formbox-field-7">Darbo užmokestis (pagal darbo sutartį)</label>
-    <label><input type="radio" value="2" name="formbox-field-7">Individualios veiklos pajamos</label>
-  </fieldset>
+            <fieldset id="fieldset-5">
+                <legend>Mamos pajamų tipas</legend>
+                <label><input type="radio" value="1" name="formbox-field-7">Darbo užmokestis (pagal darbo sutartį)</label>
+                <label><input type="radio" value="2" name="formbox-field-7">Individualios veiklos pajamos</label>
+            </fieldset>
 
-  <fieldset id="fieldset-6">
-    <label> <input type="number" value="0" step="100" min="0" required name="formbox-field-8"> € / mėn.</label>
-  </fieldset>
+            <fieldset id="fieldset-6">
+                <label> <input type="number" value="0" step="100" min="0" required name="formbox-field-8"> € / mėn.</label>
+            </fieldset>
 
-  <fieldset id="fieldset-7">
-    <legend>Kaip skaičiuojamos mamos išlaidos?</legend>
-    <label><input type="radio" value="1" name="formbox-field-9">30% nuo pajamų</label>
-    <label><input type="radio" value="2" name="formbox-field-9">Faktinės išlaidos</label>
-  </fieldset>
+            <fieldset id="fieldset-7">
+                <legend>Kaip skaičiuojamos mamos išlaidos?</legend>
+                <label><input type="radio" value="1" name="formbox-field-9">30% nuo pajamų</label>
+                <label><input type="radio" value="2" name="formbox-field-9">Faktinės išlaidos</label>
+            </fieldset>
 
-  <fieldset id="fieldset-8">
-    <label>Vidutinės faktinės išlaidos <input type="number" value="0" step="100" min="0" name="formbox-field-10"> € / mėn.</label>
-  </fieldset>
+            <fieldset id="fieldset-8">
+                <label>Vidutinės faktinės išlaidos <input type="number" value="0" step="100" min="0" name="formbox-field-10"> € / mėn.</label>
+            </fieldset>
 
-  <fieldset id="fieldset-9">
-    <legend>Tėčio pajamų tipas</legend>
-    <label><input type="radio" value="1" name="formbox-field-11">Darbo užmokestis</label>
-    <label><input type="radio" value="2" name="formbox-field-11">Individuali veikla</label>
-  </fieldset>
+            <fieldset id="fieldset-9">
+                <legend>Tėčio pajamų tipas</legend>
+                <label><input type="radio" value="1" name="formbox-field-11">Darbo užmokestis</label>
+                <label><input type="radio" value="2" name="formbox-field-11">Individuali veikla</label>
+            </fieldset>
 
-  <fieldset id="fieldset-10">
-    <label><input type="number" value="0" step="100" min="0" required name="formbox-field-12"> € / mėn.</label>
-  </fieldset>
+            <fieldset id="fieldset-10">
+                <label><input type="number" value="0" step="100" min="0" required name="formbox-field-12"> € / mėn.</label>
+            </fieldset>
 
-  <fieldset id="fieldset-11">
-    <legend>Kaip skaičiuojamos tėčio išlaidos?</legend>
-    <label><input type="radio" value="1" name="formbox-field-13">30% nuo pajamų</label>
-    <label><input type="radio" value="2" name="formbox-field-13">Faktinės išlaidos</label>
-  </fieldset>
+            <fieldset id="fieldset-11">
+                <legend>Kaip skaičiuojamos tėčio išlaidos?</legend>
+                <label><input type="radio" value="1" name="formbox-field-13">30% nuo pajamų</label>
+                <label><input type="radio" value="2" name="formbox-field-13">Faktinės išlaidos</label>
+            </fieldset>
 
-  <fieldset id="fieldset-12">
-    <label>Vidutinės faktinės išlaidos <input type="number" value="0" step="100" min="0" name="formbox-field-14"> € / mėn.</label>
-  </fieldset>
+            <fieldset id="fieldset-12">
+                <label>Vidutinės faktinės išlaidos <input type="number" value="0" step="100" min="0" name="formbox-field-14"> € / mėn.</label>
+            </fieldset>
 
-  <fieldset id="fieldset-13">
-    <label>Numatyta gimdymo data <input type="text" name="formbox-field-15" placeholder="yyyy-mm-dd"></label>
-  </fieldset>
+            <fieldset id="fieldset-13">
+                <label>Numatyta gimdymo data <input type="text" name="formbox-field-15" placeholder="yyyy-mm-dd"></label>
+            </fieldset>
 
-  <fieldset id="fieldset-14">
-    <button type="submit">Skaičiuoti</button>
-    <button type="reset">Išvalyti duomenis</button>
-  </fieldset>
+            <fieldset id="fieldset-14">
+                <button type="submit">Skaičiuoti</button>
+                <button type="reset">Išvalyti duomenis</button>
+            </fieldset>
 
-  <input type="hidden" id="calc-load-8">
-  <input type="hidden" class="calc-reset">
-  <input type="hidden" class="calc-only-click">
-  <input type="hidden" class="calc-not-change">
-</form>
+            </form>
+            <div id="message-container-skaiciuokle">test</div> 
+        </div>
 
 		<?php
 
