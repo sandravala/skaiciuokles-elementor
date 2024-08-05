@@ -336,7 +336,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <label for="formbox-field-15_1">
-                            <input type="text" name="formbox-field-15" id="formbox-field-15_1" placeholder="yyyy-mm-dd">
+                            <input type="text" name="formbox-field-15" id="date-picker" placeholder="yyyy-mm-dd">
                         </label>
                     </div>
                 </div>
