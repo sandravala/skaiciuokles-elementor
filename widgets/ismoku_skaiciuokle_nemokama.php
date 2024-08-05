@@ -23,10 +23,15 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         return ['custom-skaiciuokles'];
 
     }
-    
-    public function get_script_depends() {
-        return [ 'ismoku_skaiciuokle_nemokama_script' ];
+
+    public function get_script_depends()
+    {
+        return ['ismoku_skaiciuokle_nemokama_script'];
     }
+
+    public function get_style_depends() {
+		return [ 'custom-skaiciuokles-style-1' ];
+	}
 
     public function get_keywords()
     {
@@ -125,7 +130,6 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
         $this->end_controls_section();
 
-
         $this->start_controls_section(
             'vdu',
             [
@@ -143,124 +147,201 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
         $this->end_controls_section();
 
-
-
     }
 
-    protected function render()  {
-
-        $api_url = 'https://osp-rs.stat.gov.lt/rest_json/data/S3R0050_M3060315_1';
-
-        // Fetch data from API
-        $response = wp_remote_get( $api_url, array(
-            'timeout' => 15,  // Increase timeout to 15 seconds
-            'headers' => array(
-                'Accept' => 'application/json',
-            ),
-        ));
-    
-        if ( is_wp_error( $response ) ) {
-            echo 'Error fetching data: ' . $response->get_error_message();
-            return;
-        }
-
-        if ( is_wp_error( $response ) ) {
-            echo 'Error fetching data: ' . $response->get_error_message();
-            return;
-        }
-    
-        $status_code = wp_remote_retrieve_response_code( $response );
-        $body = wp_remote_retrieve_body( $response );
-    
-        if ( $status_code !== 200 ) {
-            echo 'Error fetching data: HTTP Status ' . $status_code;
-            echo '<pre>' . print_r( $body, true ) . '</pre>';
-            return;
-        }
-    
-        $data = json_decode( $body, true );
-    
-        if ( ! $data ) {
-            echo 'No data found';
-            return;
-        }
-    
-        // Print the raw JSON data for inspection
-        echo '<pre>';
-        print_r( filter_data($data) );
-        echo '</pre>';
+    protected function render()
+    {
 
         ?>
         <div>
-            <form name="formbox" id="ismoku_skaiciuokle_nemokama">
-            <fieldset id="fieldset-1">
-                <legend>Pažymėkite, kurias išmokas skaičiuoti</legend>
-                <label><input type="checkbox" value="1" name="formbox-field-1">Nėštumo ir gimdymo atostogų</label>
-                <label><input type="checkbox" value="1" name="formbox-field-2">Tėvystės (30 atostogų dienų)</label>
-                <label><input type="checkbox" value="1" name="formbox-field-3">Vaiko priežiūros atostogų (VPA)</label>
+            <form name="formbox" id="ismoku_skaiciuokle_nemokama" class="formbox__skaiciuokles">
+            <fieldset id="fieldset-1" class="formbox__container has_border">
+                <div class="formbox__title">Pažymėkite, kurias išmokas skaičiuoti</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <div class="formbox__field-checkbox">
+                            <input type="checkbox" value="1" name="formbox-field-1" id="formbox-field-1_1">
+                            <label for="formbox-field-1_1">Nėštumo ir gimdymo atostogų</label>
+                        </div>
+                        <div class="formbox__field-checkbox">
+                            <input type="checkbox" value="1" name="formbox-field-2" id="formbox-field-2_1">
+                            <label for="formbox-field-2_1">Tėvystės (30 atostogų dienų)</label>
+                        </div>
+                        <div class="formbox__field-checkbox">
+                            <input type="checkbox" value="1" name="formbox-field-3" id="formbox-field-3_1">
+                            <label for="formbox-field-3_1">Vaiko priežiūros atostogų (VPA)</label>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-2">
-                <legend>VPA išmokos gavimo trukmė</legend>
-                <label><input type="radio" value="18" name="formbox-field-4">18 mėn.</label>
-                <label><input type="radio" value="24" name="formbox-field-4">24 mėn.</label>
+            <fieldset id="fieldset-2" class="formbox__container has_border">
+                <div class="formbox__title">VPA išmokos gavimo trukmė</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="18" name="formbox-field-4" id="formbox-field-4_1">
+                            <label for="formbox-field-4_1">18 mėn.</label>
+                        </div>
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="24" name="formbox-field-4" id="formbox-field-4_2">
+                            <label for="formbox-field-4_2">24 mėn.</label>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-3">
-                <legend>Vaiko priežiūros atostogomis naudosis:</legend>
-                <label><input type="radio" value="1" name="formbox-field-5">mama</label>
-                <label><input type="radio" value="2" name="formbox-field-5">tėtis</label>
+            <fieldset id="fieldset-3" class="formbox__container has_border">
+                <div class="formbox__title">Vaiko priežiūros atostogomis naudosis:</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="1" name="formbox-field-5" id="formbox-field-5_1">
+                            <label for="formbox-field-5_1">mama</label>
+                        </div>
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="2" name="formbox-field-5" id="formbox-field-5_2">
+                            <label for="formbox-field-5_2">tėtis</label>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-4">
-                <legend>Naudosis 2 neperleidžiamais VPA mėnesiais?</legend>
-                <label><input type="radio" value="1" name="formbox-field-6">Taip</label>
-                <label><input type="radio" value="2" name="formbox-field-6">Ne</label>
+            <fieldset id="fieldset-4" class="formbox__container has_border">
+                <div class="formbox__title">Naudosis 2 neperleidžiamais VPA mėnesiais?</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="1" name="formbox-field-6" id="formbox-field-6_1">
+                            <label for="formbox-field-6_1">Taip</label>
+                        </div>
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="2" name="formbox-field-6" id="formbox-field-6_2">
+                            <label for="formbox-field-6_2">Ne</label>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-5">
-                <legend>Mamos pajamų tipas</legend>
-                <label><input type="radio" value="1" name="formbox-field-7">Darbo užmokestis (pagal darbo sutartį)</label>
-                <label><input type="radio" value="2" name="formbox-field-7">Individualios veiklos pajamos</label>
+            <fieldset id="fieldset-5" class="formbox__container has_border">
+                <div class="formbox__title">Mamos pajamų tipas</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="1" name="formbox-field-7" id="formbox-field-7_1">
+                            <label for="formbox-field-7_1">Darbo užmokestis (pagal darbo sutartį)</label>
+                        </div>
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="2" name="formbox-field-7" id="formbox-field-7_2">
+                            <label for="formbox-field-7_2">Individualios veiklos pajamos</label>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-6">
-                <label> <input type="number" value="0" step="100" min="0" required name="formbox-field-8"> € / mėn.</label>
+            <fieldset id="fieldset-6" class="formbox__container has_border">
+                <div class="formbox__title">Mamos pajamos</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <label for="formbox-field-8_1">
+                            <input type="number" value="0" step="100" min="0" required name="formbox-field-8" id="formbox-field-8_1"> € / mėn.
+                        </label>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-7">
-                <legend>Kaip skaičiuojamos mamos išlaidos?</legend>
-                <label><input type="radio" value="1" name="formbox-field-9">30% nuo pajamų</label>
-                <label><input type="radio" value="2" name="formbox-field-9">Faktinės išlaidos</label>
+            <fieldset id="fieldset-7" class="formbox__container has_border">
+                <div class="formbox__title">Kaip skaičiuojamos mamos išlaidos?</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="1" name="formbox-field-9" id="formbox-field-9_1">
+                            <label for="formbox-field-9_1">30% nuo pajamų</label>
+                        </div>
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="2" name="formbox-field-9" id="formbox-field-9_2">
+                            <label for="formbox-field-9_2">Faktinės išlaidos</label>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-8">
-                <label>Vidutinės faktinės išlaidos <input type="number" value="0" step="100" min="0" name="formbox-field-10"> € / mėn.</label>
+            <fieldset id="fieldset-8" class="formbox__container has_border">
+                <div class="formbox__title">Vidutinės faktinės išlaidos</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <label for="formbox-field-10_1">
+                            <input type="number" value="0" step="100" min="0" name="formbox-field-10" id="formbox-field-10_1"> € / mėn.
+                        </label>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-9">
-                <legend>Tėčio pajamų tipas</legend>
-                <label><input type="radio" value="1" name="formbox-field-11">Darbo užmokestis</label>
-                <label><input type="radio" value="2" name="formbox-field-11">Individuali veikla</label>
+            <fieldset id="fieldset-9" class="formbox__container has_border">
+                <div class="formbox__title">Tėčio pajamų tipas</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="1" name="formbox-field-11" id="formbox-field-11_1">
+                            <label for="formbox-field-11_1">Darbo užmokestis</label>
+                        </div>
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="2" name="formbox-field-11" id="formbox-field-11_2">
+                            <label for="formbox-field-11_2">Individuali veikla</label>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-10">
-                <label><input type="number" value="0" step="100" min="0" required name="formbox-field-12"> € / mėn.</label>
+            <fieldset id="fieldset-10" class="formbox__container has_border">
+                <div class="formbox__title">Tėčio pajamos</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <label for="formbox-field-12_1">
+                            <input type="number" value="0" step="100" min="0" required name="formbox-field-12" id="formbox-field-12_1"> € / mėn.
+                        </label>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-11">
-                <legend>Kaip skaičiuojamos tėčio išlaidos?</legend>
-                <label><input type="radio" value="1" name="formbox-field-13">30% nuo pajamų</label>
-                <label><input type="radio" value="2" name="formbox-field-13">Faktinės išlaidos</label>
+            <fieldset id="fieldset-11" class="formbox__container has_border">
+                <div class="formbox__title">Kaip skaičiuojamos tėčio išlaidos?</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="1" name="formbox-field-13" id="formbox-field-13_1">
+                            <label for="formbox-field-13_1">30% nuo pajamų</label>
+                        </div>
+                        <div class="formbox__field-radio">
+                            <input type="radio" value="2" name="formbox-field-13" id="formbox-field-13_2">
+                            <label for="formbox-field-13_2">Faktinės išlaidos</label>
+                        </div>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-12">
-                <label>Vidutinės faktinės išlaidos <input type="number" value="0" step="100" min="0" name="formbox-field-14"> € / mėn.</label>
+            <fieldset id="fieldset-12" class="formbox__container has_border">
+                <div class="formbox__title">Vidutinės faktinės išlaidos</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <label for="formbox-field-14_1">
+                            <input type="number" value="0" step="100" min="0" name="formbox-field-14" id="formbox-field-14_1"> € / mėn.
+                        </label>
+                    </div>
+                </div>
             </fieldset>
 
-            <fieldset id="fieldset-13">
-                <label>Numatyta gimdymo data <input type="text" name="formbox-field-15" placeholder="yyyy-mm-dd"></label>
+            <fieldset id="fieldset-13" class="formbox__container has_border">
+                <div class="formbox__title">Numatyta gimdymo data</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <label for="formbox-field-15_1">
+                            <input type="text" name="formbox-field-15" id="formbox-field-15_1" placeholder="yyyy-mm-dd">
+                        </label>
+                    </div>
+                </div>
             </fieldset>
+
 
             <fieldset id="fieldset-14">
                 <button type="submit">Skaičiuoti</button>
@@ -268,7 +349,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             </fieldset>
 
             </form>
-            <div id="message-container-skaiciuokle">test</div> 
+            <div id="message-container-skaiciuokle">test</div>
         </div>
 
 		<?php
@@ -280,15 +361,13 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
     }
 
-    
-    
-
 }
 
-function filter_data($data) {
+function filter_data($data)
+{
     $dimensions = $data['structure']['dimensions']['observation'];
     $observations = $data['dataSets'][0]['observations'];
-    
+
     // Filtrai
     $filters = [
         "EVRK2M3060207" => "Šalies ūkis su individualiosiomis įmonėmis",
@@ -296,9 +375,9 @@ function filter_data($data) {
         "darboM3060321" => "Bruto",
         "Ekonominės veiklos rūšis" => "Iš viso pagal ekonomines veiklos rūšis",
         "LAIKOTARPIS" => "2024K1",
-        "MATVNT" => "EUR"
+        "MATVNT" => "EUR",
     ];
-    
+
     $key_parts = [];
 
     // Iteruojame per kiekvieną dimensiją ir randame atitinkamą indeksą

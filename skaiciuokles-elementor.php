@@ -35,6 +35,7 @@ function my_plugin_stylesheets() {
 }
 
 add_action( 'elementor/editor/after_enqueue_styles', 'my_plugin_stylesheets' );
+add_action( 'elementor/frontend/before_enqueue_styles', 'my_plugin_stylesheets' );
 
 
 function register_custom_control_vdu($controls_manager) {
