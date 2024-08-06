@@ -524,7 +524,8 @@ fieldset.formbox__container.klaida {
 @media screen and (max-width: 776px) {
    
     .formbox__btn {
-        text-align: center
+        text-align: center;
+        justify-content: center;
     }
     
     table.rezultatuLentele tr {
@@ -552,7 +553,7 @@ fieldset.formbox__container.klaida {
 .formbox__btn input[type=submit] {
     -webkit-justify-content: center;
     justify-content: center;
-    height: var(--form-field-height);
+    height: auto;
     padding: .5em;
     border: var(--formbox-field-border-width) solid #071927;
     border-radius: var(--formbox-radius);
@@ -562,6 +563,7 @@ fieldset.formbox__container.klaida {
     -ms-user-select: none;
     user-select: none;
     text-align: center;
+    text-transform: uppercase;
     font-size: .85em;
     font-weight: var(--formbox-btn-calc-weight);
     white-space: nowrap
@@ -672,13 +674,6 @@ select {
     font-weight: bold;
     padding-left: 10px;
 }
-
-/* body, button, input, select, optgroup, textarea {
-    color: #212121;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-    font-size: 1rem;
-    line-height: 1;
-} */
 
 .ui-datepicker table {width: 100%;font-size: 1em;border-collapse: collapse;margin:0 0 .4em;}
 .ui-datepicker td a {

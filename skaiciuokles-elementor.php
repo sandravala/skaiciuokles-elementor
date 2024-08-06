@@ -22,16 +22,18 @@ define('TEXT_DOMAIN', 'skaiciuokles-elementor');
 include_once plugin_dir_path(__FILE__) . '/includes/nemokama_skaiciuokle_form_action.php';
 
 function my_custom_widget_scripts() {
-    wp_register_script('ismoku_skaiciuokle_nemokama_script', plugin_dir_url(__FILE__) . '/js/ismoku_skaiciuokle_nemokama_script.js', ['elementor-frontend', 'jquery'], null, true);
+    wp_register_script('ismoku_skaiciuokle_nemokama_script', plugin_dir_url(__FILE__) . '/js/ismoku_skaiciuokle_nemokama_script.js', ['elementor-frontend', 'jquery', 'jquery-ui-datepicker'], null, true);
 	wp_localize_script('ismoku_skaiciuokle_nemokama_script', 'my_widget_ajax', [
         'ajax_url' => admin_url('admin-ajax.php')
     ]);
+    
 }
 add_action('wp_enqueue_scripts', 'my_custom_widget_scripts');
 
 function my_plugin_stylesheets() {
     wp_register_style( 'custom-skaiciuokles-style-1', plugins_url( '/css/style.css', __FILE__ ) );
     wp_enqueue_style( 'custom-skaiciuokles-style-1' );
+    wp_enqueue_style('jquery-ui-css', 'https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css');
 }
 
 add_action( 'elementor/editor/after_enqueue_styles', 'my_plugin_stylesheets' );

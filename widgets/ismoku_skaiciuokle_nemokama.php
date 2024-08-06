@@ -30,7 +30,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
     }
 
     public function get_style_depends() {
-		return [ 'custom-skaiciuokles-style-1' ];
+		return [ 'custom-skaiciuokles-style-1', 'jquery-ui-css' ];
 	}
 
     public function get_keywords()
@@ -40,6 +40,29 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
     protected function _register_controls()
     {
+        $this->start_controls_section(
+            'skaiciuokles_tipo_pasirinkimas',
+            [
+                'label' => __('Ar mokama skaičiuoklė', TEXT_DOMAIN),
+            ]
+        );
+        
+        $this->add_control(
+            'skaiciuokles_tipas',
+            [
+                'label' => esc_html__( 'Mokama skaičiuoklė?', TEXT_DOMAIN ),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__( 'Taip', TEXT_DOMAIN ),
+                'label_off' => esc_html__( 'Ne', TEXT_DOMAIN ),
+                'return_value' => 'yes',
+                'default' => 'no',
+                'frontend_available' => true,
+            ]
+        );
+        
+        $this->end_controls_section();
+        
+        
         $this->start_controls_section(
             'koeficientai',
             [
@@ -53,6 +76,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'label' => esc_html__('Tėvystės tarifas, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 78.00,
+				'frontend_available' => true,
             ]
         );
 
@@ -62,6 +86,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'label' => esc_html__('Motinystės tarifas, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 78.00,
+				'frontend_available' => true,
             ]
         );
 
@@ -71,6 +96,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'label' => esc_html__('Neperleidžiamų mėnesių tarifas, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 78.00,
+				'frontend_available' => true,
             ]
         );
 
@@ -80,6 +106,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'label' => esc_html__('VPA 18 mėn. tarifas, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 78.00,
+				'frontend_available' => true,
             ]
         );
 
@@ -89,6 +116,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'label' => esc_html__('VPA 24 mėn. tarifas 1, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 78.00,
+				'frontend_available' => true,
             ]
         );
 
@@ -98,6 +126,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'label' => esc_html__('VPA 24 mėn. tarifas 2, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 78.00,
+				'frontend_available' => true,
             ]
         );
 
@@ -107,6 +136,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'label' => esc_html__('Mokesčiai nuo išmokų, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 78.00,
+				'frontend_available' => true,
             ]
         );
 
@@ -116,6 +146,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'label' => esc_html__('Bazinė soc išmoka, €', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 55,
+				'frontend_available' => true,
             ]
         );
 
@@ -125,6 +156,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'label' => esc_html__('Minimalus darbo užmokestis, €', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => 924,
+				'frontend_available' => true,
             ]
         );
 
@@ -137,13 +169,14 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             ]
         );
 
-        $this->add_control(
-            'vdu_control',
-            [
-                'label' => __('Custom Control Table', TEXT_DOMAIN),
-                'type' => 'vdu',
-            ]
-        );
+            $this->add_control(
+                'vdu_control',
+                [
+                    'label' => __('Custom Control Table', TEXT_DOMAIN),
+                    'type' => 'vdu',
+                    'frontend_available' => true,
+                ]
+            );
 
         $this->end_controls_section();
 
@@ -151,11 +184,14 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
     protected function render()
     {
+        $settings = $this->get_settings_for_display();
+		
 
         ?>
-        <div>
+        <div class="motinystes-ismoku-skaiciuokle">
             <form name="formbox" id="ismoku_skaiciuokle_nemokama" class="formbox__skaiciuokles">
-            <fieldset id="fieldset-1" class="formbox__container has_border">
+            <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
+                <fieldset id="fieldset-1" class="formbox__container has_border">
                 <div class="formbox__title">Pažymėkite, kurias išmokas skaičiuoti</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -174,7 +210,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                     </div>
                 </div>
             </fieldset>
-
+                <? } ?>
             <fieldset id="fieldset-2" class="formbox__container has_border">
                 <div class="formbox__title">VPA išmokos gavimo trukmė</div>
                 <div class="formbox__body">
@@ -223,6 +259,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
+            <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="fieldset-5" class="formbox__container has_border">
                 <div class="formbox__title">Mamos pajamų tipas</div>
                 <div class="formbox__body">
@@ -238,6 +275,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                     </div>
                 </div>
             </fieldset>
+            <? } ?>
 
             <fieldset id="fieldset-6" class="formbox__container has_border">
                 <div class="formbox__title">Mamos pajamos</div>
@@ -250,6 +288,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
+            <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="fieldset-7" class="formbox__container has_border">
                 <div class="formbox__title">Kaip skaičiuojamos mamos išlaidos?</div>
                 <div class="formbox__body">
@@ -292,6 +331,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                     </div>
                 </div>
             </fieldset>
+            <? } ?>
 
             <fieldset id="fieldset-10" class="formbox__container has_border">
                 <div class="formbox__title">Tėčio pajamos</div>
@@ -304,6 +344,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
+            <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="fieldset-11" class="formbox__container has_border">
                 <div class="formbox__title">Kaip skaičiuojamos tėčio išlaidos?</div>
                 <div class="formbox__body">
@@ -330,6 +371,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                     </div>
                 </div>
             </fieldset>
+            <? } ?>
 
             <fieldset id="fieldset-13" class="formbox__container has_border">
                 <div class="formbox__title">Numatyta gimdymo data</div>
@@ -342,18 +384,21 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-
             <fieldset id="fieldset-14">
-                <button type="submit">Skaičiuoti</button>
-                <button type="reset">Išvalyti duomenis</button>
+                <div class="formbox__body">
+                    <div class="formbox__btn">
+                        <button type="submit" class="formbox__btn-calc">Skaičiuoti</button>
+                        <button type="reset" class="formbox__btn-reset">Išvalyti duomenis</button>
+                    </div>
+                </div>
             </fieldset>
 
             </form>
-            <div id="message-container-skaiciuokle">test</div>
+            <div id="message-container-skaiciuokle">message</div>
+            <div id="result-container-skaiciuokle">result</div>
         </div>
 
 		<?php
-
     }
 
     protected function _content_template()
@@ -363,44 +408,3 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
 }
 
-function filter_data($data)
-{
-    $dimensions = $data['structure']['dimensions']['observation'];
-    $observations = $data['dataSets'][0]['observations'];
-
-    // Filtrai
-    $filters = [
-        "EVRK2M3060207" => "Šalies ūkis su individualiosiomis įmonėmis",
-        "Lytis" => "Vyrai ir moterys",
-        "darboM3060321" => "Bruto",
-        "Ekonominės veiklos rūšis" => "Iš viso pagal ekonomines veiklos rūšis",
-        "LAIKOTARPIS" => "2024K1",
-        "MATVNT" => "EUR",
-    ];
-
-    $key_parts = [];
-
-    // Iteruojame per kiekvieną dimensiją ir randame atitinkamą indeksą
-    foreach ($dimensions as $dimension) {
-        $dimension_name = $dimension['id'];
-        if (array_key_exists($dimension_name, $filters)) {
-            foreach ($dimension['values'] as $index => $value) {
-                if ($value['name'] == $filters[$dimension_name]) {
-                    $key_parts[] = $index;
-                    break;
-                }
-            }
-        }
-    }
-
-    // Sukurkite raktą iš indeksų
-    $key = implode(':', $key_parts);
-
-    // Patikrinkite, ar raktas egzistuoja stebėjimų masyve
-    if (isset($observations[$key])) {
-        $filtered_value = $observations[$key][0]; // Paimkite pirmąją reikšmę iš masyvo
-        return $filtered_value;
-    } else {
-        return 'No matching data found';
-    }
-}
