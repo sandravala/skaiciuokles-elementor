@@ -191,7 +191,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         <div class="motinystes-ismoku-skaiciuokle">
             <form name="formbox" id="ismoku_skaiciuokle_nemokama" class="formbox__skaiciuokles">
             <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
-                <fieldset id="fieldset-1" class="formbox__container has_border">
+                <fieldset id="kuria-ismoka-rodyti" class="formbox__container has_border">
                 <div class="formbox__title">Pažymėkite, kurias išmokas skaičiuoti</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -211,7 +211,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
                 <? } ?>
-            <fieldset id="fieldset-2" class="formbox__container has_border">
+            <fieldset id="vpa-trukme" class="formbox__container has_border <? if ( 'yes' === $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?> ">
                 <div class="formbox__title">VPA išmokos gavimo trukmė</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -227,7 +227,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <fieldset id="fieldset-3" class="formbox__container has_border">
+            <fieldset id="vpa-ims" class="formbox__container has_border <? if ( 'yes' === $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?>">
                 <div class="formbox__title">Vaiko priežiūros atostogomis naudosis:</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -243,7 +243,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <fieldset id="fieldset-4" class="formbox__container has_border">
+            <fieldset id="npm-naudosis" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Naudosis 2 neperleidžiamais VPA mėnesiais?</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -260,7 +260,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             </fieldset>
 
             <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
-            <fieldset id="fieldset-5" class="formbox__container has_border">
+            <fieldset id="mamos-pajamu-tipas" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Mamos pajamų tipas</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -277,19 +277,19 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             </fieldset>
             <? } ?>
 
-            <fieldset id="fieldset-6" class="formbox__container has_border">
+            <fieldset id="mamos-pajamos" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Mamos pajamos</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <label for="formbox-field-8_1">
-                            <input type="number" value="0" step="100" min="0" required name="formbox-field-8" id="formbox-field-8_1"> € / mėn.
+                            <input type="number" value="0" step="100" min="0" required name="formbox-field-8" id="formbox-field-8_1" class="formbox__field-input"><span> € / mėn.</span>
                         </label>
                     </div>
                 </div>
             </fieldset>
 
             <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
-            <fieldset id="fieldset-7" class="formbox__container has_border">
+            <fieldset id="mamos-islaidu-tipas" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Kaip skaičiuojamos mamos išlaidos?</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -305,18 +305,18 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <fieldset id="fieldset-8" class="formbox__container has_border">
+            <fieldset id="mamos-faktines-islaidos" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Vidutinės faktinės išlaidos</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <label for="formbox-field-10_1">
-                            <input type="number" value="0" step="100" min="0" name="formbox-field-10" id="formbox-field-10_1"> € / mėn.
+                            <input type="number" value="0" step="100" min="0" name="formbox-field-10" id="formbox-field-10_1" class="formbox__field-input"><span> € / mėn.</span>
                         </label>
                     </div>
                 </div>
             </fieldset>
 
-            <fieldset id="fieldset-9" class="formbox__container has_border">
+            <fieldset id="tecio-pajamu-tipas" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Tėčio pajamų tipas</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -333,19 +333,19 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             </fieldset>
             <? } ?>
 
-            <fieldset id="fieldset-10" class="formbox__container has_border">
+            <fieldset id="tecio-pajamos" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Tėčio pajamos</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <label for="formbox-field-12_1">
-                            <input type="number" value="0" step="100" min="0" required name="formbox-field-12" id="formbox-field-12_1"> € / mėn.
+                            <input type="number" value="0" step="100" min="0" required name="formbox-field-12" id="formbox-field-12_1"  class="formbox__field-input"><span> € / mėn.</span>
                         </label>
                     </div>
                 </div>
             </fieldset>
 
             <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
-            <fieldset id="fieldset-11" class="formbox__container has_border">
+            <fieldset id="tecio-islaidu-tipas" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Kaip skaičiuojamos tėčio išlaidos?</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -361,19 +361,19 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <fieldset id="fieldset-12" class="formbox__container has_border">
+            <fieldset id="tecio-fakties-islaidos" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Vidutinės faktinės išlaidos</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <label for="formbox-field-14_1">
-                            <input type="number" value="0" step="100" min="0" name="formbox-field-14" id="formbox-field-14_1"> € / mėn.
+                            <input type="number" value="0" step="100" min="0" name="formbox-field-14" id="formbox-field-14_1" class="formbox__field-input"><span> € / mėn.</span>
                         </label>
                     </div>
                 </div>
             </fieldset>
             <? } ?>
 
-            <fieldset id="fieldset-13" class="formbox__container has_border">
+            <fieldset id="gimdymo-data" class="formbox__container has_border <? if ( 'yes' === $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?>">
                 <div class="formbox__title">Numatyta gimdymo data</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -384,7 +384,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <fieldset id="fieldset-14">
+            <fieldset id="mygtukai" class="formbox__container has_border nerodyti">
                 <div class="formbox__body">
                     <div class="formbox__btn">
                         <button type="submit" class="formbox__btn-calc">Skaičiuoti</button>

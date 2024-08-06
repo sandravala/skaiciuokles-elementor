@@ -413,6 +413,15 @@ fieldset.formbox__container.klaida {
     font-size: .85em
 }
 
+.formbox__container label {
+    display: flex;
+}
+
+.formbox__container label span {
+    padding-left: 1em;
+    align-self: center;
+}
+
 .formbox__container input.formbox__field-input,
 .formbox__container input.formbox__field-result,
 .formbox__container select,
@@ -421,7 +430,7 @@ fieldset.formbox__container.klaida {
 .formbox__container textarea.formbox__field-result,
 .formbox__container textarea.formbox__field-textarea {
     vertical-align: middle;
-    width: 100%;
+    width: 80%;
     height: var(--form-field-height);
     max-width: 100%;
     margin: 0;
