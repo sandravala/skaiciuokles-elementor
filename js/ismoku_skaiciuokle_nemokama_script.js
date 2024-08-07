@@ -5,6 +5,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             selectors: {
                 form: '#ismoku_skaiciuokle',
                 submitButton: '#ismoku_skaiciuokle button[type="submit"]',
+                resetButton: '#ismoku_skaiciuokle button[type="reset"]',
                 messageContainer: '#message-container-skaiciuokle',
                 resultContainer: '#result-container-skaiciuokle',
                 gimdymoDatosInput: '#gimdymoDatosInput',
@@ -43,6 +44,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         return {
             $form: this.$element.find(selectors.form),
             $submitButton: this.$element.find(selectors.submitButton),
+            $resetButton: this.$element.find(selectors.resetButton),
             $messageContainer: this.$element.find(selectors.messageContainer),
             $resultContainer: this.$element.find(selectors.resultContainer),
             $gimdymoDatosInput: this.$element.find(selectors.gimdymoDatosInput),
@@ -129,39 +131,40 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
         const elements = this.getDefaultElements();
         
-    elements.$motinystesCheck.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('motinystesCheck'));
-    elements.$vpaCheck.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('vpaCheck'));
-    elements.$tevystesCheck.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tevystesCheck'));
+        elements.$motinystesCheck.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('motinystesCheck'));
+        elements.$vpaCheck.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('vpaCheck'));
+        elements.$tevystesCheck.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tevystesCheck'));
 
-    elements.$vpaTrukme18Radio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('vpaTrukme18Radio'));
-    elements.$vpaTrukme24Radio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('vpaTrukme24Radio'));
+        elements.$vpaTrukme18Radio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('vpaTrukme18Radio'));
+        elements.$vpaTrukme24Radio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('vpaTrukme24Radio'));
 
-    elements.$mamosRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosRadio'));
-    elements.$tecioRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioRadio'));
+        elements.$mamosRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosRadio'));
+        elements.$tecioRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioRadio'));
 
-    elements.$npmTaipRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('npmTaipRadio'));
-    elements.$npmNeRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('npmNeRadio'));
+        elements.$npmTaipRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('npmTaipRadio'));
+        elements.$npmNeRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('npmNeRadio'));
 
-    elements.$mamosDUpajamos.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosDUpajamos'));
-    elements.$mamosIVpajamos.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosIVpajamos'));
+        elements.$mamosDUpajamos.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosDUpajamos'));
+        elements.$mamosIVpajamos.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosIVpajamos'));
 
-    elements.$mamosIslaidos30.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosIslaidos30'));
-    elements.$mamosIslaidosFaktas.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosIslaidosFaktas'));
+        elements.$mamosIslaidos30.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosIslaidos30'));
+        elements.$mamosIslaidosFaktas.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosIslaidosFaktas'));
 
-    elements.$tecioDUpajamos.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioDUpajamos'));
-    elements.$tecioIVpajamos.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioIVpajamos'));
+        elements.$tecioDUpajamos.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioDUpajamos'));
+        elements.$tecioIVpajamos.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioIVpajamos'));
 
-    elements.$tecioIslaidos30.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioIslaidos30'));
-    elements.$tecioIslaidosFaktas.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioIslaidosFaktas'));  
+        elements.$tecioIslaidos30.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioIslaidos30'));
+        elements.$tecioIslaidosFaktas.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioIslaidosFaktas'));  
 
-    elements.$mamosPajamuInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('mamosPajamuInput');});	
-    elements.$mamosIslaiduInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('mamosIslaiduInput');});	
-    elements.$tecioPajamuInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('tecioPajamuInput');});	
-    elements.$tecioIslaiduInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('tecioIslaiduInput');});	
-    elements.$gimdymoDatosInput.on('change', () => {this.rodytiLaukusIsmokosSkaiciavimui('gimdymoDatosInput');});	
+        elements.$mamosPajamuInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('mamosPajamuInput');});	
+        elements.$mamosIslaiduInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('mamosIslaiduInput');});	
+        elements.$tecioPajamuInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('tecioPajamuInput');});	
+        elements.$tecioIslaiduInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('tecioIslaiduInput');});	
+        elements.$gimdymoDatosInput.on('change', () => {this.rodytiLaukusIsmokosSkaiciavimui('gimdymoDatosInput');});	
 
 
         this.elements.$submitButton.on('click', this.onFormSubmit.bind(this));
+        this.elements.$resetButton.on('click', this.onReset.bind(this));
     }
 
     rodytiLaukusIsmokosSkaiciavimui(ismoka) {
@@ -1008,8 +1011,21 @@ onFormSubmit(event) {
     });
 }
 
+onReset(event) {
 
+    event.preventDefault();
+    this.elements.$form[0].reset();
+    this.motinystesIsmokaRodyti = false;
+    this.tevystesIsmokaRodyti = false;
+    this.vpaIsmokaRodyti = false;
+	this.isjungtiLaukus();
+    this.elements.$messageContainer.empty();
+    this.elements.$resultContainer.empty();
 
+	this.pastabaDelIvGrindu('#tecio-pajamos', false);
+	this.pastabaDelIvGrindu('#mamos-pajamos', false);
+
+}
 }
 
 // Initialize the handler
