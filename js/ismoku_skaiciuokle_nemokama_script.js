@@ -119,6 +119,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.tecioIslaidos = null;
         this.gimdymoData = null;
 
+        this.alert = 0;
+
 
         
         this.updateWidgetContent();
@@ -219,6 +221,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 break;
             case 'mamosIVpajamos' : 
             this.mamosPajamuTipas = 2;
+            this.mamosPajamos = 924;
             this.elements.$mamosIslaidos30.checked = false;
             this.elements.$mamosIslaidosFaktas.checked = false;
                 this.elements.$mamosPajamuLabel.text('Grynos gaunamos vidutinės mamos pajamos iš IDV');
@@ -243,6 +246,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 break;
             case 'tecioIVpajamos' : 
             this.tecioPajamuTipas = 2;
+            this.tecioPajamos = 924;
             this.elements.$tecioIslaidos30.checked = false;
             this.elements.$tecioIslaidosFaktas.checked = false;
                 this.elements.$tecioPajamuLabel.text('Grynos gaunamos vidutinės tėčio pajamos iš IDV');
@@ -332,7 +336,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
     isjungtiLaukus() {
 
-        let vpaLaukai = [ '#vpa-trukme', '#vpa-ims' ];
+        let vpaLaukai = [ '#vpa-trukme', '#vpa-ims', '#npm-naudosis' ];
         let mLaukai = [ ['#mamos-pajamu-tipas', '#mamos-pajamos'], ['#mamos-islaidu-tipas', '#mamos-faktines-islaidos'] ];
         let tLaukai = [ ['#tecio-pajamu-tipas', '#tecio-pajamos'], ['#tecio-islaidu-tipas', '#tecio-fakties-islaidos'] ];
         let bendriLaukai = [ '#gimdymo-data', '#rezultatai' ];
@@ -952,80 +956,142 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
     }
 
-onFormSubmit(event) {
-    event.preventDefault();
+    onFormSubmit(event) {
+        event.preventDefault();
+        this.getAlert();
+        if(this.alert > 0){
+            return;
+        } 
 
-    const formData = this.elements.$form.serialize();
-    const calcData = this.duomenysSkaiciavimams;
-    const messageContainer = this.elements.$messageContainer;
-    const resultContainer = this.elements.$resultContainer;
-    const duomenys = {
-        tevystesTarifas: this.tevystesTarifas,
-        motinystesTarifas: this.motinystesTarifas,
-        neperleidziamuMenesiuTarifas: this.neperleidziamuMenesiuTarifas,
-        tarifasAtostogos18men: this.tarifasAtostogos18men,
-        tarifasAtostogos24men: this.tarifasAtostogos24men,
-        mokesciaiNuoIsmoku: this.mokesciaiNuoIsmoku,
-        vdu: this.vdu,
-        bazineSocIsmoka: this.bazineSocIsmoka,
-        motinystesIsmokaRodyti: this.motinystesIsmokaRodyti,
-        tevystesIsmokaRodyti: this.tevystesIsmokaRodyti,
-        vpaIsmokaRodyti: this.vpaIsmokaRodyti,
-        vpaTrukme: this.vpaTrukme,
-        mamaArTetisVpa: this.mamaArTetisVpa,
-        naudosisNpm: this.naudosisNpm,
-        mamosPajamuTipas: this.mamosPajamuTipas,
-        mamosPajamos: this.mamosPajamos,
-        mamosIslaiduTipas: this.mamosIslaiduTipas,
-        mamosIslaidos: this.mamosIslaidos,
-        tecioPajamuTipas: this.tecioPajamuTipas,
-        tecioPajamos: this.tecioPajamos,
-        tecioIslaiduTipas: this.tecioIslaiduTipas,
-        tecioIslaidos: this.tecioIslaidos,
-        gimdymoData: this.gimdymoData
-    };
-    
-    console.log(duomenys);
+        const formData = this.elements.$form.serialize();
+        const calcData = this.duomenysSkaiciavimams;
+        const messageContainer = this.elements.$messageContainer;
+        const resultContainer = this.elements.$resultContainer;
+        const duomenys = {
+            tevystesTarifas: this.tevystesTarifas,
+            motinystesTarifas: this.motinystesTarifas,
+            neperleidziamuMenesiuTarifas: this.neperleidziamuMenesiuTarifas,
+            tarifasAtostogos18men: this.tarifasAtostogos18men,
+            tarifasAtostogos24men: this.tarifasAtostogos24men,
+            mokesciaiNuoIsmoku: this.mokesciaiNuoIsmoku,
+            vdu: this.vdu,
+            bazineSocIsmoka: this.bazineSocIsmoka,
+            motinystesIsmokaRodyti: this.motinystesIsmokaRodyti,
+            tevystesIsmokaRodyti: this.tevystesIsmokaRodyti,
+            vpaIsmokaRodyti: this.vpaIsmokaRodyti,
+            vpaTrukme: this.vpaTrukme,
+            mamaArTetisVpa: this.mamaArTetisVpa,
+            naudosisNpm: this.naudosisNpm,
+            mamosPajamuTipas: this.mamosPajamuTipas,
+            mamosPajamos: this.mamosPajamos,
+            mamosIslaiduTipas: this.mamosIslaiduTipas,
+            mamosIslaidos: this.mamosIslaidos,
+            tecioPajamuTipas: this.tecioPajamuTipas,
+            tecioPajamos: this.tecioPajamos,
+            tecioIslaiduTipas: this.tecioIslaiduTipas,
+            tecioIslaidos: this.tecioIslaidos,
+            gimdymoData: this.gimdymoData
+        };
+        
 
-    const result = this.skaiciuotiIsmokas(this.tevystesTarifas, this.motinystesTarifas, this.neperleidziamuMenesiuTarifas, this.tarifasAtostogos18men, this.tarifasAtostogos24men, this.mokesciaiNuoIsmoku, this.vdu, this.bazineSocIsmoka, this.motinystesIsmokaRodyti, this.tevystesIsmokaRodyti, this.vpaIsmokaRodyti, this.vpaTrukme, this.mamaArTetisVpa, this.naudosisNpm, this.mamosPajamuTipas, this.mamosPajamos, this.mamosIslaiduTipas, this.mamosIslaidos, this.tecioPajamuTipas, this.tecioPajamos, this.tecioIslaiduTipas, this.tecioIslaidos, this.gimdymoData);
+        const result = this.skaiciuotiIsmokas(this.tevystesTarifas, this.motinystesTarifas, this.neperleidziamuMenesiuTarifas, this.tarifasAtostogos18men, this.tarifasAtostogos24men, this.mokesciaiNuoIsmoku, this.vdu, this.bazineSocIsmoka, this.motinystesIsmokaRodyti, this.tevystesIsmokaRodyti, this.vpaIsmokaRodyti, this.vpaTrukme, this.mamaArTetisVpa, this.naudosisNpm, this.mamosPajamuTipas, this.mamosPajamos, this.mamosIslaiduTipas, this.mamosIslaidos, this.tecioPajamuTipas, this.tecioPajamos, this.tecioIslaiduTipas, this.tecioIslaidos, this.gimdymoData);
 
-    jQuery(document).ready(function ($) {
-        $.ajax({
-            url: my_widget_ajax.ajax_url,
-            type: 'POST',
-            data: {
-                action: 'nemokama_skaiciuokle_send_email',
-                data: formData,
-            },
-            success: (response) => {
-                // Show the success message
-                const successMessage = '<div class="success-message"><img src="" alt="Success"> ' + response.data.message + '</div>';
-                messageContainer.html(successMessage);
-                resultContainer.html(result);
-            },
-            error: (error) => {
-                console.error('Error:', error);
-                //alert('Error: ' + error.responseText);
-            }
+        jQuery(document).ready(function ($) {
+            $.ajax({
+                url: my_widget_ajax.ajax_url,
+                type: 'POST',
+                data: {
+                    action: 'nemokama_skaiciuokle_send_email',
+                    data: formData,
+                },
+                success: (response) => {
+                    // Show the success message
+                    const successMessage = '<div class="success-message"><img src="" alt="Success"> ' + response.data.message + '</div>';
+                    messageContainer.html(successMessage);
+                    resultContainer.html(result);
+                },
+                error: (error) => {
+                    console.error('Error:', error);
+                    //alert('Error: ' + error.responseText);
+                }
+            });
         });
-    });
-}
+    }
 
-onReset(event) {
+    onReset(event) {
 
-    event.preventDefault();
-    this.elements.$form[0].reset();
-    this.motinystesIsmokaRodyti = false;
-    this.tevystesIsmokaRodyti = false;
-    this.vpaIsmokaRodyti = false;
-	this.isjungtiLaukus();
-    this.elements.$messageContainer.empty();
-    this.elements.$resultContainer.empty();
+        event.preventDefault();
+        this.elements.$form[0].reset();
+        this.motinystesIsmokaRodyti = false;
+        this.tevystesIsmokaRodyti = false;
+        this.vpaIsmokaRodyti = false;
+        this.isjungtiLaukus();
+        this.elements.$messageContainer.empty();
+        this.elements.$resultContainer.empty();
 
-	this.pastabaDelIvGrindu('#tecio-pajamos', false);
-	this.pastabaDelIvGrindu('#mamos-pajamos', false);
+        this.pastabaDelIvGrindu('#tecio-pajamos', false);
+        this.pastabaDelIvGrindu('#mamos-pajamos', false);
 
-}
+    }
+
+    getAlert(){
+        
+        if(this.vpaIsmokaRodyti  || this.motinystesIsmokaRodyti || this.tevystesIsmokaRodyti ) {
+            
+            let re = new RegExp(/(20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])/);
+        
+                this.generateAlert(this.gimdymoData === '' || this.gimdymoData === null, '#gimdymo-data');
+                this.generateAlert(!re.test(this.gimdymoData), '#gimdymo-data', 'Įveskite gimdymo datą tinkamu formatu, t.y. "YYYY-MM-DD"');
+            
+            
+                if (this.vpaIsmokaRodyti) {
+                this.generateAlert(this.vpaTrukme === null, '#vpa-trukme');
+                this.generateAlert(this.mamaArTetisVpa === null, '#vpa-ims');
+                this.generateAlert(this.naudosisNpm === null, '#npm-naudosis');
+            }
+        
+        
+            
+            if(this.mamaArTetisVpa === 1 || (this.mamaArTetisVpa === 2 && this.naudosisNpm) || this.motinystesIsmokaRodyti) {
+            this.generateAlert(this.mamosPajamuTipas === null, '#mamos-pajamu-tipas');
+            this.generateAlert(this.mamosPajamos <= 0 || isNaN(this.mamosPajamos), '#mamos-pajamos');
+                if (this.mamosPajamuTipas === 2) {
+                    this.generateAlert(this.mamosIslaiduTipas === null, '#mamos-islaidu-tipas');
+                    if (this.mamosIslaiduTipas === 2) {
+                        this.generateAlert(this.mamosIslaidos === 0 || isNaN(this.mamosIslaidos), '#mamos-faktines-islaidos');
+                    }
+                }
+            }
+            
+            if(this.mamaArTetisVpa === 2 || (this.mamaArTetisVpa === 1 && this.naudosisNpm) || this.tevystesIsmokaRodyti) {
+                this.generateAlert(this.tecioPajamuTipas === null, '#tecio-pajamu-tipas');
+                this.generateAlert(this.tecioPajamos <= 0 || isNaN(this.tecioPajamos), '#tecio-pajamos');
+                if (this.tecioPajamuTipas === 2) {
+                    this.generateAlert(this.tecioIslaiduTipas === null, '#tecio-islaidu-tipas');
+                    if (this.tecioIslaiduTipas === 2) {
+                        this.generateAlert(this.tecioIslaidos === 0 || isNaN(this.tecioIslaidos), '#tecio-faktines-islaidos');
+                    }
+                }
+            }
+            
+        }
+        
+    }
+
+    generateAlert(conditionToGenerateAlert, fieldsetIDToAddStyling, alertText) {
+        if (conditionToGenerateAlert) {
+            this.$element.find(fieldsetIDToAddStyling).addClass('klaida');
+            this.elements.$messageContainer.text(alertText ? alertText : 'Užpildykite raudonai pažymėtus laukelius ir spauskite "SKAIČIUOTI"');
+            this.alert += 1;
+          } else {
+            this.$element.find(fieldsetIDToAddStyling).removeClass('klaida');
+            this.alert -= 1;
+          }
+    }
+
+
+
+//class closing bracket
 }
 
 // Initialize the handler
