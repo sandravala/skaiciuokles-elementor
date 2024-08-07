@@ -382,7 +382,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <fieldset id="mygtukai" class="formbox__container has_border nerodyti">
+            <fieldset id="mygtukai" class="formbox__container has_border nerodyti" style="display: flex;justify-content: center;">
                 <div class="formbox__body">
                     <div class="formbox__btn">
                         <button type="submit" class="formbox__btn-calc">Skaičiuoti</button>
