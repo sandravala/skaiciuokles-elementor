@@ -59,7 +59,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'frontend_available' => true,
             ]
         );
-        
+
         $this->end_controls_section();
         
         
@@ -189,26 +189,26 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
         ?>
         <div class="motinystes-ismoku-skaiciuokle">
-            <form name="formbox" id="ismoku_skaiciuokle_nemokama" class="formbox__skaiciuokles">
+            <form name="formbox" id="ismoku_skaiciuokle" class="formbox__skaiciuokles">
             <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
-                <fieldset id="kuria-ismoka-rodyti" class="formbox__container has_border">
-                <div class="formbox__title">Pažymėkite, kurias išmokas skaičiuoti</div>
-                <div class="formbox__body">
-                    <div class="formbox__field">
-                        <div class="formbox__field-checkbox">
-                            <input type="checkbox" value="1" name="formbox-field-1" id="formbox-field-1_1">
-                            <label for="formbox-field-1_1">Nėštumo ir gimdymo atostogų</label>
-                        </div>
-                        <div class="formbox__field-checkbox">
-                            <input type="checkbox" value="1" name="formbox-field-2" id="formbox-field-2_1">
-                            <label for="formbox-field-2_1">Tėvystės (30 atostogų dienų)</label>
-                        </div>
-                        <div class="formbox__field-checkbox">
-                            <input type="checkbox" value="1" name="formbox-field-3" id="formbox-field-3_1">
-                            <label for="formbox-field-3_1">Vaiko priežiūros atostogų (VPA)</label>
-                        </div>
+            <fieldset id="kuria-ismoka-rodyti" class="formbox__container has_border">
+            <div class="formbox__title">Pažymėkite, kurias išmokas skaičiuoti</div>
+            <div class="formbox__body">
+                <div class="formbox__field">
+                    <div class="formbox__field-checkbox">
+                        <input type="checkbox" value="1" name="kuria-ismoka-rodyti" id="motinystesCheck">
+                        <label for="motinystesCheck">Nėštumo ir gimdymo atostogų</label>
+                    </div>
+                    <div class="formbox__field-checkbox">
+                        <input type="checkbox" value="1" name="kuria-ismoka-rodyti" id="tevystesCheck">
+                        <label for="tevystesCheck">Tėvystės (30 atostogų dienų)</label>
+                    </div>
+                    <div class="formbox__field-checkbox">
+                        <input type="checkbox" value="1" name="kuria-ismoka-rodyti" id="vpaCheck">
+                        <label for="vpaCheck">Vaiko priežiūros atostogų (VPA)</label>
                     </div>
                 </div>
+            </div>
             </fieldset>
                 <? } ?>
             <fieldset id="vpa-trukme" class="formbox__container has_border <? if ( 'yes' === $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?> ">
@@ -216,12 +216,12 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <div class="formbox__field-radio">
-                            <input type="radio" value="18" name="formbox-field-4" id="formbox-field-4_1">
-                            <label for="formbox-field-4_1">18 mėn.</label>
+                            <input type="radio" value="18" name="vpa-trukme" id="vpaTrukme18Radio">
+                            <label for="vpaTrukme18Radio">18 mėn.</label>
                         </div>
                         <div class="formbox__field-radio">
-                            <input type="radio" value="24" name="formbox-field-4" id="formbox-field-4_2">
-                            <label for="formbox-field-4_2">24 mėn.</label>
+                            <input type="radio" value="24" name="vpa-trukme" id="vpaTrukme24Radio">
+                            <label for="vpaTrukme24Radio">24 mėn.</label>
                         </div>
                     </div>
                 </div>
@@ -232,28 +232,28 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <div class="formbox__field-radio">
-                            <input type="radio" value="1" name="formbox-field-5" id="formbox-field-5_1">
-                            <label for="formbox-field-5_1">mama</label>
+                            <input type="radio" value="1" name="vpa-ims" id="mamosRadio">
+                            <label for="mamosRadio">mama</label>
                         </div>
                         <div class="formbox__field-radio">
-                            <input type="radio" value="2" name="formbox-field-5" id="formbox-field-5_2">
-                            <label for="formbox-field-5_2">tėtis</label>
+                            <input type="radio" value="2" name="vpa-ims" id="tecioRadio">
+                            <label for="tecioRadio">tėtis</label>
                         </div>
                     </div>
                 </div>
             </fieldset>
 
             <fieldset id="npm-naudosis" class="formbox__container has_border nerodyti">
-                <div class="formbox__title">Naudosis 2 neperleidžiamais VPA mėnesiais?</div>
+                <div id="npm-naudosis-label" class="formbox__title">Naudosis 2 neperleidžiamais VPA mėnesiais?</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <div class="formbox__field-radio">
-                            <input type="radio" value="1" name="formbox-field-6" id="formbox-field-6_1">
-                            <label for="formbox-field-6_1">Taip</label>
+                            <input type="radio" value="1" name="npm-naudosis" id="npmTaipRadio">
+                            <label for="npmTaipRadio">Taip</label>
                         </div>
                         <div class="formbox__field-radio">
-                            <input type="radio" value="2" name="formbox-field-6" id="formbox-field-6_2">
-                            <label for="formbox-field-6_2">Ne</label>
+                            <input type="radio" value="2" name="npm-naudosis" id="npmNeRadio">
+                            <label for="npmNeRadio">Ne</label>
                         </div>
                     </div>
                 </div>
@@ -265,12 +265,12 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <div class="formbox__field-radio">
-                            <input type="radio" value="1" name="formbox-field-7" id="formbox-field-7_1">
-                            <label for="formbox-field-7_1">Darbo užmokestis (pagal darbo sutartį)</label>
+                            <input type="radio" value="1" name="mamos-pajamu-tipas" id="mamosDUpajamos">
+                            <label for="mamosDUpajamos">Darbo užmokestis (pagal darbo sutartį)</label>
                         </div>
                         <div class="formbox__field-radio">
-                            <input type="radio" value="2" name="formbox-field-7" id="formbox-field-7_2">
-                            <label for="formbox-field-7_2">Individualios veiklos pajamos</label>
+                            <input type="radio" value="2" name="mamos-pajamu-tipas" id="mamosIVpajamos">
+                            <label for="mamosIVpajamos">Individualios veiklos pajamos</label>
                         </div>
                     </div>
                 </div>
@@ -278,11 +278,11 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             <? } ?>
 
             <fieldset id="mamos-pajamos" class="formbox__container has_border nerodyti">
-                <div class="formbox__title">Mamos pajamos</div>
+                <div id="mamos-pajamos-label" class="formbox__title">Mamos pajamos</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
-                        <label for="formbox-field-8_1">
-                            <input type="number" value="0" step="100" min="0" required name="formbox-field-8" id="formbox-field-8_1" class="formbox__field-input"><span> € / mėn.</span>
+                        <label for="mamosPajamuInput">
+                            <input type="number" value="0" step="100" min="0" required name="mamos-pajamos" id="mamosPajamuInput" class="formbox__field-input"><span> € / mėn.</span>
                         </label>
                     </div>
                 </div>
@@ -294,12 +294,12 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <div class="formbox__field-radio">
-                            <input type="radio" value="1" name="formbox-field-9" id="formbox-field-9_1">
-                            <label for="formbox-field-9_1">30% nuo pajamų</label>
+                            <input type="radio" value="1" name="mamos-islaidu-tipas" id="mamosIslaidos30">
+                            <label for="mamosIslaidos30">30% nuo pajamų</label>
                         </div>
                         <div class="formbox__field-radio">
-                            <input type="radio" value="2" name="formbox-field-9" id="formbox-field-9_2">
-                            <label for="formbox-field-9_2">Faktinės išlaidos</label>
+                            <input type="radio" value="2" name="mamos-islaidu-tipas" id="mamosIslaidosFaktas">
+                            <label for="mamosIslaidosFaktas">Faktinės išlaidos</label>
                         </div>
                     </div>
                 </div>
@@ -310,7 +310,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <label for="formbox-field-10_1">
-                            <input type="number" value="0" step="100" min="0" name="formbox-field-10" id="formbox-field-10_1" class="formbox__field-input"><span> € / mėn.</span>
+                            <input type="number" value="0" step="100" min="0" name="mamos-faktines-islaidos" id="mamosIslaiduInput" class="formbox__field-input"><span> € / mėn.</span>
                         </label>
                     </div>
                 </div>
@@ -321,12 +321,12 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <div class="formbox__field-radio">
-                            <input type="radio" value="1" name="formbox-field-11" id="formbox-field-11_1">
-                            <label for="formbox-field-11_1">Darbo užmokestis</label>
+                            <input type="radio" value="1" name="tecio-pajamu-tipas" id="tecioDUpajamos">
+                            <label for="tecioDUpajamos">Darbo užmokestis</label>
                         </div>
                         <div class="formbox__field-radio">
-                            <input type="radio" value="2" name="formbox-field-11" id="formbox-field-11_2">
-                            <label for="formbox-field-11_2">Individuali veikla</label>
+                            <input type="radio" value="2" name="tecio-pajamu-tipas" id="tecioIVpajamos">
+                            <label for="tecioIVpajamos">Individuali veikla</label>
                         </div>
                     </div>
                 </div>
@@ -334,11 +334,11 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             <? } ?>
 
             <fieldset id="tecio-pajamos" class="formbox__container has_border nerodyti">
-                <div class="formbox__title">Tėčio pajamos</div>
+                <div id="tecio-pajamos-label" class="formbox__title">Tėčio pajamos</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
-                        <label for="formbox-field-12_1">
-                            <input type="number" value="0" step="100" min="0" required name="formbox-field-12" id="formbox-field-12_1"  class="formbox__field-input"><span> € / mėn.</span>
+                        <label for="tecioPajamuInput">
+                            <input type="number" value="0" step="100" min="0" required name="tecio-pajamos" id="tecioPajamuInput"  class="formbox__field-input"><span> € / mėn.</span>
                         </label>
                     </div>
                 </div>
@@ -350,23 +350,23 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <div class="formbox__body">
                     <div class="formbox__field">
                         <div class="formbox__field-radio">
-                            <input type="radio" value="1" name="formbox-field-13" id="formbox-field-13_1">
-                            <label for="formbox-field-13_1">30% nuo pajamų</label>
+                            <input type="radio" value="1" name="tecio-islaidu-tipas" id="tecioIslaidos30">
+                            <label for="tecioIslaidos30">30% nuo pajamų</label>
                         </div>
                         <div class="formbox__field-radio">
-                            <input type="radio" value="2" name="formbox-field-13" id="formbox-field-13_2">
-                            <label for="formbox-field-13_2">Faktinės išlaidos</label>
+                            <input type="radio" value="2" name="tecio-islaidu-tipas" id="tecioIslaidosFaktas">
+                            <label for="tecioIslaidosFaktas">Faktinės išlaidos</label>
                         </div>
                     </div>
                 </div>
             </fieldset>
 
-            <fieldset id="tecio-fakties-islaidos" class="formbox__container has_border nerodyti">
+            <fieldset id="tecio-faktines-islaidos" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Vidutinės faktinės išlaidos</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
-                        <label for="formbox-field-14_1">
-                            <input type="number" value="0" step="100" min="0" name="formbox-field-14" id="formbox-field-14_1" class="formbox__field-input"><span> € / mėn.</span>
+                        <label for="tecioIslaiduInput">
+                            <input type="number" value="0" step="100" min="0" name="tecio-faktines-islaidos" id="tecioIslaiduInput" class="formbox__field-input"><span> € / mėn.</span>
                         </label>
                     </div>
                 </div>
@@ -377,9 +377,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <div class="formbox__title">Numatyta gimdymo data</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
-                        <label for="formbox-field-15_1">
-                            <input type="text" name="formbox-field-15" id="date-picker" placeholder="yyyy-mm-dd">
-                        </label>
+                            <input type="text" name="gimdymo-data" id="gimdymoDatosInput" placeholder="yyyy-mm-dd">
                     </div>
                 </div>
             </fieldset>
@@ -394,8 +392,11 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             </fieldset>
 
             </form>
-            <div id="message-container-skaiciuokle">message</div>
-            <div id="result-container-skaiciuokle">result</div>
+            <fieldset id="rezultatai" class="formbox__container has_border nerodyti">
+                <div id="message-container-skaiciuokle">message</div>
+                <div id="result-container-skaiciuokle">result</div>
+            </fieldset>
+
         </div>
 
 		<?php
