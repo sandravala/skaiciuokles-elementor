@@ -99,6 +99,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.bazineSocIsmoka = this.duomenysSkaiciavimams[ 'bazine_soc_ismoka'];
         this.minimumas = this.duomenysSkaiciavimams['minimumas'];
         
+        //nemokama skaiciuokle
+        this.nemokamaSkaiciuokle = this.mokamaSkaiciuokle === undefined;
         
         //create variables for calculations
         
@@ -121,6 +123,9 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
         this.alert = 0;
 
+        this.vpaIsmokos = {};
+        this.bendrosSumos = {};
+
 
         
         this.updateWidgetContent();
@@ -137,13 +142,28 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         elements.$vpaCheck.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('vpaCheck'));
         elements.$tevystesCheck.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tevystesCheck'));
 
-        elements.$vpaTrukme18Radio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('vpaTrukme18Radio'));
-        elements.$vpaTrukme24Radio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('vpaTrukme24Radio'));
+        elements.$vpaTrukme18Radio.on('click', () => {
+            this.rodytiLaukusIsmokosSkaiciavimui('vpaTrukme18Radio');
+            
+        });
+        elements.$vpaTrukme24Radio.on('click', () => {
+            this.rodytiLaukusIsmokosSkaiciavimui('vpaTrukme24Radio');
+            
+        });
 
-        elements.$mamosRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosRadio'));
-        elements.$tecioRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('tecioRadio'));
+        elements.$mamosRadio.on('click', () => {
+            this.rodytiLaukusIsmokosSkaiciavimui('mamosRadio');
+            this.nemokamaSkaiciuokle ? this.rodytiLaukusIsmokosSkaiciavimui('mamosDUpajamos') : null;
+        });
+        elements.$tecioRadio.on('click', () => {
+            this.rodytiLaukusIsmokosSkaiciavimui('tecioRadio');
+            this.nemokamaSkaiciuokle ? this.rodytiLaukusIsmokosSkaiciavimui('tecioDUpajamos') : null;
+        });
 
-        elements.$npmTaipRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('npmTaipRadio'));
+        elements.$npmTaipRadio.on('click', () => {
+            this.rodytiLaukusIsmokosSkaiciavimui('npmTaipRadio');
+            this.nemokamaSkaiciuokle ? this.rodytiLaukusIsmokosSkaiciavimui(this.mamaArTetisVpa > 1 ? 'mamosDUpajamos' : 'tecioDUpajamos') : null;
+        });
         elements.$npmNeRadio.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('npmNeRadio'));
 
         elements.$mamosDUpajamos.on('click', () => this.rodytiLaukusIsmokosSkaiciavimui('mamosDUpajamos'));
@@ -211,19 +231,19 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 this.mamosPajamuTipas = 1;
                 this.elements.$mamosIslaidos30.checked = false;
                 this.elements.$mamosIslaidosFaktas.checked = false;
-                 this.elements.$mamosPajamuLabel.text('Mamos vidutinis darbo užmokestis prieš mokesčius');
+                this.elements.$mamosPajamuLabel.text('Mamos vidutinis darbo užmokestis prieš mokesčius');
                 this.elements.$mamosPajamuInput.attr('min', 0);
-               this.elements.$mamosPajamuInput.attr('value', 0);
+                this.elements.$mamosPajamuInput.attr('value', 0);
                 this.pastabaDelIvGrindu('#mamos-pajamos', false);
                 this.rodytiLaukus([ '#mamos-islaidu-tipas', '#mamos-faktines-islaidos' ], false);
                 this.rodytiLaukus([ '#mamos-pajamos' ], true);
                 this.$element.find('#mamos-pajamu-tipas').removeClass('klaida');
                 break;
             case 'mamosIVpajamos' : 
-            this.mamosPajamuTipas = 2;
-            this.mamosPajamos = 924;
-            this.elements.$mamosIslaidos30.checked = false;
-            this.elements.$mamosIslaidosFaktas.checked = false;
+                this.mamosPajamuTipas = 2;
+                this.mamosPajamos = 924;
+                this.elements.$mamosIslaidos30.checked = false;
+                this.elements.$mamosIslaidosFaktas.checked = false;
                 this.elements.$mamosPajamuLabel.text('Grynos gaunamos vidutinės mamos pajamos iš IDV');
                 this.elements.$mamosPajamuInput.attr('min', this.minimumas);
                 this.elements.$mamosPajamuInput.attr('value', this.minimumas);
@@ -245,10 +265,10 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 this.$element.find('#tecio-pajamu-tipas').removeClass('klaida');
                 break;
             case 'tecioIVpajamos' : 
-            this.tecioPajamuTipas = 2;
-            this.tecioPajamos = 924;
-            this.elements.$tecioIslaidos30.checked = false;
-            this.elements.$tecioIslaidosFaktas.checked = false;
+                this.tecioPajamuTipas = 2;
+                this.tecioPajamos = 924;
+                this.elements.$tecioIslaidos30.checked = false;
+                this.elements.$tecioIslaidosFaktas.checked = false;
                 this.elements.$tecioPajamuLabel.text('Grynos gaunamos vidutinės tėčio pajamos iš IDV');
                 this.elements.$tecioPajamuInput.attr('min', this.minimumas);
                 this.elements.$tecioPajamuInput.attr('value', this.minimumas);
@@ -829,10 +849,20 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         }
 
 
+        // pasidarome pavadinimus stulpeliu
+
+        let mIsmokosPavadinimas = motinystesIsmokaRodyti && mamosPajamos > 0 ? 'Nėštumo ir gimdymo atostogų išmoka:' : '';
+        let tIsmokosPavadinimas = tevystesIsmokaRodyti && tecioPajamos > 0 ? 'Tėvystės išmoka:' : '';
+        let vpaIsmokosPavadinimas = vpaIsmokaRodyti && (tecioPajamos || mamosPajamos) > 0 ? this.nemokamaSkaiciuokle? 'Vaiko priežiūros atostogų išmokos detalizacija:' : 'Vaiko priežiūros atostogų išmoka:' : '';
+        let bendrosSumosPavadinimas = (vpaIsmokaRodyti || motinystesIsmokaRodyti || tevystesIsmokaRodyti) && (tecioPajamos || mamosPajamos) > 0 ? 'bendraSuma' : '';
+        let paaiskinimuPavadinimas = tecioPajamos || mamosPajamos > 0 ? 'Paaiškinimai:' : '';
+        let pavadinimai = mamosPajamos > 0 || tecioPajamos > 0 ? ['tarifas', 'data*', 'suma**', 'suma (į rankas)', 'gavėjas'] : ['', '', '', '', ''];
+
+
 
         // funkcija eiluciu generavimui pagal duomenis
 
-        function createRow(data, ismokuPavadinimas) {
+        function createRow(data, ismokuPavadinimas, nemokamaSkaiciuokle) {
             let rows = '';
 
             if (ismokuPavadinimas !== '') {
@@ -873,7 +903,18 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                     rows += `<tr>
                         <td colspan='5' style='text-align: center; font-size: .85em; letter-spacing: .1em; text-transform: uppercase; background-color: #D9E1E7; line-height: 2; '>${ismokuPavadinimas}</td>
                         </tr>`
+                    
+                    if (nemokamaSkaiciuokle) {
+                        rows += `<tr>
+                        <th style='text-align: left; font-size: .75em; text-transform: uppercase;padding-left: .3em; width: 10%;'>${pavadinimai[0]}</th>
+                        <th style='text-align: left; font-size: .75em; text-transform: uppercase;padding-left: 1em;'">${pavadinimai[1]}</th>
+                        <th style='text-align: left; font-size: .75em; text-transform: uppercase;padding-left: .3em;'">${pavadinimai[2]}</th>
+                        <th style='text-align: left; font-size: .75em; text-transform: uppercase;padding-left: .3em;'">${pavadinimai[3]}</th>
+                        <th style='text-align: left; font-size: .75em; text-transform: uppercase;padding-left: .3em;'">${pavadinimai[4]}</th>
+                        </tr>`
+                    };
 
+                    
                     for (let i = 0; i < data.length; i++) {
                         const fontWeight = 'normal';
                         rows += `<tr>
@@ -894,14 +935,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         };
 
 
-        // pasidarome pavadinimus stulpeliu
 
-        let mIsmokosPavadinimas = motinystesIsmokaRodyti && mamosPajamos > 0 ? 'Nėštumo ir gimdymo atostogų išmoka:' : '';
-        let tIsmokosPavadinimas = tevystesIsmokaRodyti && tecioPajamos > 0 ? 'Tėvystės išmoka:' : '';
-        let vpaIsmokosPavadinimas = vpaIsmokaRodyti && (tecioPajamos || mamosPajamos) > 0 ? 'Vaiko priežiūros atostogų išmoka:' : '';
-        let bendrosSumosPavadinimas = (vpaIsmokaRodyti || motinystesIsmokaRodyti || tevystesIsmokaRodyti) && (tecioPajamos || mamosPajamos) > 0 ? 'bendraSuma' : '';
-        let paaiskinimuPavadinimas = tecioPajamos || mamosPajamos > 0 ? 'Paaiškinimai:' : '';
-        let pavadinimai = mamosPajamos > 0 || tecioPajamos > 0 ? ['tarifas', 'data*', 'suma**', 'suma (į rankas)', 'gavėjas'] : ['', '', '', '', ''];
 
 
         // pasidarom paaiskinimu tekstus
@@ -923,9 +957,22 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         // jeigu pasirenka idv 'Jei pajamas deklaruojate kartą metuose, galimai išmoką gausite tik kitais mokestiniais metais. Jei atliekate avansinius mokėjimus, būtinai išsiųskite SAV pranešimą mėnuo iki teisės į išmoką datos.'	
 
         // sugeneruojame rezultatu lentele
-
-        let rezultatuLentele =
-            `<table id='rezultatuLentele' class='rezultatuLentele'  style='border-collapse: separate !important; border-spacing: .2em !important;'>
+        let rezultatuLentele;
+        if (this.nemokamaSkaiciuokle) {
+           
+            rezultatuLentele =
+            `<table id='rezultatuLentele' class='rezultatuLentele gradient'  style='border-collapse: separate !important; border-spacing: .2em !important;'>
+            <thead>
+            ${createRow(bendrosSumos, bendrosSumosPavadinimas)}
+            </thead>
+            <tbody class='gradient'>
+            ${createRow( vpaIsmokos.slice(0,1), vpaIsmokosPavadinimas, this.nemokamaSkaiciuokle)}
+            </tbody>
+            </table>
+            `
+        } else {
+        rezultatuLentele =
+            `<table id='rezultatuLentele' class='rezultatuLentele'  style='border-collapse: separate !important; border-spacing: .2em !important; position: relative;'>
             <thead>
             <tr>
             <th style='text-align: left; font-size: .75em; text-transform: uppercase;padding-left: .3em; width: 10%;'>${pavadinimai[0]}</th>
@@ -952,6 +999,11 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             </tbody>
             </table>
             `
+        }
+
+        this.vpaIsmokos = vpaIsmokos;
+        this.bendrosSumos = bendrosSumos;
+
             return rezultatuLentele;
 
     }
@@ -962,8 +1014,11 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         if(this.alert > 0){
             return;
         } 
+        this.$element.find('#email').removeClass('nerodyti');
+        this.elements.$submitButton.text('Siųsti rezultatus el. paštu');
+        this.$element.find('#rezultatai').removeClass('nerodyti');
 
-        const formData = this.elements.$form.serialize();
+        const formData = {};
         const calcData = this.duomenysSkaiciavimams;
         const messageContainer = this.elements.$messageContainer;
         const resultContainer = this.elements.$resultContainer;
@@ -992,6 +1047,9 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             tecioIslaidos: this.tecioIslaidos,
             gimdymoData: this.gimdymoData
         };
+
+        formData.push(this.vpaIsmokos);
+        formData.push(this.bendrosSumos);
         
 
         const result = this.skaiciuotiIsmokas(this.tevystesTarifas, this.motinystesTarifas, this.neperleidziamuMenesiuTarifas, this.tarifasAtostogos18men, this.tarifasAtostogos24men, this.mokesciaiNuoIsmoku, this.vdu, this.bazineSocIsmoka, this.motinystesIsmokaRodyti, this.tevystesIsmokaRodyti, this.vpaIsmokaRodyti, this.vpaTrukme, this.mamaArTetisVpa, this.naudosisNpm, this.mamosPajamuTipas, this.mamosPajamos, this.mamosIslaiduTipas, this.mamosIslaidos, this.tecioPajamuTipas, this.tecioPajamos, this.tecioIslaiduTipas, this.tecioIslaidos, this.gimdymoData);

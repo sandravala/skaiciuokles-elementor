@@ -126,14 +126,23 @@ div.datos-laukas {
     padding: 0
 }
 
-.formbox table {
-    width: 100%
-    &.rezultatuLentele {
-        border-collapse: separate !important; 
-        border-spacing: 0;
-        table-layout: fixed;
-    }
+table.rezultatuLentele {
+    width: 100%;
+    margin-bottom: .5em;
 }
+
+table.rezultatuLentele.gradient::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 20%);
+    z-index: 1;
+    pointer-events: none;
+}
+
 
 .formbox th {
     text-align: left; 
@@ -210,6 +219,8 @@ fieldset.formbox__container.klaida {
     color: #d12e2e;
     background-color: #ffe6e6;
 }
+
+
    
 
 @media screen and (min-width: 776px) {
@@ -530,11 +541,13 @@ fieldset.formbox__container.klaida {
     grid-gap: .5em
 }
 
+
 @media screen and (max-width: 776px) {
    
     .formbox__btn {
         text-align: center;
         justify-content: center;
+        margin: 1em;
     }
     
     table.rezultatuLentele tr {
@@ -542,6 +555,7 @@ fieldset.formbox__container.klaida {
     
     }
 
+    
     .has-result .formbox__body.result-page {
         margin-inline-start: -12%; 
         margin-inline-end: -2%;
