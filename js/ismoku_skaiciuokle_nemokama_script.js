@@ -326,7 +326,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             case 'gimdymoDatosInput' :
                 this.$element.find('#gimdymo-data').removeClass('klaida');
                 this.gimdymoData = this.elements.$gimdymoDatosInput.val();
-                console.log(this.gimdymoData);
                 break;
 
         }
@@ -1014,11 +1013,17 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         if(this.alert > 0){
             return;
         } 
+
+        const result = this.skaiciuotiIsmokas(this.tevystesTarifas, this.motinystesTarifas, this.neperleidziamuMenesiuTarifas, this.tarifasAtostogos18men, this.tarifasAtostogos24men, this.mokesciaiNuoIsmoku, this.vdu, this.bazineSocIsmoka, this.motinystesIsmokaRodyti, this.tevystesIsmokaRodyti, this.vpaIsmokaRodyti, this.vpaTrukme, this.mamaArTetisVpa, this.naudosisNpm, this.mamosPajamuTipas, this.mamosPajamos, this.mamosIslaiduTipas, this.mamosIslaidos, this.tecioPajamuTipas, this.tecioPajamos, this.tecioIslaiduTipas, this.tecioIslaidos, this.gimdymoData);
+
         this.$element.find('#email').removeClass('nerodyti');
         this.elements.$submitButton.text('Siųsti rezultatus el. paštu');
         this.$element.find('#rezultatai').removeClass('nerodyti');
 
-        const formData = {};
+        const formData = {
+            vpaIsmokos: this.vpaIsmokos,
+            bendrosSumos: this.bendrosSumos,
+        };
         const calcData = this.duomenysSkaiciavimams;
         const messageContainer = this.elements.$messageContainer;
         const resultContainer = this.elements.$resultContainer;
@@ -1048,11 +1053,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             gimdymoData: this.gimdymoData
         };
 
-        formData.push(this.vpaIsmokos);
-        formData.push(this.bendrosSumos);
-        
-
-        const result = this.skaiciuotiIsmokas(this.tevystesTarifas, this.motinystesTarifas, this.neperleidziamuMenesiuTarifas, this.tarifasAtostogos18men, this.tarifasAtostogos24men, this.mokesciaiNuoIsmoku, this.vdu, this.bazineSocIsmoka, this.motinystesIsmokaRodyti, this.tevystesIsmokaRodyti, this.vpaIsmokaRodyti, this.vpaTrukme, this.mamaArTetisVpa, this.naudosisNpm, this.mamosPajamuTipas, this.mamosPajamos, this.mamosIslaiduTipas, this.mamosIslaidos, this.tecioPajamuTipas, this.tecioPajamos, this.tecioIslaiduTipas, this.tecioIslaidos, this.gimdymoData);
 
         jQuery(document).ready(function ($) {
             $.ajax({
