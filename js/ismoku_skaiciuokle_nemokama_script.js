@@ -125,6 +125,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
         this.vpaIsmokos = {};
         this.bendrosSumos = {};
+        this.vpaIsmokuPaaiskinimai = '';
 
 
         
@@ -953,7 +954,9 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
         (tecioPajamos > 0 && tecioPajamuTipas == 2) || (mamosPajamos > 0 && mamosPajamuTipas == 2) ? paaiskinimai[5] = 'Jei pajamas deklaruojate kartą metuose, galimai išmoką gausite tik kitais mokestiniais metais. Jei atliekate avansinius mokėjimus, būtinai išsiųskite SAV pranešimą mėnuo iki teisės į išmoką datos.' : null;
 
-        // jeigu pasirenka idv 'Jei pajamas deklaruojate kartą metuose, galimai išmoką gausite tik kitais mokestiniais metais. Jei atliekate avansinius mokėjimus, būtinai išsiųskite SAV pranešimą mėnuo iki teisės į išmoką datos.'	
+        // jeigu pasirenka idv 'Jei pajamas deklaruojate kartą metuose, galimai išmoką gausite tik kitais mokestiniais metais. Jei atliekate avansinius mokėjimus, būtinai išsiųskite SAV pranešimą mėnuo iki teisės į išmoką datos.'
+        
+        this.vpaIsmokuPaaiskinimai = paaiskinimai[3];
 
         // sugeneruojame rezultatu lentele
         let rezultatuLentele;
@@ -1023,6 +1026,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         const formData = {
             vpaIsmokos: this.vpaIsmokos,
             bendrosSumos: this.bendrosSumos,
+            vpaIsmokuPaaiskinimai: this.vpaIsmokuPaaiskinimai,
         };
         const calcData = this.duomenysSkaiciavimams;
         const messageContainer = this.elements.$messageContainer;
@@ -1060,7 +1064,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 type: 'POST',
                 data: {
                     action: 'nemokama_skaiciuokle_send_email',
-                    data: formData,
+                    calcData: formData,
                 },
                 success: (response) => {
                     // Show the success message
