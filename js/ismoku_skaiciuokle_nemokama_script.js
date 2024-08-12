@@ -5,7 +5,9 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             selectors: {
                 form: '#ismoku_skaiciuokle',
                 submitButton: '#ismoku_skaiciuokle button[type="submit"]',
-                resetButton: '#ismoku_skaiciuokle button[type="reset"]',
+                resetButton: '#ismoku_skaiciuokle button[type="reset"].formbox__btn-reset',
+                sendButton: '#ismoku_skaiciuokle button[type="button"].formbox__btn-send',
+                alertContainer: '#alert-container-skaiciuokle',
                 messageContainer: '#message-container-skaiciuokle',
                 resultContainer: '#result-container-skaiciuokle',
                 gimdymoDatosInput: '#gimdymoDatosInput',
@@ -34,6 +36,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 tecioPajamuInput: '#tecioPajamuInput',
                 tecioIslaiduInput: '#tecioIslaiduInput',
                 gimdymoDatosInput: '#gimdymoDatosInput',
+                emailInput: '#emailInput',
+                klaida: '.klaida',
             },
         };
     }
@@ -45,6 +49,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             $form: this.$element.find(selectors.form),
             $submitButton: this.$element.find(selectors.submitButton),
             $resetButton: this.$element.find(selectors.resetButton),
+            $sendButton: this.$element.find(selectors.sendButton),
+            $alertContainer: this.$element.find(selectors.alertContainer),
             $messageContainer: this.$element.find(selectors.messageContainer),
             $resultContainer: this.$element.find(selectors.resultContainer),
             $gimdymoDatosInput: this.$element.find(selectors.gimdymoDatosInput),
@@ -73,6 +79,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             $tecioPajamuInput: this.$element.find(selectors.tecioPajamuInput),
             $tecioIslaiduInput: this.$element.find(selectors.tecioIslaiduInput),
             $gimdymoDatosInput: this.$element.find(selectors.gimdymoDatosInput),
+            $emailInput: this.$element.find(selectors.emailInput),
+            $klaidos: this.$element.find(selectors.klaida),
 
         };
     }
@@ -185,12 +193,27 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         elements.$tecioIslaiduInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('tecioIslaiduInput');});	
         elements.$gimdymoDatosInput.on('change', () => {this.rodytiLaukusIsmokosSkaiciavimui('gimdymoDatosInput');});	
 
+        elements.$emailInput.on('input', () => {
+            if(!this.validateEmail(elements.$emailInput.val())) {
+
+                this.elements.$alertContainer.text('Įveskite tikrą el. pašto adresą');
+                this.$element.find('#email').addClass('klaida');
+                this.$element.find('#alert').removeClass('nerodyti');
+            } else {
+                this.$element.find('#alert').addClass('nerodyti');
+                this.$element.find('#email').removeClass('klaida');
+            }
+        
+        });
 
         this.elements.$submitButton.on('click', this.onFormSubmit.bind(this));
         this.elements.$resetButton.on('click', this.onReset.bind(this));
+        this.elements.$sendButton.on('click', this.onSend.bind(this));
+
     }
 
     rodytiLaukusIsmokosSkaiciavimui(ismoka) {
+
         switch(ismoka) {
             case 'motinystesCheck' : 
                 this.motinystesIsmokaRodyti = !this.motinystesIsmokaRodyti;
@@ -1013,50 +1036,55 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
     onFormSubmit(event) {
         event.preventDefault();
         this.getAlert();
-        if(this.alert > 0){
+
+        if(this.$element.find('.klaida').length > 0){
             return;
         } 
+
+        this.elements.$alertContainer.empty();
+        this.$element.find('#alert').removeClass('nerodyti');
 
         const result = this.skaiciuotiIsmokas(this.tevystesTarifas, this.motinystesTarifas, this.neperleidziamuMenesiuTarifas, this.tarifasAtostogos18men, this.tarifasAtostogos24men, this.mokesciaiNuoIsmoku, this.vdu, this.bazineSocIsmoka, this.motinystesIsmokaRodyti, this.tevystesIsmokaRodyti, this.vpaIsmokaRodyti, this.vpaTrukme, this.mamaArTetisVpa, this.naudosisNpm, this.mamosPajamuTipas, this.mamosPajamos, this.mamosIslaiduTipas, this.mamosIslaidos, this.tecioPajamuTipas, this.tecioPajamos, this.tecioIslaiduTipas, this.tecioIslaidos, this.gimdymoData);
 
         this.$element.find('#email').removeClass('nerodyti');
-        this.elements.$submitButton.text('Siųsti rezultatus el. paštu');
         this.$element.find('#rezultatai').removeClass('nerodyti');
 
+        this.elements.$sendButton.parent().removeClass('nerodyti');
+        this.elements.$submitButton.parent().addClass('nerodyti');
+
+
+        const resultContainer = this.elements.$resultContainer;
+        resultContainer.html(result);
+
+        
+    }
+
+    onSend(event) {
+
+        const email = this.elements.$emailInput.val();
+        if (!this.validateEmail(email)) {
+            this.elements.$alertContainer.text('Įveskite tikrą el. pašto adresą');
+            this.$element.find('#email').addClass('klaida');
+            this.$element.find('#alert').removeClass('nerodyti');
+            return;
+        }      
+
+        
         const formData = {
             vpaIsmokos: this.vpaIsmokos,
             bendrosSumos: this.bendrosSumos,
             vpaIsmokuPaaiskinimai: this.vpaIsmokuPaaiskinimai,
         };
-        const calcData = this.duomenysSkaiciavimams;
-        const messageContainer = this.elements.$messageContainer;
-        const resultContainer = this.elements.$resultContainer;
-        const duomenys = {
-            tevystesTarifas: this.tevystesTarifas,
-            motinystesTarifas: this.motinystesTarifas,
-            neperleidziamuMenesiuTarifas: this.neperleidziamuMenesiuTarifas,
-            tarifasAtostogos18men: this.tarifasAtostogos18men,
-            tarifasAtostogos24men: this.tarifasAtostogos24men,
-            mokesciaiNuoIsmoku: this.mokesciaiNuoIsmoku,
-            vdu: this.vdu,
-            bazineSocIsmoka: this.bazineSocIsmoka,
-            motinystesIsmokaRodyti: this.motinystesIsmokaRodyti,
-            tevystesIsmokaRodyti: this.tevystesIsmokaRodyti,
-            vpaIsmokaRodyti: this.vpaIsmokaRodyti,
-            vpaTrukme: this.vpaTrukme,
-            mamaArTetisVpa: this.mamaArTetisVpa,
-            naudosisNpm: this.naudosisNpm,
-            mamosPajamuTipas: this.mamosPajamuTipas,
-            mamosPajamos: this.mamosPajamos,
-            mamosIslaiduTipas: this.mamosIslaiduTipas,
-            mamosIslaidos: this.mamosIslaidos,
-            tecioPajamuTipas: this.tecioPajamuTipas,
-            tecioPajamos: this.tecioPajamos,
-            tecioIslaiduTipas: this.tecioIslaiduTipas,
-            tecioIslaidos: this.tecioIslaidos,
-            gimdymoData: this.gimdymoData
-        };
 
+        const resultContainer = this.$element.find('#result-container-cta');
+        const resetBtnDiv = this.elements.$resetButton.parent();
+        const sendBtnDiv = this.elements.$sendButton.parent();
+        const emailDiv = this.$element.find('#email');
+        const loader = this.$element.find('#loader').parent().parent();
+        const check = this.$element.find('#check');
+
+        loader.removeClass('nerodyti');
+        sendBtnDiv.addClass('nerodyti');
 
         jQuery(document).ready(function ($) {
             $.ajax({
@@ -1068,9 +1096,17 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 },
                 success: (response) => {
                     // Show the success message
-                    const successMessage = '<div class="success-message"><img src="" alt="Success"> ' + response.data.message + '</div>';
-                    messageContainer.html(successMessage);
-                    resultContainer.html(result);
+                    resultContainer.text('Pasitikrinkite savo el. paštą! VPA išmokų detalizacija - jau išsiųsta');
+                    resultContainer.css({"color": "green"});
+                    loader.addClass('nerodyti');
+                    emailDiv.addClass('nerodyti');
+                    check.removeClass('nerodyti');
+                    setTimeout(function(){
+                        check.addClass('nerodyti');
+                    },3000);
+                    setTimeout(function(){
+                        resetBtnDiv.removeClass('nerodyti');
+                    }, 3010);
                 },
                 error: (error) => {
                     console.error('Error:', error);
@@ -1083,16 +1119,31 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
     onReset(event) {
 
         event.preventDefault();
-        this.elements.$form[0].reset();
-        this.motinystesIsmokaRodyti = false;
-        this.tevystesIsmokaRodyti = false;
-        this.vpaIsmokaRodyti = false;
-        this.isjungtiLaukus();
-        this.elements.$messageContainer.empty();
-        this.elements.$resultContainer.empty();
+        //this.onInit();
+        location.reload();
+        //this.elements.$form[0].reset();
+        // this.motinystesIsmokaRodyti = false;
+        // this.tevystesIsmokaRodyti = false;
+        // this.vpaIsmokaRodyti = this.mokamaSkaiciuokle === undefined;
+        // this.mamaArTetisVpa = null;
+        // this.vpaTrukme = null; 
+        // this.naudosisNpm = null;
+        // this.mamosPajamuTipas = null;
+        // this.mamosPajamos = null;
+        // this.mamosIslaiduTipas = null;
+        // this.mamosIslaidos = null;
+        // this.tecioPajamuTipas = null;
+        // this.tecioPajamos = null;
+        // this.tecioIslaiduTipas = null;
+        // this.tecioIslaidos = null;
+        // this.gimdymoData = null;
+        // this.isjungtiLaukus();
+        // this.elements.$messageContainer.empty();
+        // this.elements.$resultContainer.empty();
+        // this.elements.$alertContainer.empty();
 
-        this.pastabaDelIvGrindu('#tecio-pajamos', false);
-        this.pastabaDelIvGrindu('#mamos-pajamos', false);
+        // this.pastabaDelIvGrindu('#tecio-pajamos', false);
+        // this.pastabaDelIvGrindu('#mamos-pajamos', false);
 
     }
 
@@ -1143,13 +1194,58 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
     generateAlert(conditionToGenerateAlert, fieldsetIDToAddStyling, alertText) {
         if (conditionToGenerateAlert) {
             this.$element.find(fieldsetIDToAddStyling).addClass('klaida');
-            this.elements.$messageContainer.text(alertText ? alertText : 'Užpildykite raudonai pažymėtus laukelius ir spauskite "SKAIČIUOTI"');
-            this.alert += 1;
+            this.$element.find('#alert').removeClass('nerodyti');
+            this.elements.$alertContainer.text(alertText ? alertText : 'Užpildykite raudonai pažymėtus laukelius ir spauskite "SKAIČIUOTI"');
+
           } else {
             this.$element.find(fieldsetIDToAddStyling).removeClass('klaida');
-            this.alert -= 1;
           }
     }
+
+    validateEmail(email) {
+
+        // Test for the minimum length the email can be
+        if (email.trim().length < 6) {
+            return false;
+        }
+    
+        // Test for an @ character after the first position
+        if (email.indexOf('@', 1) < 0) {
+            return false;
+        }
+    
+        // Split out the local and domain parts
+        const parts = email.split('@', 2);
+    
+        // LOCAL PART
+        // Test for invalid characters
+        if (!parts[0].match(/^[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~\.-]+$/)) {
+            return false;
+        }
+    
+        // DOMAIN PART
+        // Test for sequences of periods
+        if (parts[1].match(/\.{2,}/)) {
+            return false;
+        }
+    
+        const domain = parts[1];
+        // Split the domain into subs
+        const subs = domain.split('.');
+        if (subs.length < 2) {
+            return false;
+        }
+    
+        const subsLen = subs.length;
+        for (let i = 0; i < subsLen; i++) {
+            // Test for invalid characters
+            if (!subs[i].match(/^[a-z0-9-]+$/i)) {
+                return false;
+            }
+        }
+    
+        return true;
+    };
 
 
 

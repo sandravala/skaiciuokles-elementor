@@ -8,6 +8,92 @@
     height: 20px;
 }
 
+
+
+.loader {
+    width: 20px;
+    height: 20px;
+    border: 5px solid #071927;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    }
+
+  .loader.nerodyti, 
+  .nerodyti {
+    display: none;
+  }
+
+  #check {
+    display: flex;
+  }
+
+  #check.nerodyti {
+    display: none;
+  }
+
+
+  .checkmark {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px #7ac142;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+  }
+  
+  .checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: $green;
+    fill: none;
+    animation: stroke .6s cubic-bezier(0.650, 0.000, 0.450, 1.000) forwards;
+  }
+  
+  .checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke .3s cubic-bezier(0.650, 0.000, 0.450, 1.000) .8s forwards;
+  }
+  
+  @keyframes stroke {
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @keyframes scale {
+    0%, 100% {
+      transform: none;
+    }
+    50% {
+      transform: scale3d(1.1, 1.1, 1);
+    }
+  }
+  
+  @keyframes fill {
+    100% {
+      box-shadow: inset 0px 0px 0px 30px #7ac142;
+    }
+  }
+
 .ismoku_skaiciuokle_nemokama_icon {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM96 64H288c17.7 0 32 14.3 32 32v32c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32zm32 160a32 32 0 1 1 -64 0 32 32 0 1 1 64 0zM96 352a32 32 0 1 1 0-64 32 32 0 1 1 0 64zM64 416c0-17.7 14.3-32 32-32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM192 256a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm32 64a32 32 0 1 1 -64 0 32 32 0 1 1 64 0zm64-64a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm32 64a32 32 0 1 1 -64 0 32 32 0 1 1 64 0zM288 448a32 32 0 1 1 0-64 32 32 0 1 1 0 64z"/></svg>');
     background-repeat: no-repeat;
@@ -213,6 +299,10 @@ padding-left: 0;
 
 fieldset.formbox__container.nerodyti {
             display: none;
+}
+
+.formbox__btn.nerodyti {
+    display: none;
 }
 
 fieldset.formbox__container.klaida {
@@ -592,26 +682,26 @@ fieldset.formbox__container.klaida {
     white-space: nowrap
 }
 
+.formbox__btn button:disabled {
+    color: #07192788;
+    border: var(--formbox-field-border-width) solid #07192788;
+    cursor: auto;
+}
 
 
-.formbox__btn button:not(:hover):not(:active).formbox__btn-calc {
+
+.formbox__btn button:not(:hover):not(:active).formbox__btn-calc,
+.formbox__btn button:not(:hover):not(:active).formbox__btn-reset,
+.formbox__btn button:not(:hover):not(:active).formbox__btn-send {
     background-color: var(--formbox-btn-calc-bg);
     color: var(--formbox-btn-calc-color)
 }
 
-.formbox__btn button.formbox__btn-calc:hover {
+.formbox__btn button.formbox__btn-calc:hover, 
+.formbox__btn button.formbox__btn-reset:hover,
+.formbox__btn button.formbox__btn-send:hover {
     background-color: var(--formbox-btn-calc-hbg);
     color: var(--formbox-btn-calc-hcolor)
-}
-
-.formbox__btn button:not(:hover):not(:active).formbox__btn-reset {
-    background-color: var(--formbox-btn-reset-bg);
-    color: var(--formbox-btn-reset-color)
-}
-
-.formbox__btn button.formbox__btn-reset:hover {
-    background-color: var(--formbox-btn-reset-hbg);
-    color: var(--formbox-btn-reset-hcolor)
 }
 
 .formbox__container.has-result .formbox__title {

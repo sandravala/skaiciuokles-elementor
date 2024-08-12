@@ -382,19 +382,59 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <fieldset id="mygtukai" class="formbox__container has_border nerodyti" style="display: flex;justify-content: center;">
+            <fieldset id="email" class="formbox__container has_border nerodyti" style="padding-bottom: 1em;">
+                <div class="formbox__title">Jūsų el. pašto adresas</div>
                 <div class="formbox__body">
-                    <div class="formbox__btn">
-                        <button type="submit" class="formbox__btn-calc">Skaičiuoti</button>
-                        <button type="reset" class="formbox__btn-reset">Išvalyti duomenis</button>
+                    <div class="formbox__field">
+                        <label for="email">
+                            <input type="email" name="email" id="emailInput" class="formbox__field-input" style="width: 100%;">
+                        </label>
                     </div>
                 </div>
             </fieldset>
 
+            <fieldset id="alert" class="formbox__container nerodyti" style="padding-top: 1em; padding-bottom: 1em;">
+                <div id="alert-container-skaiciuokle" style="color: red; "></div>
+            </fieldset>
+
+            <fieldset id="mygtukai" class="formbox__container" style="display: flex;justify-content: center; padding-bottom: 0;">
+
+                <div class="formbox__body" style="display: flex;">
+                    
+                    <div class="formbox__btn nerodyti">
+                        <button type="button" class="formbox__btn-send">
+                            Siųsti rezultatus el. paštu</button>
+                    </div>
+                    <div class="formbox__btn nerodyti">
+                        <button type="button" disabled class="formbox__btn">
+                            <div id="loader" class="loader"></div>
+                           Siunčiama...</button>
+                    </div>
+
+                    <div id="check" style="padding-right: 1em;" class="nerodyti">
+                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
+                        <div style="align-content: center; padding-left: .5em; color: green;">Išsiųsta</div>
+                    </div>
+
+                    <div class="formbox__btn">
+                        <button type="submit" class="formbox__btn-calc">Skaičiuoti</button>
+                    </div>
+
+                    <div class="formbox__btn nerodyti">
+                        <button type="reset" class="formbox__btn-reset">Išvalyti duomenis</button>
+                    </div>
+                </div>
+            </fieldset>
+            
+
+
             </form>
-            <fieldset id="rezultatai" class="formbox__container has_border nerodyti">
-                <div id="message-container-skaiciuokle">message</div>
-                <div id="result-container-skaiciuokle">result</div>
+            <fieldset id="rezultatai" class="formbox__container has_border nerodyti" style="display: flex; flex-direction: column;">
+            <? if ( 'yes' !== $settings['skaiciuokles_tipas'] ) { ?>
+                <div id="result-container-cta" style="z-index: 2; align-self: center;">Daugiau informacijos (pilna VPA išmokų detalizacija visam laikotarpiui, kiekvienam mėnesiui) - el. paštu</div>
+                <? } ?>
+                <div id="result-container-skaiciuokle" style="width: 100%;">result</div>
+                </div>
             </fieldset>
 
         </div>
