@@ -382,6 +382,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
+            <?  if ( 'yes' !== $settings['skaiciuokles_tipas'] ) {  ?>
             <fieldset id="email" class="formbox__container has_border nerodyti" style="padding-bottom: 1em;">
                 <div class="formbox__title">Jūsų el. pašto adresas</div>
                 <div class="formbox__body">
@@ -392,6 +393,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                     </div>
                 </div>
             </fieldset>
+            <? } ?>
 
             <fieldset id="alert" class="formbox__container nerodyti" style="padding-top: 1em; padding-bottom: 1em;">
                 <div id="alert-container-skaiciuokle" style="color: red; "></div>
@@ -400,7 +402,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             <fieldset id="mygtukai" class="formbox__container" style="display: flex;justify-content: center; padding-bottom: 0;">
 
                 <div class="formbox__body" style="display: flex;">
-                    
+                <?  if ( 'yes' !== $settings['skaiciuokles_tipas'] ) {  ?> 
                     <div class="formbox__btn nerodyti">
                         <button type="button" class="formbox__btn-send">
                             Siųsti rezultatus el. paštu</button>
@@ -415,6 +417,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                         <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
                         <div style="align-content: center; padding-left: .5em; color: green;">Išsiųsta</div>
                     </div>
+                    <?}?>
 
                     <div class="formbox__btn">
                         <button type="submit" class="formbox__btn-calc">Skaičiuoti</button>

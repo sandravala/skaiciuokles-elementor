@@ -129,8 +129,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.tecioIslaidos = null;
         this.gimdymoData = null;
 
-        this.alert = 0;
-
         this.vpaIsmokos = {};
         this.bendrosSumos = {};
         this.vpaIsmokuPaaiskinimai = '';
@@ -1046,10 +1044,16 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
         const result = this.skaiciuotiIsmokas(this.tevystesTarifas, this.motinystesTarifas, this.neperleidziamuMenesiuTarifas, this.tarifasAtostogos18men, this.tarifasAtostogos24men, this.mokesciaiNuoIsmoku, this.vdu, this.bazineSocIsmoka, this.motinystesIsmokaRodyti, this.tevystesIsmokaRodyti, this.vpaIsmokaRodyti, this.vpaTrukme, this.mamaArTetisVpa, this.naudosisNpm, this.mamosPajamuTipas, this.mamosPajamos, this.mamosIslaiduTipas, this.mamosIslaidos, this.tecioPajamuTipas, this.tecioPajamos, this.tecioIslaiduTipas, this.tecioIslaidos, this.gimdymoData);
 
-        this.$element.find('#email').removeClass('nerodyti');
+        if(this.nemokamaSkaiciuokle) {
+            this.$element.find('#email').removeClass('nerodyti');
+            this.elements.$sendButton.parent().removeClass('nerodyti');
+        } else {
+            this.elements.$resetButton.parent().removeClass('nerodyti');
+        }
+         
+        
         this.$element.find('#rezultatai').removeClass('nerodyti');
 
-        this.elements.$sendButton.parent().removeClass('nerodyti');
         this.elements.$submitButton.parent().addClass('nerodyti');
 
 
