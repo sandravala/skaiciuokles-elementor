@@ -948,7 +948,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                                 <td style='text-align: left; font-size: .75em; text-transform: uppercase; padding-left: .3em;'>${data[i].gavejas}</td>
                             </tr>`
                         if (data.length > 2 && i < data.length - 1) {
-                            rows += `<tr><td colspan='5' style='border-bottom:1px solid #D9E1E7;'></td></tr>`
+                            rows += `<tr></td></tr>`
                         }
                     }
                 }
