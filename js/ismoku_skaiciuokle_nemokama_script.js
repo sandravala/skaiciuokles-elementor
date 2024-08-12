@@ -379,7 +379,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
     isjungtiLaukus() {
 
-        let vpaLaukai = [ '#vpa-trukme', '#vpa-ims', '#npm-naudosis' ];
+        let vpaLaukai = [ '#vpa-trukme', '#vpa-ims'];
         let mLaukai = [ ['#mamos-pajamu-tipas', '#mamos-pajamos'], ['#mamos-islaidu-tipas', '#mamos-faktines-islaidos'] ];
         let tLaukai = [ ['#tecio-pajamu-tipas', '#tecio-pajamos'], ['#tecio-islaidu-tipas', '#tecio-fakties-islaidos'] ];
         let bendriLaukai = [ '#gimdymo-data', '#rezultatai' ];
@@ -948,7 +948,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                                 <td style='text-align: left; font-size: .75em; text-transform: uppercase; padding-left: .3em;'>${data[i].gavejas}</td>
                             </tr>`
                         if (data.length > 2 && i < data.length - 1) {
-                            rows += `<tr></td></tr>`
+                            rows += `<tr></tr>`
                         }
                     }
                 }
