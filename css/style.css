@@ -32,7 +32,7 @@
 
   .loader.nerodyti, 
   .nerodyti {
-    display: none;
+    display: none!important;
   }
 
   #check {
@@ -826,4 +826,47 @@ select {
 
 .ui-datepicker {
     width: 20em;
+}
+
+#testo_forma {
+    color: #1a2f4d;
+}
+
+#testo_forma label.question {
+    font-weight: 500;
+    text-transform: uppercase;
+    padding-bottom: 1em;
+}
+
+#testo_forma input[type="radio"] {
+    accent-color: #1a2f4d;
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+    display: inline-block !important;
+}
+
+#testo_forma div.radioDiv  {
+    padding-left: .5em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    border-top: 2px solid #eee;
+}
+
+#testo_forma div.radioDiv label {
+    margin-left: .6em;
+    margin-right: 1em;
+    display: inline;
+    margin-bottom: 3px;
+}
+
+#testo_forma p#ats {
+    padding-top: 1em;
+    border-top: 2px solid #1a2f4d;
+    display: flex;
+}
+
+#testo_forma p#ats-txt {
+    word-wrap: normal;
+    width: 80%;
 }

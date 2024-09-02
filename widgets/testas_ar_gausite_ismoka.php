@@ -6,7 +6,7 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
 	}
 
 	public function get_title() {
-		return esc_html__( 'Testas Ar Gausite Išmoką', 'skaiciuokles-elementor' );
+		return esc_html__( 'Testas Ar Gausite Išmoką', TEXT_DOMAIN );
 	}
 
 	public function get_icon() {
@@ -18,21 +18,150 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
 
 	}
 
+    public function get_script_depends()
+    {
+        return ['testas_ar_gausite_ismoka_script'];
+    }
+
+    // public function get_style_depends() {
+	// 	return [ 'custom-skaiciuokles-style-1', 'jquery-ui-css' ];
+	// }
+
 	public function get_keywords() {
-		return [ 'testas', 'gausite', 'ismoka', 'išmoką' ];
+		return [ 'testas', 'gausite', 'ismoka', 'išmoką', 'ar gausite ismoka' ];
 	}
 
 
     protected function _register_controls() {
+        
         $this->start_controls_section(
-            'section_form',
+            'testo_atsakymai',
             [
-                'label' => __( 'Form', 'skaiciuokles-elementor' ),
+                'label' => __('Testo atsakymai el. paštu', TEXT_DOMAIN),
             ]
-        );
+            );
 
+            $this->add_control(
+                'nevykde_veiklos_ats',
+                [
+                    'label' => esc_html__( 'Kai per paskutinius 12 mėn. nevykdė veiklos:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai per paskutinius 12 mėn. nevykdė veiklos', TEXT_DOMAIN ),
+                ]
+            );
+            
+            $this->add_control(
+                'dirbo_su_DS_ats',
+                [
+                    'label' => esc_html__( 'Kai dirbo su DS:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai dirbo su DS', TEXT_DOMAIN ),
+                ]
+            );
 
-       
+            $this->add_control(
+                'dirbo_su_VL_ats',
+                [
+                    'label' => esc_html__( 'Kai dirbo su VL:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai dirbo su VL', TEXT_DOMAIN ),
+                ]
+            );
+
+            $this->add_control(
+                'dirbo_miksuotai_ats',
+                [
+                    'label' => esc_html__( 'Kai dirbo miksuotai:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai dirbo miksuotai', TEXT_DOMAIN ),
+                ]
+            );
+
+            $this->add_control(
+                'MB_pajamos_paslaugos_pelnas_ats',
+                [
+                    'label' => esc_html__( 'Kai dirba su MB ir pajamas gauna pagal paslaugų teikimo sut. arba per pelną:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai dirba su MB ir pajamas gauna pagal paslaugų teikimo sutartį arba pasiskirstant pelną', TEXT_DOMAIN ),
+                ]
+            );
+
+            $this->add_control(
+                'MB_vsd_imokos_savarankiskai_ats',
+                [
+                    'label' => esc_html__( 'Kai dirba su MB ir VSD įmokas mokėjo savarankiškai:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai dirba su MB ir VSD įmokas mokėjo savarankiškai', TEXT_DOMAIN ),
+                ]
+            );
+
+            $this->add_control(
+                'MB_be_vsd_imoku_ats',
+                [
+                    'label' => esc_html__( 'Kai dirba su MB ir VSD įmokų nemokėjo:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai dirba su MB ir VSD įmokų nemokėjo', TEXT_DOMAIN ),
+                ]
+            );
+
+            $this->add_control(
+                'IDV_naudojosi_lengvatomis_ats',
+                [
+                    'label' => esc_html__( 'Kai dirba su IDV ir naudojosi mokestinėmis lengvatomis:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai dirba su IDV ir naudojosi mokestinėmis lengvatomis', TEXT_DOMAIN ),
+                ]
+            );
+
+            $this->add_control(
+                'IDV_pajamos_mazesnes_ats',
+                [
+                    'label' => esc_html__( 'Kai dirba su IDV ir metinės pajamos mažesnės, nei 18 000 €:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai dirba su IDV ir metinės pajamos mažesnės, nei 18 000 €', TEXT_DOMAIN ),
+                ]
+            );
+
+            $this->add_control(
+                'IDV_mokesciai_karta_per_metus_ats',
+                [
+                    'label' => esc_html__( 'Kai dirba su IDV ir metinės pajamos didesnės, nei 18 000 €, bet mokesčius moka 1 k. / metus:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai dirba su IDV ir metinės pajamos didesnės, nei 18 000 €, bet mokesčius moka 1 k. / metus', TEXT_DOMAIN ),
+                ]
+            );
+
+            $this->add_control(
+                'IDV_mokesciai_kas_menesi_ats',
+                [
+                    'label' => esc_html__( 'Kai dirba su IDV ir metinės pajamos didesnės, nei 18 000 €, ir mokesčius moka 1 k. / mėnesį:', TEXT_DOMAIN ),
+                    'type' => \Elementor\Controls_Manager::TEXTAREA,
+                    'rows' => 10,
+                    'default' => esc_html__( '', TEXT_DOMAIN ),
+                    'placeholder' => esc_html__( 'Kai dirba su IDV ir metinės pajamos didesnės, nei 18 000 €, ir mokesčius moka 1 k. / mėnesį', TEXT_DOMAIN ),
+                ]
+            );
+        
 
         $this->end_controls_section();
     }
@@ -40,56 +169,14 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
 
-        $testoDuomenys = array(
-            "Ar per paskutinius 24 mėnesius dirbote ar vykdėte savo veiklą?" => array(
-                "Ne" => "Išmokos galimai nepriklauso, jei dirbote trumpiau nei 12 mėnesių per paskutinius 24 mėnesius iki teisės į išmoką dienos. Socialiniam motinystės stažui sukaupti reikia bent 12 mėnesių per paskutinius 24 metus.",
-                "Taip" => array(
-                    "Kokiu principu dirbote?" => array(
-                        "DS" => "Tikėtina, kad reikiamą socialinį motinystės stažą būsite sukaupę, kurio reikia bent 12 mėnesių per paskutinius 24 metus ir motinystės išmokas gausite. Dirbant su DS (darbo sutartimi), šis stažas kaupiasi nuo sutarties pasirašymo dienos ir neturi įtakos, jeigu keitėte darbovietes per šį laikotarpį.",
-                        "VL" => "Deja, dirbantiems tik su veiklos liudijimu, išmokos galimai nepriklauso.",
-                        "dirbau miksuotai" => "Visos draudžiamosios pajamos, nuo kurių mokėjote pilnas VSD įmokas, bus įtrauktos į išmokų apskaičiavimą. Pvz., dirbote su DS ir su IDV, tuomet vertinamos tiek iš DS, tiek iš IDV gaunamos draudžiamosios pajamos. Bet jei dirbote su VL ir MB - tuomet jau kyla klausimų, ar tikrai priklausys motinystės išmokos, nes galimai neturite pilno valstybinio socialinio draudimo. Visus kompleksiniu atvejus yra naudingiau vertinti individualiai, kadangi skirtingoms situacijoms, gali būti randami skirtingi sprendimai ir galimybės.Tai padaryti galime individualios konsultacijos metu.",
-                        "turiu savo MB" => array(
-                            "Ar gaunate pajamas tik pagal civilinę paslaugų teikimo sutartį arba pasiskirstant pelną?" => array(
-                                "Taip" => "Greičiausiai nesate drausti valstybiniu socialiniu draudimu ir tikėtina, kad motinystės išmokos jums nepriklausys.",
-                                "Ne" => array(
-                                    "Ar mokėjote VSD įmokas savarankiškai?" => array(
-                                        "Taip" => "Tikėtina, kad gausite išmokas. Visgi, dėl komplikuoto MB ir socialinių garantijų santykio, praverstų detaliau įsivertinti, kokias įmokas ir kokiu formatu mokėjote. Tai galima būtų padaryti individualios konsultacijos metu",
-                                        "Ne" => "Greičiausiai nesate drausti valstybiniu socialiniu draudimu ir tikėtina, kad motinystės išmokos jums nepriklausys."
-                                    ),
-                                ),
-                            ),
-                        ),
-                        "IDV" => array(
-                            "Ar naudojotės valstybės skirtomis  lengvatomis, kurios atleidžia nuo mokesčių mokėjimo?" => array(
-                                "Taip" => "Deja, vykdant individualią veiklą ir naudojantis lengvatomis, atleidžiančiomis  nuo mokesčių, išmokos galimai nepriklauso.",
-                                "Ne" => array(
-                                    "Jūsų bendros metinės pajamos iš veiklos buvo:" => array(
-                                        "Mažesnės, nei 18 000 €" => "Reikėtų individualiai vertinti, ar uždirbtų pajamų kiekis suteiks reikalingą socialinį motinystės stažą, kuris yra reikalingas išmokos gauti. Tai galima padaryti individualios konsultacijos metu.",
-                                        "18 000 € ir didesnės" => array(
-                                            "Kaip mokate mokesčius?" => array(
-                                                "Kartą per metus" => "Tikėtina, kad motinystės išmokos Jums priklausys, tik gali būti neišmokėtos laiku, kai mokesčiai mokami kartą metuose. Tokiu atveju rekomenduojama pradėti daryti avansinius mokėjimus ir siųsti SAV pranešimus Sodrai kas mėnesį. Detalias gaires, kaip tai padaryti su vaizdiniais pavyzdžiais ir paaiškinimais galite rasti prisijungę prie uždaros VPA grupės.",
-                                                "Kas mėnesį (pervedu avansinius mokėjimus SODRAI)" => "Puiku! Jei mokesčiai mokami avansu - tikėtina, kad motinystės išmokos Jums priklauso ir gausite jas laiku."
-                                            ),
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        )
-                    ),
-                ),
-                
-            ),
-            
-        );
-
 
         $fieldsArray = array(
             array('ar_vykde_veikla', 'Ne', 'nevykde_veiklos_ats'), 
             ['ar_vykde_veikla', 'Taip', 'kokiu_principu_dirbo'],
             ['kokiu_principu_dirbo', 'DS', 'dirbo_su_DS_ats'],
             ['kokiu_principu_dirbo', 'VL', 'dirbo_su_VL_ats'],
-            ['kokiu_principu_dirbo', 'dirbau miksuotai', 'dirbo_miksuotai_ats'],
-            ['kokiu_principu_dirbo', 'turiu savo MB', 'kaip_gauna_pajamas_MB'],
+            ['kokiu_principu_dirbo', 'miksuotai', 'dirbo_miksuotai_ats'],
+            ['kokiu_principu_dirbo', 'MB', 'kaip_gauna_pajamas_MB'],
             
             ['kaip_gauna_pajamas_MB', 'Taip', 'MB_pajamos_paslaugos_pelnas_ats'],
             ['kaip_gauna_pajamas_MB', 'Ne', 'ar_moka_VSD_MB'],
@@ -101,8 +188,8 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
             ['ar_naudojosi_lengvatom', 'Ne', 'metines_IDV_pajamos'],
             ['metines_IDV_pajamos', 'maziau', 'IDV_pajamos_mazesnes_ats'],
             ['metines_IDV_pajamos', 'daugiau', 'kaip_moka_mokescius_IDV'],
-            ['kaip_moka_mokescius_IDV', 'kas metus', 'IDV_mokesciai_karta_per_metus_ats'],
-            ['kaip_moka_mokescius_IDV', 'kas menesi', 'IDV_mokesciai_kas_menesi_ats'],
+            ['kaip_moka_mokescius_IDV', 'kas_metus', 'IDV_mokesciai_karta_per_metus_ats'],
+            ['kaip_moka_mokescius_IDV', 'kas_menesi', 'IDV_mokesciai_kas_menesi_ats'],
         );
 
         $klausimaiAtsakymai = array(
@@ -115,100 +202,125 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
             "Kaip mokate mokesčius?" => array( "Kartą per metus", "Kas mėnesį (pervedu avansinius mokėjimus SODRAI)"),
         );
 
-        $rezultatai = array(
-            "" => "Išmokos galimai nepriklauso, jei dirbote trumpiau nei 12 mėnesių per paskutinius 24 mėnesius iki teisės į išmoką dienos. Socialiniam motinystės stažui sukaupti reikia bent 12 mėnesių per paskutinius 24 metus.",
-            "" => "Tikėtina, kad reikiamą socialinį motinystės stažą būsite sukaupę, kurio reikia bent 12 mėnesių per paskutinius 24 metus ir motinystės išmokas gausite. Dirbant su DS (darbo sutartimi), šis stažas kaupiasi nuo sutarties pasirašymo dienos ir neturi įtakos, jeigu keitėte darbovietes per šį laikotarpį.",
-            "" => "Deja, dirbantiems tik su veiklos liudijimu, išmokos galimai nepriklauso.",
-            "" => "Visos draudžiamosios pajamos, nuo kurių mokėjote pilnas VSD įmokas, bus įtrauktos į išmokų apskaičiavimą. Pvz., dirbote su DS ir su IDV, tuomet vertinamos tiek iš DS, tiek iš IDV gaunamos draudžiamosios pajamos. Bet jei dirbote su VL ir MB - tuomet jau kyla klausimų, ar tikrai priklausys motinystės išmokos, nes galimai neturite pilno valstybinio socialinio draudimo. Visus kompleksiniu atvejus yra naudingiau vertinti individualiai, kadangi skirtingoms situacijoms, gali būti randami skirtingi sprendimai ir galimybės.Tai padaryti galime individualios konsultacijos metu.",
-            "" =>  "Greičiausiai nesate drausti valstybiniu socialiniu draudimu ir tikėtina, kad motinystės išmokos jums nepriklausys.",
-            "" =>  "Tikėtina, kad gausite išmokas. Visgi, dėl komplikuoto MB ir socialinių garantijų santykio, praverstų detaliau įsivertinti, kokias įmokas ir kokiu formatu mokėjote. Tai galima būtų padaryti individualios konsultacijos metu",
-            "" => "Deja, vykdant individualią veiklą ir naudojantis lengvatomis, atleidžiančiomis  nuo mokesčių, išmokos galimai nepriklauso.",
-            "" => "Reikėtų individualiai vertinti, ar uždirbtų pajamų kiekis suteiks reikalingą socialinį motinystės stažą, kuris yra reikalingas išmokos gauti. Tai galima padaryti individualios konsultacijos metu.",
-            "" => "Tikėtina, kad motinystės išmokos Jums priklausys, tik gali būti neišmokėtos laiku, kai mokesčiai mokami kartą metuose. Tokiu atveju rekomenduojama pradėti daryti avansinius mokėjimus ir siųsti SAV pranešimus Sodrai kas mėnesį. Detalias gaires, kaip tai padaryti su vaizdiniais pavyzdžiais ir paaiškinimais galite rasti prisijungę prie uždaros VPA grupės.",
-            "" => "Puiku! Jei mokesčiai mokami avansu - tikėtina, kad motinystės išmokos Jums priklauso ir gausite jas laiku."
+        $kl = array(
+            array(
+                'ar_vykde_veikla',
+                'Ar per paskutinius 24 mėnesius dirbote ar vykdėte savo veiklą?', 
+                array(
+                    'Taip' => 'Taip',
+                    'Ne' => 'Ne',
+                ),
+            ),
+            array(
+                'kokiu_principu_dirbo',
+                'Kokiu principu dirbote?', 
+                array(
+                    'Darbo sutartis' => 'DS',
+                    'IDV' => 'IDV',
+                    'VL' => 'VL',
+                    'Turiu savo MB' => 'MB',
+                    'Dirbau miksuotai' => 'miksuotai',
+                ),
+            ),
+            array(
+                'ar_naudojosi_lengvatom',
+                'Ar naudojotės valstybės skirtomis lengvatomis, kurios atleidžia nuo mokesčių mokėjimo?', 
+                array(
+                    'Taip' => 'Taip',
+                    'Ne' => 'Ne',
+                ),
+            ),
+            array(
+                'metines_IDV_pajamos',
+                'Jūsų bendros metinės pajamos iš veiklos buvo:', 
+                array(
+                    '18 000 € ir didesnės' => 'daugiau',
+                    'Mažesnės, nei 18 000 €' => 'maziau',
+                ),
+            ),
+            array(
+                'kaip_moka_mokescius_IDV',
+                'Kaip mokate mokesčius?', 
+                array(
+                    'Kartą per metus' => 'kas_metus',
+                    'Kas mėnesį (pervedu avansinius mokėjimus SODRAI)' => 'kas_menesi',
+                ),
+            ),
+            array(
+                'kaip_gauna_pajamas_MB',
+                'Ar gaunate pajamas tik pagal civilinę paslaugų teikimo sutartį arba pasiskirstant pelną?', 
+                array(
+                    'Taip' => 'Taip',
+                    'Ne' => 'Ne',
+                ),
+            ),
+            array(
+                'ar_moka_VSD_MB',
+                'Ar mokėjote VSD įmokas savarankiškai?', 
+                array(
+                    'Taip' => 'Taip',
+                    'Ne' => 'Ne',
+                ),
+            ),
         );
 
-        if ( ! empty( $settings['questions_list'] ) ) {
+
             ?>
-            <div class="conditional-form">
-                <form id="conditional-form">
-                    <?php foreach ( $settings['questions_list'] as $index => $question ) : ?>
-                        <div class="form-step" id="step-<?php echo $index; ?>" <?php echo $index > 0 ? 'style="display:none;"' : ''; ?>>
-                            <label><?php echo $question['question_text']; ?></label><br>
-                            <?php foreach ( $question['options_list'] as $option_index => $option ) : ?>
-                                <input type="radio" name="step-<?php echo $index; ?>" value="<?php echo $option['next_step']; ?>" id="option-<?php echo $index; ?>-<?php echo $option_index; ?>"><?php echo $option['option_text']; ?><br>
-                            <?php endforeach; ?>
+
+            <form method="post" id="testo_forma" name="testas" novalidate style="display:grid;">
+                <div class="container" style="justify-self:center;width:auto;">
+
+                    <?
+                        foreach ($kl as $q) {
+
+                            $classNerodyti = array_search($q, $kl) > 0 ? 'nerodyti' : '';
+                           
+                            echo '<div id="q-' . $q[0] . '" class="' . $classNerodyti . '"><label for="form-field-' . $q[0] . '" class="question">' . $q[1] . '</label><div class="radioDiv">';
+                            
+                            $optionCount = 0;
+                            
+                            foreach ($q[2] as $optionText => $optionValue) {
+                                echo '<input type="radio" value="' . $optionValue . '" id="form-field-' . $q[0] . '-' . $optionCount . '" name="' . $q[0] . '"><label for="form-field-' . $q[0] . '-' . $optionCount . '">' . $optionText . '</label>';
+                                $optionCount++;
+                            };
+                
+                            echo '</div></div>';
+                        }
+                    ?>
+                   
+                        <p id="ats" class="nerodyti"><strong>ATSAKYMAS: </strong></p>
+                        <p id="ats-txt" class="nerodyti"></p>
+
+                    <div id="q-email" class="nerodyti">
+                        <label for="form-field-testo_forma_email" class="">Jūsų el. paštas </label>
+                        <input type="email" name="form_fields[testo_forma_email]" id="form-field-testo_forma_email" class="">
+                    </div>
+                   
+                    <div id="buttons">
+                        <div id="reset-div" class="nerodyti">
+                            <button type="reset" class="" id="reset_mygtukas">
+                                <span>
+                                    <span class=""> </span> <span class="">IŠ NAUJO</span>
+                                </span>
+                            </button>
                         </div>
-                    <?php endforeach; ?>
-                    <?php foreach ( $settings['results_list'] as $result_index => $result ) : ?>
-                        <div class="form-result" id="result-<?php echo $result_index; ?>" style="display:none;">
-                            <p><?php echo $result['result_text']; ?></p>
+                        <div id="send-div" class="nerodyti">
+                            <button type="button" class="" id="send_mygtukas">
+                                <span>
+                                    <span class=""> </span> <span class="">NORIU GAUTI DAUGIAU INFORMACIJOS</span>
+                                </span>
+                            </button>
                         </div>
-                    <?php endforeach; ?>
-                </form>
-            </div>
-            <script>
-                (function($) {
-                    $(document).ready(function() {
-                        $('#conditional-form input[type="radio"]').on('change', function() {
-                            var nextStep = $(this).val();
-                            $('.form-step').hide();
-                            $('.form-result').hide();
-                            if (nextStep.startsWith('result_')) {
-                                $('#' + nextStep).show();
-                            } else {
-                                $('#step-' + nextStep).show();
-                            }
-                        });
-                    });
-                })(jQuery);
-            </script>
+                    </div>
+                </div>
+            </form>               
+
             <?php
-        }
     }
     
     protected function _content_template() {
         ?>
-        <#
-        var settings = settings;
-        if ( settings.questions_list.length ) {
-        #>
-            <div class="conditional-form">
-                <form id="conditional-form">
-                    <# _.each( settings.questions_list, function( question, index ) { #>
-                        <div class="form-step" id="step-{{{ index }}}" {{{ index > 0 ? 'style="display:none;"' : '' }}}>
-                            <label>{{{ question.question_text }}}</label><br>
-                            <# _.each( question.options_list, function( option, option_index ) { #>
-                                <input type="radio" name="step-{{{ index }}}" value="{{{ option.next_step }}}" id="option-{{{ index }}}-{{{ option_index }}}">{{{ option.option_text }}}<br>
-                            <# }); #>
-                        </div>
-                    <# }); #>
-                    <# _.each( settings.results_list, function( result, result_index ) { #>
-                        <div class="form-result" id="result-{{{ result_index }}}" style="display:none;">
-                            <p>{{{ result.result_text }}}</p>
-                        </div>
-                    <# }); #>
-                </form>
-            </div>
-            <script>
-                (function($) {
-                    $(document).ready(function() {
-                        $('#conditional-form input[type="radio"]').on('change', function() {
-                            var nextStep = $(this).val();
-                            $('.form-step').hide();
-                            $('.form-result').hide();
-                            if (nextStep.startsWith('result_')) {
-                                $('#' + nextStep).show();
-                            } else {
-                                $('#step-' + nextStep).show();
-                            }
-                        });
-                    });
-                })(jQuery);
-            </script>
-        <#
-        }
-        #>
+       
         <?php
     }
 

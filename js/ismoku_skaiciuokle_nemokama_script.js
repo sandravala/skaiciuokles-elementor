@@ -38,6 +38,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 gimdymoDatosInput: '#gimdymoDatosInput',
                 emailInput: '#emailInput',
                 klaida: '.klaida',
+                testBtn: '.omni',
             },
         };
     }
@@ -81,6 +82,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             $gimdymoDatosInput: this.$element.find(selectors.gimdymoDatosInput),
             $emailInput: this.$element.find(selectors.emailInput),
             $klaidos: this.$element.find(selectors.klaida),
+            $testBtn: this.$element.find(selectors.testBtn),
 
         };
     }
@@ -207,6 +209,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.elements.$submitButton.on('click', this.onFormSubmit.bind(this));
         this.elements.$resetButton.on('click', this.onReset.bind(this));
         this.elements.$sendButton.on('click', this.onSend.bind(this));
+        this.elements.$testBtn.on('click', this.omniTest.bind(this));
 
     }
 
@@ -1029,6 +1032,29 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
             return rezultatuLentele;
 
+    }
+
+    omniTest(event) {
+
+        jQuery(document).ready(function ($) {
+            $.ajax({
+                url: my_widget_ajax.ajax_url,
+                type: 'POST',
+                data: {
+                    action: 'nemokama_skaiciuokle_omni',
+                },
+                success: (response) => {
+                    // Show the success message
+                    console.log($(this).attr('data-id'));
+                    console.log('success');
+                    console.log(response);
+                },
+                error: (error) => {
+                    console.error('Error:', error);
+                    //alert('Error: ' + error.responseText);
+                }
+            });
+        });
     }
 
     onFormSubmit(event) {

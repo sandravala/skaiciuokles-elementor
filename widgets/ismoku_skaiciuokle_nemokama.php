@@ -10,7 +10,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
     public function get_title()
     {
-        return esc_html__('Nemokama VPA išmokų skaičiuoklė', TEXT_DOMAIN);
+        return esc_html__('VPA išmokų skaičiuoklė', TEXT_DOMAIN);
     }
 
     public function get_icon()
@@ -180,16 +180,38 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
         $this->end_controls_section();
 
+        $this->start_controls_section(
+            'omnisend-test',
+            [
+                'label' => __('OMNISEND', TEXT_DOMAIN),
+            ]
+        );
+
+        $this->add_control(
+            'omni',
+            [
+                'label' => esc_html__('omnisend', TEXT_DOMAIN),
+                'type' => \Elementor\Controls_Manager::TEXT,
+				'frontend_available' => true,
+            ]
+        );
+
+        $this->end_controls_section();
+
     }
+
 
     protected function render()
     {
         $settings = $this->get_settings_for_display();
+        $widget_id = $this->get_id();
+        
 		
 
         ?>
         <div class="motinystes-ismoku-skaiciuokle">
             <form name="formbox" id="ismoku_skaiciuokle" class="formbox__skaiciuokles">
+                <button type="button" class="omni">omnisend</button>
             <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="kuria-ismoka-rodyti" class="formbox__container has_border">
             <div class="formbox__title">Pažymėkite, kurias išmokas skaičiuoti</div>
