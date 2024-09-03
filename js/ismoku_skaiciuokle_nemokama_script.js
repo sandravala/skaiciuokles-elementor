@@ -39,6 +39,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 emailInput: '#emailInput',
                 klaida: '.klaida',
                 testBtn: '.omni',
+                postIdInput: '#widget_id',
             },
         };
     }
@@ -83,6 +84,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             $emailInput: this.$element.find(selectors.emailInput),
             $klaidos: this.$element.find(selectors.klaida),
             $testBtn: this.$element.find(selectors.testBtn),
+            $post_id_input: this.$element.find(selectors.postIdInput),
 
         };
     }
@@ -134,6 +136,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.vpaIsmokos = {};
         this.bendrosSumos = {};
         this.vpaIsmokuPaaiskinimai = '';
+        this.postId = this.elements.$post_id_input.attr('value');
+        console.log(this.postId);
 
 
         
@@ -209,7 +213,9 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.elements.$submitButton.on('click', this.onFormSubmit.bind(this));
         this.elements.$resetButton.on('click', this.onReset.bind(this));
         this.elements.$sendButton.on('click', this.onSend.bind(this));
-        this.elements.$testBtn.on('click', this.omniTest.bind(this));
+        this.elements.$testBtn.on('click', () => {
+            this.omniTest(this.postId);
+        });
 
     }
 
@@ -1034,7 +1040,10 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
     }
 
-    omniTest(event) {
+    omniTest(postId) {
+
+
+        console.log(this.elements.$post_id_input);
 
         jQuery(document).ready(function ($) {
             $.ajax({
@@ -1042,6 +1051,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 type: 'POST',
                 data: {
                     action: 'nemokama_skaiciuokle_omni',
+                    post_id: postId,
                 },
                 success: (response) => {
                     // Show the success message
