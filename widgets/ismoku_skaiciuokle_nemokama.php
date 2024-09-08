@@ -216,7 +216,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <button type="button" class="omni">omnisend</button>
                 <input type="hidden" id="widget_id" value="<?php echo $widget_id ?>">
                 <input type="hidden" id="post_id" value="<?php echo $post_id ?>">
-            <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
+            <?  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="kuria-ismoka-rodyti" class="formbox__container has_border">
             <div class="formbox__title">Pažymėkite, kurias išmokas skaičiuoti</div>
             <div class="formbox__body">
@@ -237,7 +237,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             </div>
             </fieldset>
                 <? } ?>
-            <fieldset id="vpa-trukme" class="formbox__container has_border <? if ( 'yes' === $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?> ">
+            <fieldset id="vpa-trukme" class="formbox__container has_border <? if ( $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?> ">
                 <div class="formbox__title">VPA išmokos gavimo trukmė</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -253,7 +253,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <fieldset id="vpa-ims" class="formbox__container has_border <? if ( 'yes' === $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?>">
+            <fieldset id="vpa-ims" class="formbox__container has_border <? if ( $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?>">
                 <div class="formbox__title">Vaiko priežiūros atostogomis naudosis:</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -285,7 +285,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
+            <?  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="mamos-pajamu-tipas" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Mamos pajamų tipas</div>
                 <div class="formbox__body">
@@ -314,7 +314,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
+            <?  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="mamos-islaidu-tipas" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Kaip skaičiuojamos mamos išlaidos?</div>
                 <div class="formbox__body">
@@ -370,7 +370,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
+            <?  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="tecio-islaidu-tipas" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Kaip skaičiuojamos tėčio išlaidos?</div>
                 <div class="formbox__body">
@@ -399,7 +399,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             </fieldset>
             <? } ?>
 
-            <fieldset id="gimdymo-data" class="formbox__container has_border <? if ( 'yes' === $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?>">
+            <fieldset id="gimdymo-data" class="formbox__container has_border <? if ( $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?>">
                 <div class="formbox__title">Numatyta gimdymo data</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -408,8 +408,9 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <?  if ( 'yes' !== $settings['skaiciuokles_tipas'] ) {  ?>
+            <?  if ( !$settings['skaiciuokles_tipas'] ) {  ?>
             <fieldset id="email" class="formbox__container has_border nerodyti" style="padding-bottom: 1em;">
+                <fieldset id="emailInputFieldset" class="formbox__container">
                 <div class="formbox__title">Jūsų el. pašto adresas</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -418,6 +419,17 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                         </label>
                     </div>
                 </div>
+                </fieldset>
+                <fieldset id="nameInputFieldset" class="formbox__container">
+                <div class="formbox__title">Jūsų vardas</div>
+                <div class="formbox__body">
+                    <div class="formbox__field">
+                        <label for="name">
+                            <input type="text" name="name" id="nameInput" class="formbox__field-input" style="width: 100%;">
+                        </label>
+                    </div>
+                </div>
+                </fieldset>
             </fieldset>
             <? } ?>
 
@@ -428,7 +440,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             <fieldset id="mygtukai" class="formbox__container" style="display: flex;justify-content: center; padding-bottom: 0;">
 
                 <div class="formbox__body" style="display: flex;">
-                <?  if ( 'yes' !== $settings['skaiciuokles_tipas'] ) {  ?> 
+                <?  if ( !$settings['skaiciuokles_tipas'] ) {  ?> 
                     <div class="formbox__btn nerodyti">
                         <button type="button" class="formbox__btn-send">
                             Siųsti rezultatus el. paštu</button>
@@ -459,7 +471,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
             </form>
             <fieldset id="rezultatai" class="formbox__container has_border nerodyti" style="display: flex; flex-direction: column;">
-            <? if ( 'yes' !== $settings['skaiciuokles_tipas'] ) { ?>
+            <? if ( !$settings['skaiciuokles_tipas'] ) { ?>
                 <div id="result-container-cta" style="z-index: 2; align-self: center;">Daugiau informacijos (pilna VPA išmokų detalizacija visam laikotarpiui, kiekvienam mėnesiui) - el. paštu</div>
                 <? } ?>
                 <div id="result-container-skaiciuokle" style="width: 100%;">result</div>

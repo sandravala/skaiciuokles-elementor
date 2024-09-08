@@ -37,6 +37,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 tecioIslaiduInput: '#tecioIslaiduInput',
                 gimdymoDatosInput: '#gimdymoDatosInput',
                 emailInput: '#emailInput',
+                nameInput: '#nameInput',
                 klaida: '.klaida',
                 testBtn: '.omni',
                 widgetIdInput: '#widget_id',
@@ -83,6 +84,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             $tecioIslaiduInput: this.$element.find(selectors.tecioIslaiduInput),
             $gimdymoDatosInput: this.$element.find(selectors.gimdymoDatosInput),
             $emailInput: this.$element.find(selectors.emailInput),
+            $nameInput: this.$element.find(selectors.nameInput),
             $klaidos: this.$element.find(selectors.klaida),
             $testBtn: this.$element.find(selectors.testBtn),
             $post_id_input: this.$element.find(selectors.postIdInput),
@@ -140,13 +142,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.vpaIsmokuPaaiskinimai = '';
         this.postId = this.elements.$post_id_input.attr('value');
         this.widgetId = this.elements.$widget_id_input.attr('value');
-        console.log(this.postId);
-        console.log(this.widgetId);
-
-
         
         this.updateWidgetContent();
-
         
     }
 
@@ -204,16 +201,33 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         elements.$emailInput.on('input', () => {
             if(!this.validateEmail(elements.$emailInput.val())) {
 
-                this.elements.$alertContainer.text('Įveskite tikrą el. pašto adresą');
-                this.$element.find('#email').addClass('klaida');
+                this.elements.$alertContainer.text('Įveskite savo kontaktinius duomenis');
+                this.$element.find('#emailInputFieldset').addClass('klaida');
                 this.$element.find('#alert').removeClass('nerodyti');
             } else {
+                if(this.validateName(elements.$nameInput.val())) {
                 this.$element.find('#alert').addClass('nerodyti');
-                this.$element.find('#email').removeClass('klaida');
+                }
+                this.$element.find('#emailInputFieldset').removeClass('klaida');
             }
         
         });
 
+        elements.$nameInput.on('input', () => {
+            if(!this.validateName(elements.$nameInput.val())) {
+
+                this.elements.$alertContainer.text('Įveskite savo kontaktinius duomenis');
+                this.$element.find('#nameInputFieldset').addClass('klaida');
+                this.$element.find('#alert').removeClass('nerodyti');
+            } else {
+                if(this.validateEmail(elements.$emailInput.val())) {
+                this.$element.find('#alert').addClass('nerodyti');
+                }
+                this.$element.find('#nameInputFieldset').removeClass('klaida');
+            }
+        
+        });
+        
         this.elements.$submitButton.on('click', this.onFormSubmit.bind(this));
         this.elements.$resetButton.on('click', this.onReset.bind(this));
         this.elements.$sendButton.on('click', this.onSend.bind(this));
@@ -1104,13 +1118,20 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
     onSend(event) {
 
         const email = this.elements.$emailInput.val();
-        if (!this.validateEmail(email)) {
-            this.elements.$alertContainer.text('Įveskite tikrą el. pašto adresą');
-            this.$element.find('#email').addClass('klaida');
+        const name = this.elements.$nameInput.val();
+        const validationError = !this.validateEmail(email) || !this.validateName(name);
+
+        if(validationError) {
+            if (!this.validateEmail(email)) {
+                this.$element.find('#emailInputFieldset').addClass('klaida');
+            }  
+            if (!this.validateName(name)) {
+                this.$element.find('#nameInputFieldset').addClass('klaida');  
+            }    
+            this.elements.$alertContainer.text('Įveskite savo kontaktinius duomenis');
             this.$element.find('#alert').removeClass('nerodyti');
             return;
-        }      
-
+        }
         
         const formData = {
             vpaIsmokos: this.vpaIsmokos,
@@ -1289,6 +1310,9 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         return true;
     };
 
+    validateName(name) {
+        return name.trim().length < 2 ? false : true;
+    };
 
 
 //class closing bracket
