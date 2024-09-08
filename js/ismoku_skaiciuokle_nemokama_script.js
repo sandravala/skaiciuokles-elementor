@@ -1119,6 +1119,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
         const email = this.elements.$emailInput.val();
         const name = this.elements.$nameInput.val();
+        const postId = this.elements.$post_id_input.attr('value');
+        const widgetId = this.elements.$widget_id_input.attr('value');
         const validationError = !this.validateEmail(email) || !this.validateName(name);
 
         if(validationError) {
@@ -1156,6 +1158,11 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 data: {
                     action: 'nemokama_skaiciuokle_send_email',
                     calcData: formData,
+                    post_id: postId,
+                    widget_id: widgetId,
+                    source: 'vpa-skaiciuokle-nemokama',
+                    name: name,
+                    email: email,
                 },
                 success: (response) => {
                     // Show the success message
