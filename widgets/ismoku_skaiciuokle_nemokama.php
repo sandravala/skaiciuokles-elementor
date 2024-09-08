@@ -409,7 +409,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             </fieldset>
 
             <?  if ( !$settings['skaiciuokles_tipas'] ) {  ?>
-            <fieldset id="email" class="formbox__container has_border nerodyti" style="padding-bottom: 1em;">
+            <fieldset id="email" class="formbox__container has_border nerodyti" style="padding-bottom: 1em;display:block;">
                 <fieldset id="emailInputFieldset" class="formbox__container">
                 <div class="formbox__title">Jūsų el. pašto adresas</div>
                 <div class="formbox__body">
