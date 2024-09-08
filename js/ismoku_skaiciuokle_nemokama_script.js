@@ -114,13 +114,13 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.minimumas = this.duomenysSkaiciavimams['minimumas'];
         
         //nemokama skaiciuokle
-        this.nemokamaSkaiciuokle = this.mokamaSkaiciuokle === undefined;
+        this.nemokamaSkaiciuokle = !this.mokamaSkaiciuokle;
         
         //create variables for calculations
         
         this.motinystesIsmokaRodyti = false;
         this.tevystesIsmokaRodyti = false;
-        this.vpaIsmokaRodyti = this.mokamaSkaiciuokle === undefined;
+        this.vpaIsmokaRodyti = !this.mokamaSkaiciuokle;
         
         this.mamaArTetisVpa = null;
         this.vpaTrukme = null; 

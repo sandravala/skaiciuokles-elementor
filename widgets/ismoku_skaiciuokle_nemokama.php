@@ -54,8 +54,8 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 'type' => \Elementor\Controls_Manager::SWITCHER,
                 'label_on' => esc_html__( 'Taip', TEXT_DOMAIN ),
                 'label_off' => esc_html__( 'Ne', TEXT_DOMAIN ),
-                'return_value' => 'yes',
-                'default' => 'no',
+                'return_value' => true,  // Value when switched ON
+                'default' => false,        // Value when switched OFF
                 'frontend_available' => true,
             ]
         );
