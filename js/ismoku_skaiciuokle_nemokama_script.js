@@ -39,7 +39,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 emailInput: '#emailInput',
                 klaida: '.klaida',
                 testBtn: '.omni',
-                postIdInput: '#widget_id',
+                widgetIdInput: '#widget_id',
+                postIdInput: '#post_id',
             },
         };
     }
@@ -85,6 +86,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             $klaidos: this.$element.find(selectors.klaida),
             $testBtn: this.$element.find(selectors.testBtn),
             $post_id_input: this.$element.find(selectors.postIdInput),
+            $widget_id_input: this.$element.find(selectors.widgetIdInput),
 
         };
     }
@@ -137,7 +139,9 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.bendrosSumos = {};
         this.vpaIsmokuPaaiskinimai = '';
         this.postId = this.elements.$post_id_input.attr('value');
+        this.widgetId = this.elements.$widget_id_input.attr('value');
         console.log(this.postId);
+        console.log(this.widgetId);
 
 
         
@@ -214,7 +218,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.elements.$resetButton.on('click', this.onReset.bind(this));
         this.elements.$sendButton.on('click', this.onSend.bind(this));
         this.elements.$testBtn.on('click', () => {
-            this.omniTest(this.postId);
+            this.omniTest(this.postId, this.widgetId);
         });
 
     }
@@ -1040,10 +1044,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
     }
 
-    omniTest(postId) {
-
-
-        console.log(this.elements.$post_id_input);
+    omniTest(postId, widgetId) {
 
         jQuery(document).ready(function ($) {
             $.ajax({
@@ -1052,10 +1053,11 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 data: {
                     action: 'nemokama_skaiciuokle_omni',
                     post_id: postId,
+                    widget_id: widgetId,
+                    source: 'vpa-skaiciuokle-nemokama',
                 },
                 success: (response) => {
                     // Show the success message
-                    console.log($(this).attr('data-id'));
                     console.log('success');
                     console.log(response);
                 },

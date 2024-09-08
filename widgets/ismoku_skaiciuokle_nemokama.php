@@ -215,6 +215,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             <form name="formbox" id="ismoku_skaiciuokle" class="formbox__skaiciuokles">
                 <button type="button" class="omni">omnisend</button>
                 <input type="hidden" id="widget_id" value="<?php echo $widget_id ?>">
+                <input type="hidden" id="post_id" value="<?php echo $post_id ?>">
             <?  if ( 'yes' === $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="kuria-ismoka-rodyti" class="formbox__container has_border">
             <div class="formbox__title">Pažymėkite, kurias išmokas skaičiuoti</div>
