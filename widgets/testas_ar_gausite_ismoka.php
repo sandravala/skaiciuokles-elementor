@@ -1,219 +1,92 @@
 <?php
-class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
+class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base
+{
 
-	public function get_name() {
-		return 'testas_ar_gausite_ismoka';
-	}
+    public function get_name()
+    {
+        return 'testas_ar_gausite_ismoka';
+    }
 
-	public function get_title() {
-		return esc_html__( 'Testas Ar Gausite Išmoką', TEXT_DOMAIN );
-	}
+    public function get_title()
+    {
+        return esc_html__('Testas Ar Gausite Išmoką', TEXT_DOMAIN);
+    }
 
-	public function get_icon() {
-		return 'testas_ar_gausite_ismoka_icon';
-	}
+    public function get_icon()
+    {
+        return 'testas_ar_gausite_ismoka_icon';
+    }
 
-	public function get_categories() {
-		return [ 'custom-skaiciuokles' ];
-
-	}
+    public function get_categories()
+    {
+        return ['custom-skaiciuokles'];
+    }
 
     public function get_script_depends()
     {
         return ['testas_ar_gausite_ismoka_script'];
     }
 
-    // public function get_style_depends() {
-	// 	return [ 'custom-skaiciuokles-style-1', 'jquery-ui-css' ];
-	// }
+    public function get_style_depends() {
+    	return [ 'custom-skaiciuokles-style-1', 'jquery-ui-css' ];
+    }
 
-	public function get_keywords() {
-		return [ 'testas', 'gausite', 'ismoka', 'išmoką', 'ar gausite ismoka' ];
-	}
+    public function get_keywords()
+    {
+        return ['testas', 'gausite', 'ismoka', 'išmoką', 'ar gausite ismoka'];
+    }
 
 
-    protected function _register_controls() {
+    protected function _register_controls()
+    {
+
         
         $this->start_controls_section(
-            'testo_atsakymai',
+            'omnisend-test',
             [
-                'label' => __('Testo atsakymai el. paštu', TEXT_DOMAIN),
+                'label' => __('OMNISEND', TEXT_DOMAIN),
             ]
-            );
+        );
 
-            $this->add_control(
-                'nevykde_veiklos_ats',
-                [
-                    'label' => esc_html__( 'Kai per paskutinius 12 mėn. nevykdė veiklos:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai per paskutinius 12 mėn. nevykdė veiklos', TEXT_DOMAIN ),
-                ]
-            );
-            
-            $this->add_control(
-                'dirbo_su_DS_ats',
-                [
-                    'label' => esc_html__( 'Kai dirbo su DS:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai dirbo su DS', TEXT_DOMAIN ),
-                ]
-            );
-
-            $this->add_control(
-                'dirbo_su_VL_ats',
-                [
-                    'label' => esc_html__( 'Kai dirbo su VL:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai dirbo su VL', TEXT_DOMAIN ),
-                ]
-            );
-
-            $this->add_control(
-                'dirbo_miksuotai_ats',
-                [
-                    'label' => esc_html__( 'Kai dirbo miksuotai:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai dirbo miksuotai', TEXT_DOMAIN ),
-                ]
-            );
-
-            $this->add_control(
-                'MB_pajamos_paslaugos_pelnas_ats',
-                [
-                    'label' => esc_html__( 'Kai dirba su MB ir pajamas gauna pagal paslaugų teikimo sut. arba per pelną:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai dirba su MB ir pajamas gauna pagal paslaugų teikimo sutartį arba pasiskirstant pelną', TEXT_DOMAIN ),
-                ]
-            );
-
-            $this->add_control(
-                'MB_vsd_imokos_savarankiskai_ats',
-                [
-                    'label' => esc_html__( 'Kai dirba su MB ir VSD įmokas mokėjo savarankiškai:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai dirba su MB ir VSD įmokas mokėjo savarankiškai', TEXT_DOMAIN ),
-                ]
-            );
-
-            $this->add_control(
-                'MB_be_vsd_imoku_ats',
-                [
-                    'label' => esc_html__( 'Kai dirba su MB ir VSD įmokų nemokėjo:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai dirba su MB ir VSD įmokų nemokėjo', TEXT_DOMAIN ),
-                ]
-            );
-
-            $this->add_control(
-                'IDV_naudojosi_lengvatomis_ats',
-                [
-                    'label' => esc_html__( 'Kai dirba su IDV ir naudojosi mokestinėmis lengvatomis:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai dirba su IDV ir naudojosi mokestinėmis lengvatomis', TEXT_DOMAIN ),
-                ]
-            );
-
-            $this->add_control(
-                'IDV_pajamos_mazesnes_ats',
-                [
-                    'label' => esc_html__( 'Kai dirba su IDV ir metinės pajamos mažesnės, nei 18 000 €:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai dirba su IDV ir metinės pajamos mažesnės, nei 18 000 €', TEXT_DOMAIN ),
-                ]
-            );
-
-            $this->add_control(
-                'IDV_mokesciai_karta_per_metus_ats',
-                [
-                    'label' => esc_html__( 'Kai dirba su IDV ir metinės pajamos didesnės, nei 18 000 €, bet mokesčius moka 1 k. / metus:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai dirba su IDV ir metinės pajamos didesnės, nei 18 000 €, bet mokesčius moka 1 k. / metus', TEXT_DOMAIN ),
-                ]
-            );
-
-            $this->add_control(
-                'IDV_mokesciai_kas_menesi_ats',
-                [
-                    'label' => esc_html__( 'Kai dirba su IDV ir metinės pajamos didesnės, nei 18 000 €, ir mokesčius moka 1 k. / mėnesį:', TEXT_DOMAIN ),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 10,
-                    'default' => esc_html__( '', TEXT_DOMAIN ),
-                    'placeholder' => esc_html__( 'Kai dirba su IDV ir metinės pajamos didesnės, nei 18 000 €, ir mokesčius moka 1 k. / mėnesį', TEXT_DOMAIN ),
-                ]
-            );
-        
+        $this->add_control(
+            'omni',
+            [
+                 'type' => 'omni_control',
+				'frontend_available' => false,
+            ]
+        );
 
         $this->end_controls_section();
     }
 
-    protected function render() {
-        $settings = $this->get_settings_for_display();
+    protected function render()
+    {
 
-
-        $fieldsArray = array(
-            array('ar_vykde_veikla', 'Ne', 'nevykde_veiklos_ats'), 
-            ['ar_vykde_veikla', 'Taip', 'kokiu_principu_dirbo'],
-            ['kokiu_principu_dirbo', 'DS', 'dirbo_su_DS_ats'],
-            ['kokiu_principu_dirbo', 'VL', 'dirbo_su_VL_ats'],
-            ['kokiu_principu_dirbo', 'miksuotai', 'dirbo_miksuotai_ats'],
-            ['kokiu_principu_dirbo', 'MB', 'kaip_gauna_pajamas_MB'],
-            
-            ['kaip_gauna_pajamas_MB', 'Taip', 'MB_pajamos_paslaugos_pelnas_ats'],
-            ['kaip_gauna_pajamas_MB', 'Ne', 'ar_moka_VSD_MB'],
-            ['ar_moka_VSD_MB', 'Taip', 'MB_vsd_imokos_savarankiskai_ats'],
-            ['ar_moka_VSD_MB', 'Ne', 'MB_be_vsd_imoku_ats'],
-            
-            ['kokiu_principu_dirbo', 'IDV', 'ar_naudojosi_lengvatom'],    
-            ['ar_naudojosi_lengvatom', 'Taip', 'IDV_naudojosi_lengvatomis_ats'],
-            ['ar_naudojosi_lengvatom', 'Ne', 'metines_IDV_pajamos'],
-            ['metines_IDV_pajamos', 'maziau', 'IDV_pajamos_mazesnes_ats'],
-            ['metines_IDV_pajamos', 'daugiau', 'kaip_moka_mokescius_IDV'],
-            ['kaip_moka_mokescius_IDV', 'kas_metus', 'IDV_mokesciai_karta_per_metus_ats'],
-            ['kaip_moka_mokescius_IDV', 'kas_menesi', 'IDV_mokesciai_kas_menesi_ats'],
-        );
-
-        $klausimaiAtsakymai = array(
-            "Ar per paskutinius 24 mėnesius dirbote ar vykdėte savo veiklą?" => array( "Ne", "Taip"),
-            "Kokiu principu dirbote?" => array( "DS", "VL", "dirbau miksuotai", "turiu savo MB", "IDV"),                      
-            "Ar gaunate pajamas tik pagal civilinę paslaugų teikimo sutartį arba pasiskirstant pelną?" => array( "Taip", "Ne"),
-            "Ar mokėjote VSD įmokas savarankiškai?" => array( "Taip", "Ne"),
-            "Ar naudojotės valstybės skirtomis  lengvatomis, kurios atleidžia nuo mokesčių mokėjimo?" => array( "Taip", "Ne"),
-            "Jūsų bendros metinės pajamos iš veiklos buvo:" => array( "Mažesnės, nei 18 000 €", "18 000 € ir didesnės" ),
-            "Kaip mokate mokesčius?" => array( "Kartą per metus", "Kas mėnesį (pervedu avansinius mokėjimus SODRAI)"),
-        );
+        $widget_id = $this->get_id();
+        global $post;
+        $post_id = $post->ID;
 
         $kl = array(
             array(
                 'ar_vykde_veikla',
-                'Ar per paskutinius 24 mėnesius dirbote ar vykdėte savo veiklą?', 
+                'Ar per paskutinius 24 mėnesius dirbote ar vykdėte savo veiklą?',
                 array(
                     'Taip' => 'Taip',
                     'Ne' => 'Ne',
                 ),
             ),
             array(
+                'kur_dirbo',
+                'Kur dirbote?',
+                array(
+                    'Dirbau Lietuvoje' => 'lt',
+                    'Dirbau užsienyje' => 'uzsienis',
+                    'Buvau vaiko priežiūros atostogose su prieš tai gimusiu vaiku (-ais)' => 'vpa'
+                ),
+            ),
+            array(
                 'kokiu_principu_dirbo',
-                'Kokiu principu dirbote?', 
+                'Kokiu principu dirbote?',
                 array(
                     'Darbo sutartis' => 'DS',
                     'IDV' => 'IDV',
@@ -223,8 +96,16 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
                 ),
             ),
             array(
+                'nepertraukiamai_dirbo_ilgiau',
+                'Ar su darbo sutartimi nepertraukiamai dirbote 12 mėnesių ir ilgiau?',
+                array(
+                    'Taip' => 'taip',
+                    'Ne' => 'ne',
+                ),
+            ),
+            array(
                 'ar_naudojosi_lengvatom',
-                'Ar naudojotės valstybės skirtomis lengvatomis, kurios atleidžia nuo mokesčių mokėjimo?', 
+                'Ar naudojotės valstybės skirtomis lengvatomis, kurios atleidžia nuo mokesčių mokėjimo?',
                 array(
                     'Taip' => 'Taip',
                     'Ne' => 'Ne',
@@ -232,7 +113,7 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
             ),
             array(
                 'metines_IDV_pajamos',
-                'Jūsų bendros metinės pajamos iš veiklos buvo:', 
+                'Jūsų bendros metinės pajamos iš veiklos buvo:',
                 array(
                     '18 000 € ir didesnės' => 'daugiau',
                     'Mažesnės, nei 18 000 €' => 'maziau',
@@ -240,7 +121,7 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
             ),
             array(
                 'kaip_moka_mokescius_IDV',
-                'Kaip mokate mokesčius?', 
+                'Kaip mokate mokesčius?',
                 array(
                     'Kartą per metus' => 'kas_metus',
                     'Kas mėnesį (pervedu avansinius mokėjimus SODRAI)' => 'kas_menesi',
@@ -248,7 +129,7 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
             ),
             array(
                 'kaip_gauna_pajamas_MB',
-                'Ar gaunate pajamas tik pagal civilinę paslaugų teikimo sutartį arba pasiskirstant pelną?', 
+                'Ar gaunate pajamas tik pagal civilinę paslaugų teikimo sutartį arba pasiskirstant pelną?',
                 array(
                     'Taip' => 'Taip',
                     'Ne' => 'Ne',
@@ -256,7 +137,7 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
             ),
             array(
                 'ar_moka_VSD_MB',
-                'Ar mokėjote VSD įmokas savarankiškai?', 
+                'Ar mokėjote VSD įmokas savarankiškai?',
                 array(
                     'Taip' => 'Taip',
                     'Ne' => 'Ne',
@@ -265,64 +146,118 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base {
         );
 
 
-            ?>
+        ?>
 
-            <form method="post" id="testo_forma" name="testas" novalidate style="display:grid;">
-                <div class="container" style="justify-self:center;width:auto;">
+        <form id="testo_forma" name="testas" novalidate style="display:grid;" class="formbox__skaiciuokles">
+            <input type="hidden" id="widget_id" value="<?php echo $widget_id ?>">
+            <input type="hidden" id="post_id" value="<?php echo $post_id ?>">
+            <div class="container" style="justify-self:center;width:auto;">
 
-                    <?
-                        foreach ($kl as $q) {
+                <?
+                foreach ($kl as $q) {
 
-                            $classNerodyti = array_search($q, $kl) > 0 ? 'nerodyti' : '';
-                           
-                            echo '<div id="q-' . $q[0] . '" class="' . $classNerodyti . '"><label for="form-field-' . $q[0] . '" class="question">' . $q[1] . '</label><div class="radioDiv">';
-                            
-                            $optionCount = 0;
-                            
-                            foreach ($q[2] as $optionText => $optionValue) {
-                                echo '<input type="radio" value="' . $optionValue . '" id="form-field-' . $q[0] . '-' . $optionCount . '" name="' . $q[0] . '"><label for="form-field-' . $q[0] . '-' . $optionCount . '">' . $optionText . '</label>';
-                                $optionCount++;
-                            };
-                
-                            echo '</div></div>';
-                        }
-                    ?>
-                   
-                        <p id="ats" class="nerodyti"><strong>ATSAKYMAS: </strong></p>
-                        <p id="ats-txt" class="nerodyti"></p>
+                    $classNerodyti = array_search($q, $kl) > 0 ? 'nerodyti' : '';
 
-                    <div id="q-email" class="nerodyti">
-                        <label for="form-field-testo_forma_email" class="">Jūsų el. paštas </label>
-                        <input type="email" name="form_fields[testo_forma_email]" id="form-field-testo_forma_email" class="">
+                    echo '<div id="q-' . $q[0] . '" class="' . $classNerodyti . '"><label for="form-field-' . $q[0] . '" class="question">' . $q[1] . '</label><div class="radioDiv">';
+
+                    $optionCount = 0;
+
+                    foreach ($q[2] as $optionText => $optionValue) {
+                        echo '<input type="radio" value="' . $optionValue . '" id="form-field-' . $q[0] . '-' . $optionCount . '" name="' . $q[0] . '"><label for="form-field-' . $q[0] . '-' . $optionCount . '">' . $optionText . '</label>';
+                        $optionCount++;
+                    };
+
+                    echo '</div></div>';
+                }
+                ?>
+
+                <p id="ats" class="nerodyti"><strong>ATSAKYMAS: </strong></p>
+                <p id="ats-txt" class="nerodyti"></p>
+                <p id="cta-txt" class="nerodyti">Detalesnę informaciją gausite įvedę savo el. pašto adresą:</p>
+
+                <div id="send-div" class="nerodyti">
+
+                <fieldset id="email" class="formbox__container has_border" style="padding-bottom: 1em; padding-left: 0; display:block;">
+                    <fieldset id="emailInputFieldset" class="formbox__container">
+                        <div class="formbox__title">Jūsų el. pašto adresas</div>
+                        <div class="formbox__body">
+                            <div class="formbox__field">
+                                <label for="email">
+                                    <input type="email" name="email" id="emailInput" class="formbox__field-input" style="width: 100%;">
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset id="nameInputFieldset" class="formbox__container">
+                        <div class="formbox__title">Jūsų vardas</div>
+                        <div class="formbox__body">
+                            <div class="formbox__field">
+                                <label for="name">
+                                    <input type="text" name="name" id="nameInput" class="formbox__field-input" style="width: 100%;">
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <fieldset id="alert" class="formbox__container nerodyti" style="padding-top: 1em; padding-bottom: 1em;">
+                    <div id="alert-container-skaiciuokle" style="color: red; "></div>
+                </fieldset>
+
+
+
+                <fieldset class="formbox__container" style="display: flex;justify-content: center; padding-bottom: 0;">
+
+                    <div class="formbox__body" style="display: flex;">
+                        <div class="formbox__btn">
+                            <button type="button" class="formbox__btn-send">
+                            NORIU GAUTI DAUGIAU INFORMACIJOS</button>
+                        </div>
+                        <div class="formbox__btn nerodyti">
+                            <button type="button" disabled class="formbox__btn">
+                                <div id="loader" class="loader"></div>
+                                Siunčiama...
+                            </button>
+                        </div>
+
+                        <div id="check" style="padding-right: 1em;" class="nerodyti">
+                            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                            </svg>
+                            <div style="align-content: center; padding-left: .5em; color: green;">Išsiųsta</div>
+                        </div>
+
+                        <div class="formbox__btn nerodyti">
+                            <button type="reset" class="formbox__btn-reset">Išvalyti duomenis</button>
+                        </div>
                     </div>
-                   
-                    <div id="buttons">
+                </fieldset>
+                </div>
+
+
+                <!-- <div id="buttons">
                         <div id="reset-div" class="nerodyti">
                             <button type="reset" class="" id="reset_mygtukas">
                                 <span>
-                                    <span class=""> </span> <span class="">IŠ NAUJO</span>
+                                    <span class=""> </span> <span class="formbox__btn-reset">IŠ NAUJO</span>
                                 </span>
                             </button>
                         </div>
                         <div id="send-div" class="nerodyti">
-                            <button type="button" class="" id="send_mygtukas">
+                            <button type="button" class="formbox__btn-send" id="send_mygtukas">
                                 <span>
-                                    <span class=""> </span> <span class="">NORIU GAUTI DAUGIAU INFORMACIJOS</span>
+                                    <span class=""> </span> 
+                                    <span class="">NORIU GAUTI DAUGIAU INFORMACIJOS</span>
                                 </span>
                             </button>
                         </div>
-                    </div>
-                </div>
-            </form>               
+                    </div> -->
+            </div>
+        </form>
 
-            <?php
-    }
-    
-    protected function _content_template() {
-        ?>
-       
         <?php
     }
 
-
+    protected function _content_template() {}
 }
