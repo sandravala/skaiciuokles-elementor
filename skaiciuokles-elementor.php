@@ -28,7 +28,11 @@ function my_custom_widget_scripts() {
 	wp_localize_script('ismoku_skaiciuokle_nemokama_script', 'my_widget_ajax', [
         'ajax_url' => admin_url('admin-ajax.php')
     ]);
+    
     wp_register_script('testas_ar_gausite_ismoka_script', plugin_dir_url(__FILE__) . '/js/testas_ar_gausite_ismoka_script.js', ['elementor-frontend', 'jquery'], null, true);
+    wp_localize_script('testas_ar_gausite_ismoka_script', 'my_widget_ajax', [
+        'ajax_url' => admin_url('admin-ajax.php')
+    ]);
     
 }
 add_action('wp_enqueue_scripts', 'my_custom_widget_scripts');
