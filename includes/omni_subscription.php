@@ -27,11 +27,13 @@ public function add_subscriber() {
         return '{"error": "Widget settings not found."}';
     } 
 
+    $omniApi = isset($widget_settings['omni']['omniApi']) ? $widget_settings['omni']['omniApi'] : null;
+
     // Prepare the payload for Omnisend API
     $payload = $this->prepare_payload();
 
     // Make the cURL request to Omnisend API
-    $response = $this->send_request($payload, $widget_settings['omni']);
+    $response = $this->send_request($payload, $omniApi);
 
     return $response;
 }
