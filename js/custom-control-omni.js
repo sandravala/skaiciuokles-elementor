@@ -17,6 +17,7 @@ var OmniControl = elementor.modules.controls.BaseMultiple.extend({
         var valuesToSave = {};
         
         var omniApiValue = this.getControlValue('omniApi') ? this.getControlValue('omniApi') : '';
+        console.log(omniApiValue);
         this.savedOmniResponse = this.getControlValue('omniResponse');
 
         this.loader.hide();
@@ -51,7 +52,6 @@ var OmniControl = elementor.modules.controls.BaseMultiple.extend({
             this.omniResponse.text(omniApiKeyValidText).addClass('valid').removeClass('not_valid');
             this.checkButton.hide();
         }
-
     },
 
     checkApiKey: function(apiKey) {
