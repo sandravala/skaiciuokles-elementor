@@ -876,3 +876,19 @@ select {
     word-wrap: normal;
     width: 80%;
 }
+
+.omni_response {
+    width: 100%;
+    text-align: right;
+    padding: .5rem;
+    font-size: 12px;
+
+    &.valid {
+        color: green;
+    }
+
+    &.not_valid {
+        color: red;
+    }
+}
+

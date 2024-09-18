@@ -44,12 +44,17 @@ add_action( 'elementor/editor/after_enqueue_styles', 'my_plugin_stylesheets' );
 add_action( 'elementor/frontend/before_enqueue_styles', 'my_plugin_stylesheets' );
 
 
-function register_custom_control_vdu($controls_manager) {
+function register_custom_control($controls_manager) {
 	require_once(__DIR__ . '/controls/control-vdu.php');
     $controls_manager->register_control('vdu', new Control_VDU());
+
+    require_once(__DIR__ . '/controls/control-omni.php');
+    $controls_manager->register_control('omni_control', new Control_Omni());
+
 };
 
-add_action('elementor/controls/controls_registered', 'register_custom_control_vdu');
+add_action('elementor/controls/controls_registered', 'register_custom_control');
+
 
 
 
