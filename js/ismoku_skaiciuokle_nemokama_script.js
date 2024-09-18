@@ -262,7 +262,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 break;
             case 'tecioRadio' : 
                 this.mamaArTetisVpa = 2;
-                this.rodytiLaukus([ 'tecio-pajamu-tipas' ], true);
+                this.rodytiLaukus([ '#tecio-pajamu-tipas' ], true);
                 this.elements.$npmNaudosisLabel.text('Mama naudosis 2 neperleidžiamais VPA mėnesiais?');
                 this.$element.find('#vpa-ims').removeClass('klaida');
                 this.rodytiLaukus([ '#npm-naudosis' ], true);
@@ -407,7 +407,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         let vpaLaukai = [ '#vpa-trukme', '#vpa-ims'];
         let mLaukai = [ ['#mamos-pajamu-tipas', '#mamos-pajamos'], ['#mamos-islaidu-tipas', '#mamos-faktines-islaidos'] ];
         let tLaukai = [ ['#tecio-pajamu-tipas', '#tecio-pajamos'], ['#tecio-islaidu-tipas', '#tecio-fakties-islaidos'] ];
-        let bendriLaukai = [ '#gimdymo-data', '#rezultatai' ];
+        let bendriLaukai = [ '#gimdymo-data' ];
 
         let vpaRadios = [ '#vpaTrukme18Radio', '#vpaTrukme24Radio', '#tecioRadio', '#mamosRadio', '#npmTaipRadio', 'npmNeRadio' ];
         let mRadios = [ '#mamosDUpajamos', '#mamosIVpajamos', '#mamosIslaidos30', '#mamosIslaidosFaktas' ];
@@ -498,18 +498,58 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         });
     }
 
-    updateWidgetContent() {
-		if ( ! this.contentWrapper ) {
-			const widgetUniqueSelector = `div[data-id="${this.getID()}"] .motinystes-ismoku-skaiciuokle`;
-			this.contentWrapper = document.querySelector( widgetUniqueSelector );
-		}
+    updateWidgetContent(propertyName) {
 
-        let duomenysMaxIsmokai = {
-            metai: 2023,
-            ketvirtis: "vdu_3"
-        };
-
-        let vdu = this.getElementSettings( 'vdu_control' );
+    
+            switch (propertyName) {
+                case 'skaiciuokles_tipas':
+                    this.mokamaSkaiciuokle = this.getElementSettings('skaiciuokles_tipas');
+                    this.nemokamaSkaiciuokle = !this.mokamaSkaiciuokle;
+                    break;
+        
+                case 'vdu_control':
+                    this.vdu = this.getElementSettings('vdu_control');
+                    break;
+        
+                case 'tevystes_tarifas':
+                    this.tevystesTarifas = this.getElementSettings('tevystes_tarifas');
+                    break;
+        
+                case 'motinystes_tarifas':
+                    this.motinystesTarifas = this.getElementSettings('motinystes_tarifas');
+                    break;
+        
+                case 'npm_tarifas':
+                    this.neperleidziamuMenesiuTarifas = this.getElementSettings('npm_tarifas');
+                    break;
+        
+                case 'vpa_18_tarifas':
+                    this.tarifasAtostogos18men = this.getElementSettings('vpa_18_tarifas');
+                    break;
+        
+                case 'vpa_24_tarifas_1':
+                case 'vpa_24_tarifas_2':
+                    this.tarifasAtostogos24men = [
+                        this.getElementSettings('vpa_24_tarifas_1'), 
+                        this.getElementSettings('vpa_24_tarifas_2')
+                    ];
+                    break;
+        
+                case 'mokesciu_tarifas':
+                    this.mokesciaiNuoIsmoku = this.getElementSettings('mokesciu_tarifas');
+                    break;
+        
+                case 'bazine_soc_ismoka':
+                    this.bazineSocIsmoka = this.getElementSettings('bazine_soc_ismoka');
+                    break;
+        
+                case 'minimumas':
+                    this.minimumas = this.getElementSettings('minimumas');
+                    break;
+        
+                default:
+                    return;  
+            };        
 
 	}
 
@@ -521,12 +561,13 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 	 * @param {string} propertyName - The ID of the control that was changed.
 	 */
 	onElementChange( propertyName ) {
-		if ( 'tevystes_tarifas' === propertyName ) {
-			this.updateTestWidgetContent();
+		if ( 'omni' !== propertyName ) {
+			this.updateWidgetContent(propertyName);
 		}
+
 	}
 
-    
+
     skaiciuotiIsmokas(tevystesTarifas, motinystesTarifas, neperleidziamuMenesiuTarifas, tarifasAtostogos18men, tarifasAtostogos24men, mokesciaiNuoIsmoku, vdu, bazineSocIsmoka, motinystesIsmokaRodyti, tevystesIsmokaRodyti, vpaIsmokaRodyti, vpaTrukme, mamaArTetisVpa, naudosisNpm, mamosPajamuTipas, mamosPajamos, mamosIslaiduTipas, mamosIslaidos, tecioPajamuTipas, tecioPajamos, tecioIslaiduTipas, tecioIslaidos, gimdymoData) {
 
         // SKAICIUOJAME LUBAS IR GRINDIS
@@ -550,7 +591,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 duomenysMaxIsmokai.metai = data.getFullYear();
                 ketv = Math.floor(data.getMonth() / 3);
             };
-            duomenysMaxIsmokai.ketvirtis = "ketv_" + ketv;
+            duomenysMaxIsmokai.ketvirtis = "vdu_" + ketv;
         };
 
         ketvirtisIsmokoms(new Date(gimdymoData));
@@ -563,18 +604,21 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             let values = [];
             for (let year in obj) {
                 for (let quarter in obj[year]) {
-                    if (parseFloat(obj[year][quarter]) > 0) {
-                        values.push(parseFloat(obj[year][quarter]));
+                    if (parseFloat(obj[year][quarter].toString().replace(',', '.')) > 0) {
+                        values.push(parseFloat(obj[year][quarter].toString().replace(',', '.')));
                     }
                 }
             }
             return values.length > 0 ? values[values.length - 1] : 0;
         }
         
-        let maxIsmoka = (vdu[duomenysMaxIsmokai.metai] && vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis] && parseFloat(vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis]) > 0) ?
-            parseFloat(vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis]) * 2 :
-            (duomenysMaxIsmokai.metai < Object.keys(vdu)[0] ? parseFloat(vdu[Object.keys(vdu)[0]]["vdu_1"]) * 2 : findLastPositive(vdu) * 2);
+        let maxIsmoka = (vdu[duomenysMaxIsmokai.metai] && vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis] && parseFloat(vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis].toString().replace(',', '.')) > 0) ?
+            parseFloat(vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis].toString().replace(',', '.')) * 2 :
+            (duomenysMaxIsmokai.metai < Object.keys(vdu)[0] ? parseFloat(vdu[Object.keys(vdu)[0]]["vdu_1"].toString().replace(',', '.')) * 2 : findLastPositive(vdu) * 2);
+        
         maxIsmoka.toFixed(2);
+
+        maxIsmoka = maxIsmoka === 0 ? 1902.70 : maxIsmoka;
 
         // PASIDAROM LENTELE SU ISMOKU SARASU PAMENESIUI
 
@@ -896,7 +940,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             bendrosSumos.push({ 'tarifas': '', 'men': 'Viso išmokų:', 'suma': bendraVisuIsmokuSumaSuMokesciais.toLocaleString("lt-LT") + ' €', 'sumaPoMokesciu': bendraVisuIsmokuSuma.toLocaleString("lt-LT") + ' €', 'gavejas': '' });
         }
 
-
         // pasidarome pavadinimus stulpeliu
 
         let mIsmokosPavadinimas = motinystesIsmokaRodyti && mamosPajamos > 0 ? 'Nėštumo ir gimdymo atostogų išmoka:' : '';
@@ -905,8 +948,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         let bendrosSumosPavadinimas = (vpaIsmokaRodyti || motinystesIsmokaRodyti || tevystesIsmokaRodyti) && (tecioPajamos || mamosPajamos) > 0 ? 'bendraSuma' : '';
         let paaiskinimuPavadinimas = tecioPajamos || mamosPajamos > 0 ? 'Paaiškinimai:' : '';
         let pavadinimai = mamosPajamos > 0 || tecioPajamos > 0 ? ['tarifas', 'data*', 'suma**', 'suma (į rankas)', 'gavėjas'] : ['', '', '', '', ''];
-
-
 
         // funkcija eiluciu generavimui pagal duomenis
 
@@ -982,9 +1023,15 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             return rows;
         };
 
-
-
-
+        function createExplanationRows(paaiskinimai) {
+            let rows = '';
+            paaiskinimai.forEach((paaiskinimas, index) => {
+                if (paaiskinimas !== '') {  // Only create a row if the element exists
+                    rows += `<tr><td colspan='5' style="text-align: left; font-size: .75em; padding-left: .3em; font-weight: normal;">${paaiskinimas}</td></tr>`;
+                }
+            });
+            return rows;
+        }
 
         // pasidarom paaiskinimu tekstus
 
@@ -1038,14 +1085,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             ${createRow(vpaIsmokos, vpaIsmokosPavadinimas)}
             ${createRow(bendrosSumos, bendrosSumosPavadinimas)}
             <tr><td colspan='5' class='segment' style='text-align: center; font-size: .85em; letter-spacing: .1em; text-transform: uppercase; background-color: #D9E1E7; line-height: 2; '>${paaiskinimuPavadinimas}</td></tr>
-            <tr><td colspan='5'>${paaiskinimai[0]}</td></tr>
-            <tr><td colspan='5'>${paaiskinimai[1]}</td></tr>
-            <tr><td colspan='5'>${paaiskinimai[5]}</td></tr>
-            <tr><td colspan='5'>${paaiskinimai[2]}</td></tr>
-            <tr><td colspan='5'>${paaiskinimai[7]}</td></tr>
-            <tr><td colspan='5'>${paaiskinimai[6]}</td></tr>
-            <tr><td colspan='5'>${paaiskinimai[3]}</td></tr>
-            <tr><td colspan='5'>${paaiskinimai[4]}</td></tr>
+            ${createExplanationRows(paaiskinimai)}
             </tbody>
             </table>
             `
@@ -1054,7 +1094,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.vpaIsmokos = vpaIsmokos;
         this.bendrosSumos = bendrosSumos;
 
-            return rezultatuLentele;
+        return rezultatuLentele;
 
     }
 
@@ -1065,19 +1105,20 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 url: my_widget_ajax.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'nemokama_skaiciuokle_omni',
+                    action: 'test',
                     post_id: postId,
-                    widget_id: widgetId,
-                    source: 'vpa-skaiciuokle-nemokama',
+                    widget_id: widgetId
                 },
                 success: (response) => {
-                    // Show the success message
-                    console.log('success');
-                    console.log(response);
+                    // Check if the response indicates success
+                    if (response.success) {
+                        console.log('Widget settings retrieved successfully:', response.data);
+                    } else {
+                        console.error('Error:', response.data.error);
+                    }
                 },
                 error: (error) => {
-                    console.error('Error:', error);
-                    //alert('Error: ' + error.responseText);
+                    console.error('AJAX Error:', error);
                 }
             });
         });
@@ -1111,8 +1152,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
         const resultContainer = this.elements.$resultContainer;
         resultContainer.html(result);
-
-        
+      
     }
 
     onSend(event) {
@@ -1165,7 +1205,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                     email: email,
                 },
                 success: (response) => {
-                    // Show the success message
                     resultContainer.text('Pasitikrinkite savo el. paštą! VPA išmokų detalizacija - jau išsiųsta');
                     resultContainer.css({"color": "green"});
                     loader.addClass('nerodyti');
@@ -1318,8 +1357,30 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
     };
 
     validateName(name) {
-        return name.trim().length < 2 ? false : true;
-    };
+        // Trim the input to remove extra spaces
+        const trimmedName = name.trim();
+    
+        // Check if the length is less than 2
+        if (trimmedName.length < 2) {
+            return false;
+        }
+    
+        // Regular expression to allow only letters, spaces, hyphens, and apostrophes
+        const nameRegex = /^[a-zA-Z\s'-]+$/;
+    
+        // Validate against the regular expression
+        if (!nameRegex.test(trimmedName)) {
+            return false;
+        }
+    
+        // Check for potential script injection (disallowing `<`, `>`, and `&`)
+        if (/[\<\>\/\\\&]/.test(trimmedName)) {
+            return false;
+        }
+    
+        return true;  // If all checks pass, the name is valid
+    }
+    
 
 
 //class closing bracket
