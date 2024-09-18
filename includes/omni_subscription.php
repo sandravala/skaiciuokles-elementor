@@ -2,6 +2,7 @@
 
 class OmniSubscription {
 
+private $api_key;
 private $post_id;
 private $widget_id;
 private $subscriberSource;
@@ -9,24 +10,22 @@ private $subscriberName;
 private $subscriberEmail;
 
 
-public function __construct($post_id, $widget_id, $subscriberEmail, $subscriberName, $subscriberSource) {
-    $this->post_id = $post_id ? $post_id : '';
-    $this->widget_id = $widget_id ? $widget_id : '';
-    $this->subscriberSource = $subscriberSource ? $subscriberSource : '';
-    $this->subscriberEmail = $subscriberEmail ? $subscriberEmail : '';
-    $this->subscriberName = $subscriberName ? $subscriberName : '';
+public function __construct($api_key, $post_id = '', $widget_id = '', $subscriberEmail = '', $subscriberName = '', $subscriberSource = '') {
+    $this->api_key = $api_key;
+    $this->post_id = $post_id;
+    $this->widget_id = $widget_id;
+    $this->subscriberSource = $subscriberSource;
+    $this->subscriberEmail = $subscriberEmail;
+    $this->subscriberName = $subscriberName;
 }
 
 public function add_subscriber() {
-    // Get widget settings from Elementor
-    $widgets = \Elementor\Plugin::$instance->documents->get($this->post_id)->get_elements_data();
-    $widget_settings = $this->find_widget_settings($widgets, $this->widget_id);
 
-    if (!$widget_settings) {
-        // Return error if widget settings are not found
-        wp_send_json(new WP_Error('widget_settings_not_found', 'Widget settings not found.'));
-        return;
-    }
+    $widget_settings = $this->get_widget_settings();
+
+    if(!$widget_settings ) {
+        return '{"error": "Widget settings not found."}';
+    } 
 
     // Prepare the payload for Omnisend API
     $payload = $this->prepare_payload();
@@ -34,13 +33,25 @@ public function add_subscriber() {
     // Make the cURL request to Omnisend API
     $response = $this->send_request($payload, $widget_settings['omni']);
 
-    if (is_wp_error($response)) {
-        // If the request failed, return the error message
-        wp_send_json($response);
-    } else {
-        // If the request succeeded, return the response
-        wp_send_json($response);
-    }
+    return $response;
+}
+
+public function check_api_key() {
+    // $widget_settings = $this->get_widget_settings();
+    return $this->send_request("", $this->api_key, true);
+}
+
+private function get_widget_settings() {
+        // Get widget settings from Elementor
+        $widgets = \Elementor\Plugin::$instance->documents->get($this->post_id)->get_elements_data();
+        $widget_settings = $this->find_widget_settings($widgets, $this->widget_id);
+    
+        // if (!$widget_settings) {
+        //     // Return error if widget settings are not found
+        //     $widget_settings = '{"error": "Widget settings not found."}';
+        // }
+
+        return $widget_settings;
 }
 
 private function find_widget_settings($elements, $widget_id) {
@@ -87,34 +98,37 @@ private function prepare_payload() {
     ]);
 }
 
-private function send_request($payload, $api_key) {
+private function send_request($payload, $api_key, $check_api = false) {
+   
     $curl = curl_init();
 
-    curl_setopt_array($curl, [
+    $curl_options = [
         CURLOPT_URL => "https://api.omnisend.com/v5/contacts",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
         CURLOPT_TIMEOUT => 30,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => $payload,
         CURLOPT_HTTPHEADER => [
             "X-API-KEY: " . $api_key,
             "accept: application/json",
             "content-type: application/json"
         ],
-    ]);
+    ];
+    
+    // Adjust options based on the condition
+    if ($check_api) {
+        $curl_options[CURLOPT_CUSTOMREQUEST] = "GET";
+    } else {
+        $curl_options[CURLOPT_CUSTOMREQUEST] = "POST";
+        $curl_options[CURLOPT_POSTFIELDS] = $payload;
+    }
+
+    curl_setopt_array($curl, $curl_options);
 
     $response = curl_exec($curl);
-    $err = curl_error($curl);
 
     curl_close($curl);
-
-    if ($err) {
-        // Return a WP_Error object if cURL fails
-        return new WP_Error('curl_error', 'cURL Error: ' . $err);
-    }
 
     return $response;
 }

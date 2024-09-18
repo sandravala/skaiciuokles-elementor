@@ -6,6 +6,8 @@ if (!defined('ABSPATH')) {
 add_action('wp_ajax_nemokama_skaiciuokle_send_email', 'nemokama_skaiciuokle_send_email');
 add_action('wp_ajax_nopriv_nemokama_skaiciuokle_send_email', 'nemokama_skaiciuokle_send_email');
 
+add_action('wp_ajax_skaiciuokle_check_omni_api', 'skaiciuokle_check_omni_api');
+
 function nemokama_skaiciuokle_send_email() {
 
     $formData = $_POST['calcData'];
@@ -16,18 +18,43 @@ function nemokama_skaiciuokle_send_email() {
     $motinystesIsmoka = isset($formData['motinystesIsmoka']) ? $formData['motinystesIsmoka']: array();
     $tevystesIsmoka = isset($formData['tevystesIsmoka']) ? $formData['tevystesIsmoka']: array();
     $paaiskinimai = isset($formData['vpaIsmokuPaaiskinimai']) ? $formData['vpaIsmokuPaaiskinimai']: '';
+
+    // gather other required data
+    $post_id = $_POST['post_id'] ? sanitize_text_field($_POST['post_id']) : '' ;
+    $widget_id = $_POST['widget_id'] ? sanitize_text_field($_POST['widget_id']) : '';
+    $subscriberSource = $_POST['source'] ? sanitize_text_field($_POST['source']) : '';
+    $subscriberName = $_POST['name'] ? sanitize_text_field($_POST['name']) : '';
+    $subscriberEmail = $_POST['email'] ? sanitize_email($_POST['email']) : '';
     
     // vpaIsmokos.push({ 'tarifas': rate + ' % ' + npmText, 'men': menuo, 'suma': suma, 'sumaPoMokesciu': sumaPoMokesciu, 'gavejas': receiver });
 
     // Prepare email
     $to = "sandra.valaviciute@gmail.com";
     $subject = "Form Submission";
-    $message = buildEmailMessage($bendrosSumos, $vpaIsmokos, $motinystesIsmoka, $tevystesIsmoka);
+    $message = buildEmailMessage($bendrosSumos, $vpaIsmokos, $motinystesIsmoka, $tevystesIsmoka, $paaiskinimai);
     $headers = array("Content-Type: text/html; charset=UTF-8","From: My Site Name <support@example.com>");;
 
     // Send email
+    
+
+    $omni_subscribe = new OmniSubscription('', $post_id, $widget_id, $subscriberEmail, $subscriberName, $subscriberSource);
+
+    $user_subscribed = $omni_subscribe->add_subscriber();
+
+    $responseData = json_decode($user_subscribed, true);
+
     $mail_sent = wp_mail($to, $subject, $message, $headers);
 
+    if (isset($responseData['error'])) {
+
+        $err_message = "Omnisend subscription for user " . $subscriberEmail . " failed. Error message: " . print_r($responseData, true) . " Send this email to website administrator.";
+
+        wp_mail("sandra.valaviciute@gmail.com", "Omni subscribe error", $err_message );
+    } else {
+        $err_message = "Omnisend subscription for user " . $subscriberEmail . " successful. Response message: " . print_r($responseData, true) . " Send this email to website administrator.";
+
+        wp_mail("sandra.valaviciute@gmail.com", "Omni subscribe success", $err_message );
+    }
 
         if ($mail_sent) {
             wp_send_json_success(['message' => 'Form data received and email sent successfully!']);
@@ -35,32 +62,32 @@ function nemokama_skaiciuokle_send_email() {
             wp_send_json_error(['message' => 'Form data received but email not sent.']);
         }
 
-    }
+}
 
     function buildEmailMessage($bendrosSumos, $vpaIsmokos, $motinystesIsmoka, $tevystesIsmoka, $paaiskinimai) {
-        $message = trim(createMessage(1));
+            $message = trim(createMessage(1));
+                
             
+            if(!empty($motinystesIsmoka)) {
+                $message .= trim(createRow($motinystesIsmoka, 'Nėštumo ir gimdymo atostogų išmoka:'));
+            }
+
+            if(!empty($tevystesIsmoka)) {
+                $message .= trim(createRow($tevystesIsmoka, 'Tėvystės išmoka:'));
+            }
+
+            if(!empty($vpaIsmokos)) {
+                $message .= trim(createRow($vpaIsmokos, 'Vaiko priežiūros atostogų išmokos detalizacija:'));
+            }
+
+            if(!empty($bendrosSumos)) {
+                $message .= trim(createRow($bendrosSumos, 'bendraSuma'));
+            }
+
         
-        if(!empty($motinystesIsmoka)) {
-            $message .= trim(createRow($motinystesIsmoka, 'Nėštumo ir gimdymo atostogų išmoka:'));
-        }
-
-        if(!empty($tevystesIsmoka)) {
-            $message .= trim(createRow($tevystesIsmoka, 'Tėvystės išmoka:'));
-        }
-
-        if(!empty($vpaIsmokos)) {
-            $message .= trim(createRow($vpaIsmokos, 'Vaiko priežiūros atostogų išmokos detalizacija:'));
-        }
-
-        if(!empty($bendrosSumos)) {
-            $message .= trim(createRow($bendrosSumos, 'bendraSuma'));
-        }
-
-    
-        $message .= trim(createMessage(2, $paaiskinimai));
-    
-        return $message;
+            $message .= trim(createMessage(2, $paaiskinimai));
+        
+            return $message;
     }
 
     function createRow($data, $ismokuPavadinimas) {
@@ -107,4 +134,22 @@ function nemokama_skaiciuokle_send_email() {
 
     }
     
+function skaiciuokle_check_omni_api() {
+        // gather other required data
+        // $post_id = $_POST['post_id'] ? sanitize_text_field($_POST['post_id']) : '' ;
+        // $widget_id = $_POST['widget_id'] ? sanitize_text_field($_POST['widget_id']) : '';
+
+        $api_key = $_POST['omni'] ? sanitize_text_field($_POST['omni']) : '';
+
+        $omni_subscribe = new OmniSubscription($api_key);
+
+        $api_connected = $omni_subscribe->check_api_key();
+
+        if(!isset(json_decode($api_connected, true)['error'])) {
+            wp_send_json_success(['message' => 'Omnisend API prijungtas']);
+        } else {
+            wp_send_json_error(['message' => 'Omnisend API prijungti nepavyko']);
+        }
+
+}
     
