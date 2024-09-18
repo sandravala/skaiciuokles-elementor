@@ -146,9 +146,9 @@ function skaiciuokle_check_omni_api() {
         $api_connected = $omni_subscribe->check_api_key();
 
         if(!isset(json_decode($api_connected, true)['error'])) {
-            wp_send_json_success(['message' => 'Omnisend API prijungtas']);
+            wp_send_json_success(['message' => true]);
         } else {
-            wp_send_json_error(['message' => 'Omnisend API prijungti nepavyko']);
+            wp_send_json_error(['message' => json_decode($api_connected, true)['error']]);
         }
 
 }
