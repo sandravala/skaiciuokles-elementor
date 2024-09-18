@@ -190,9 +190,8 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         $this->add_control(
             'omni',
             [
-                'label' => esc_html__('omnisend', TEXT_DOMAIN),
-                'type' => \Elementor\Controls_Manager::TEXT,
-				'frontend_available' => true,
+                 'type' => 'omni_control',
+				'frontend_available' => false,
             ]
         );
 
@@ -200,7 +199,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
     }
 
-
+    
     protected function render()
     {
         $settings = $this->get_settings_for_display();
@@ -213,7 +212,6 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         <div class="motinystes-ismoku-skaiciuokle">
         
             <form name="formbox" id="ismoku_skaiciuokle" class="formbox__skaiciuokles">
-                <button type="button" class="omni">omnisend</button>
                 <input type="hidden" id="widget_id" value="<?php echo $widget_id ?>">
                 <input type="hidden" id="post_id" value="<?php echo $post_id ?>">
             <?  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
@@ -474,7 +472,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             <? if ( !$settings['skaiciuokles_tipas'] ) { ?>
                 <div id="result-container-cta" style="z-index: 2; align-self: center;">Daugiau informacijos (pilna VPA išmokų detalizacija visam laikotarpiui, kiekvienam mėnesiui) - el. paštu</div>
                 <? } ?>
-                <div id="result-container-skaiciuokle" style="width: 100%;">result</div>
+                <div id="result-container-skaiciuokle" style="width: 100%;"></div>
                 </div>
             </fieldset>
 
