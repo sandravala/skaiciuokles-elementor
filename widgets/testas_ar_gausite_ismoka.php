@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base
 {
 

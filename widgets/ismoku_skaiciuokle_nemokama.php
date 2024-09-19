@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
 {
