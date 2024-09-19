@@ -32,25 +32,12 @@ function nemokama_skaiciuokle_send_email() {
     $subscriberSource = $_POST['source'] ? sanitize_text_field($_POST['source']) : '';
     $subscriberName = $_POST['name'] ? sanitize_text_field($_POST['name']) : '';
     $subscriberEmail = $_POST['email'] ? sanitize_email($_POST['email']) : '';
-    
-    $admin_email = get_option('admin_email');
 
     // Prepare email
-    $to = $subscriberEmail;
     $subject = "Jūsų planuojamos VPA išmokos";
     $message = buildEmailMessage($bendrosSumos, $vpaIsmokos, $motinystesIsmoka, $tevystesIsmoka, $paaiskinimai);
-    $headers = array("Content-Type: text/html; charset=UTF-8","From: Greta Užkuraitė <" . $admin_email . ">");
 
-    $mail_sent = wp_mail($to, $subject, $message, $headers);
-
-    schedule_omnisend_subscription($post_id, $widget_id, $subscriberEmail, $subscriberName, $subscriberSource);
-
-    // Send email
-    if ($mail_sent) {
-        wp_send_json_success(['message' => 'Form data received and email sent successfully!']);
-    } else {
-        wp_send_json_error(['message' => 'Form data received but email not sent.']);
-    }
+    send_custom_email($subscriberEmail, $subscriberName, $post_id, $widget_id, $subscriberSource, $subject, $message);  
 
 }
 
@@ -61,47 +48,35 @@ function testas_send_email() {
     $subscriberName = $_POST['name'] ? sanitize_text_field($_POST['name']) : '';
     $subscriberEmail = $_POST['email'] ? sanitize_email($_POST['email']) : '';
     $answer = $_POST['answer'] ? sanitize_text_field($_POST['answer']) : '';
-    
+
+
+    // Prepare email
+    $subject = "Ar jums priklauso VPA išmoka?";
+    $message = buildEmailMessageTestui($answer);
+
+    send_custom_email($subscriberEmail, $subscriberName, $post_id, $widget_id, $subscriberSource, $subject, $message);  
+}
+
+function send_custom_email($subscriberEmail, $subscriberName, $post_id, $widget_id, $subscriberSource, $subject, $message) {
     $admin_email = get_option('admin_email');
 
     // Prepare email
     $to = $subscriberEmail;
-    $subject = "Ar jums priklauso VPA išmoka?";
-    $message = buildEmailMessageTestui($answer);
     $headers = array("Content-Type: text/html; charset=UTF-8","From: Greta Užkuraitė <" . $admin_email . ">");
-
+    
+    // Send email
     $mail_sent = wp_mail($to, $subject, $message, $headers);
 
+    // Schedule Omnisend subscription in the background
     schedule_omnisend_subscription($post_id, $widget_id, $subscriberEmail, $subscriberName, $subscriberSource);
 
-    // Send email
+    // Return the result of the email process
     if ($mail_sent) {
         wp_send_json_success(['message' => 'Form data received and email sent successfully!']);
     } else {
         wp_send_json_error(['message' => 'Form data received but email not sent.']);
     }
 }
-
-// function send_custom_email($subscriberEmail, $subscriberName, $post_id, $widget_id, $subscriberSource, $subject, $message) {
-//     $admin_email = get_option('admin_email');
-
-//     // Prepare email
-//     $to = $subscriberEmail;
-//     $headers = array("Content-Type: text/html; charset=UTF-8","From: Greta Užkuraitė <" . $admin_email . ">");
-    
-//     // Send email
-//     $mail_sent = wp_mail($to, $subject, $message, $headers);
-
-//     // Schedule Omnisend subscription in the background
-//     schedule_omnisend_subscription($post_id, $widget_id, $subscriberEmail, $subscriberName, $subscriberSource);
-
-//     // Return the result of the email process
-//     if ($mail_sent) {
-//         wp_send_json_success(['message' => 'Form data received and email sent successfully!']);
-//     } else {
-//         wp_send_json_error(['message' => 'Form data received but email not sent.']);
-//     }
-// }
 
 function buildEmailMessageTestui($answer) {
     $message = trim(createMessage(1, true));
@@ -170,7 +145,7 @@ function buildEmailMessageTestui($answer) {
 
         if($part === 1) {
             $partOne = '<!DOCTYPE html><html><head></head><body><table width="600"    cellpadding="0" cellspacing="0" align="center" style="background-color:#fff"><tr><td><table width="100%" cellpadding="0" cellspacing="0"><tr><td style="padding:45px 24px 24px;background-color:#0b1b28"><table width="100%"><tr><td style="text-align:center"><img src="https://gretauzkuraite.lt/wp-content/uploads/2024/06/greta-uzkuraite-header.png" alt="greta uzkuraite header" width="326" style="max-width:100%;height:auto"></td></tr></table></td></tr></table><table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f7f4f2;padding:35px 24px 12px"><tr><td style="text-align:center;color:#0b1b28;font-family:Montserrat,Verdana,sans-serif;font-size:24px;line-height:1.5">Sveiki!</td></tr><tr><td style="text-align:center;color:#0b1b28;font-family:Montserrat,Verdana,sans-serif;font-size:15px;line-height:1.5;padding:12px">';
-            $partOne .= $testui ? 'dėkojame, kad pasinaudojote testu, skirtu įvertinti, ar jums priklausys motinystės išmoka.' : '<!DOCTYPE html><html><head></head><body><table width="600"    cellpadding="0" cellspacing="0" align="center" style="background-color:#fff"><tr><td><table width="100%" cellpadding="0" cellspacing="0"><tr><td style="padding:45px 24px 24px;background-color:#0b1b28"><table width="100%"><tr><td style="text-align:center"><img src="https://gretauzkuraite.lt/wp-content/uploads/2024/06/greta-uzkuraite-header.png" alt="greta uzkuraite header" width="326" style="max-width:100%;height:auto"></td></tr></table></td></tr></table><table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f7f4f2;padding:35px 24px 12px"><tr><td style="text-align:center;color:#0b1b28;font-family:Montserrat,Verdana,sans-serif;font-size:24px;line-height:1.5">Sveiki!</td></tr><tr><td style="text-align:center;color:#0b1b28;font-family:Montserrat,Verdana,sans-serif;font-size:15px;line-height:1.5;padding:12px">dėkojame, kad pasinaudojote nemokama skaičiuokle, skirta įvertinti prognozuojamas motinystės išmokas. Jūsų prognozuojamų išmokų lentelė:</td></tr></table><table id="rezultatuLentele" class="rezultatuLentele" style="border-collapse:separate!important;border-spacing:.2em!important;position:relative;padding:2em;"><thead><tr><th style="text-align:left;font-size:.75em;text-transform:uppercase;padding-left:.3em;width:10%">tarifas</th><th style="text-align:left;font-size:.75em;text-transform:uppercase;padding-left:1em">data*</th><th style="text-align:left;font-size:.75em;text-transform:uppercase;padding-left:.3em">suma**</th><th style="text-align:left;font-size:.75em;text-transform:uppercase;padding-left:.3em">suma (į rankas)</th><th style="text-align:left;font-size:.75em;text-transform:uppercase;padding-left:.3em">gavėjas</th></tr></thead><tbody>';
+            $partOne .= $testui ? 'dėkojame, kad pasinaudojote testu, skirtu įvertinti, ar jums priklausys motinystės išmoka.' : 'dėkojame, kad pasinaudojote nemokama skaičiuokle, skirta įvertinti prognozuojamas motinystės išmokas. Jūsų prognozuojamų išmokų lentelė:</td></tr></table><table id="rezultatuLentele" class="rezultatuLentele" style="border-collapse:separate!important;border-spacing:.2em!important;position:relative;padding:2em;"><thead><tr><th style="text-align:left;font-size:.75em;text-transform:uppercase;padding-left:.3em;width:10%">tarifas</th><th style="text-align:left;font-size:.75em;text-transform:uppercase;padding-left:1em">data*</th><th style="text-align:left;font-size:.75em;text-transform:uppercase;padding-left:.3em">suma**</th><th style="text-align:left;font-size:.75em;text-transform:uppercase;padding-left:.3em">suma (į rankas)</th><th style="text-align:left;font-size:.75em;text-transform:uppercase;padding-left:.3em">gavėjas</th></tr></thead><tbody>';
 
             return $partOne;
         } else {
