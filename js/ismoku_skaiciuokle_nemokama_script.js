@@ -103,18 +103,31 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.duomenysSkaiciavimams = this.getElementSettings();
         this.mokamaSkaiciuokle = this.duomenysSkaiciavimams['skaiciuokles_tipas'];
         this.vdu = this.duomenysSkaiciavimams['vdu_control'];
-        this.tevystesTarifas = this.duomenysSkaiciavimams['tevystes_tarifas'];
-        this.motinystesTarifas = this.duomenysSkaiciavimams['motinystes_tarifas'];
-        this.neperleidziamuMenesiuTarifas = this.duomenysSkaiciavimams['npm_tarifas'];
-        this.tarifasAtostogos18men = this.duomenysSkaiciavimams['vpa_18_tarifas'];
+        this.tevystesTarifas = parseFloat(this.duomenysSkaiciavimams['tevystes_tarifas'].toString().replace(',', '.'));
+        this.motinystesTarifas = parseFloat(this.duomenysSkaiciavimams['motinystes_tarifas'].toString().replace(',', '.'));
+        this.neperleidziamuMenesiuTarifas = parseFloat(this.duomenysSkaiciavimams['npm_tarifas'].toString().replace(',', '.'));
+        this.tarifasAtostogos18men = parseFloat(this.duomenysSkaiciavimams['vpa_18_tarifas'].toString().replace(',', '.'));
         this.tarifasAtostogos24men = [
-            this.duomenysSkaiciavimams['vpa_24_tarifas_1'], 
-            this.duomenysSkaiciavimams['vpa_24_tarifas_2']
+            parseFloat(this.duomenysSkaiciavimams['vpa_24_tarifas_1'].toString().replace(',', '.')), 
+            parseFloat(this.duomenysSkaiciavimams['vpa_24_tarifas_2'].toString().replace(',', '.'))
         ];
-        this.mokesciaiNuoIsmoku = this.duomenysSkaiciavimams['mokesciu_tarifas'];
-        this.bazineSocIsmoka = this.duomenysSkaiciavimams[ 'bazine_soc_ismoka'];
-        this.minimumas = this.duomenysSkaiciavimams['minimumas'];
+        this.mokesciaiNuoIsmoku = parseFloat(this.duomenysSkaiciavimams['mokesciu_tarifas'].toString().replace(',', '.'));
+        this.bazineSocIsmoka = parseFloat(this.duomenysSkaiciavimams[ 'bazine_soc_ismoka'].toString().replace(',', '.'));
+        this.minimumas = parseFloat(this.duomenysSkaiciavimams['minimumas'].toString().replace(',', '.'));
         
+
+        console.log([
+            this.vdu,
+        this.tevystesTarifas,
+        this.motinystesTarifas,
+        this.neperleidziamuMenesiuTarifas,
+        this.tarifasAtostogos18men,
+        this.tarifasAtostogos24men[0],
+        this.tarifasAtostogos24men[1],
+        this.mokesciaiNuoIsmoku,
+        this.bazineSocIsmoka,
+        this.minimumas
+        ])
         //nemokama skaiciuokle
         this.nemokamaSkaiciuokle = !this.mokamaSkaiciuokle;
         
@@ -512,39 +525,39 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                     break;
         
                 case 'tevystes_tarifas':
-                    this.tevystesTarifas = this.getElementSettings('tevystes_tarifas');
+                    this.tevystesTarifas = parseFloat(this.getElementSettings('tevystes_tarifas').toString().replace(',', '.'));
                     break;
         
                 case 'motinystes_tarifas':
-                    this.motinystesTarifas = this.getElementSettings('motinystes_tarifas');
+                    this.motinystesTarifas = parseFloat(this.getElementSettings('motinystes_tarifas').toString().replace(',', '.'));
                     break;
         
                 case 'npm_tarifas':
-                    this.neperleidziamuMenesiuTarifas = this.getElementSettings('npm_tarifas');
+                    this.neperleidziamuMenesiuTarifas = parseFloat(this.getElementSettings('npm_tarifas').toString().replace(',', '.'));
                     break;
         
                 case 'vpa_18_tarifas':
-                    this.tarifasAtostogos18men = this.getElementSettings('vpa_18_tarifas');
+                    this.tarifasAtostogos18men = parseFloat(this.getElementSettings('vpa_18_tarifas').toString().replace(',', '.'));
                     break;
         
                 case 'vpa_24_tarifas_1':
                 case 'vpa_24_tarifas_2':
                     this.tarifasAtostogos24men = [
-                        this.getElementSettings('vpa_24_tarifas_1'), 
-                        this.getElementSettings('vpa_24_tarifas_2')
+                        parseFloat(this.getElementSettings('vpa_24_tarifas_1').toString().replace(',', '.')), 
+                        parseFloat(this.getElementSettings('vpa_24_tarifas_2').toString().replace(',', '.'))
                     ];
                     break;
         
                 case 'mokesciu_tarifas':
-                    this.mokesciaiNuoIsmoku = this.getElementSettings('mokesciu_tarifas');
+                    this.mokesciaiNuoIsmoku = parseFloat(this.getElementSettings('mokesciu_tarifas').toString().replace(',', '.'));
                     break;
         
                 case 'bazine_soc_ismoka':
-                    this.bazineSocIsmoka = this.getElementSettings('bazine_soc_ismoka');
+                    this.bazineSocIsmoka = parseFloat(this.getElementSettings('bazine_soc_ismoka').toString().replace(',', '.'));
                     break;
         
                 case 'minimumas':
-                    this.minimumas = this.getElementSettings('minimumas');
+                    this.minimumas = parseFloat(this.getElementSettings('minimumas').toString().replace(',', '.'));
                     break;
         
                 default:
@@ -573,7 +586,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         // SKAICIUOJAME LUBAS IR GRINDIS
         // iki 2023 07 01 buvo 6 bazines soc ismokos dydziai, nuo 07 01 - 8
         let minIsmoka = bazineSocIsmoka * 8; //  8 bazinės socialinės išmokos dydžiai galioję praeitą ketvirtį (paskutinis patvirtintas dydis) iki teisės gauti išmoką atsiradimo dienos.
-        minIsmoka.round(2);
+        minIsmoka.toFixed(2);
+        minIsmoka = parseFloat(minIsmoka);
 
         let duomenysMaxIsmokai = {
             'metai': null,
@@ -612,13 +626,17 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             return values.length > 0 ? values[values.length - 1] : 0;
         }
         
-        let maxIsmoka = (vdu[duomenysMaxIsmokai.metai] && vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis] && parseFloat(vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis].toString().replace(',', '.')) > 0) ?
+        let maxIsmoka;
+        if(vdu) {
+            maxIsmoka = (vdu[duomenysMaxIsmokai.metai] && vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis] && parseFloat(vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis].toString().replace(',', '.')) > 0) ?
             parseFloat(vdu[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis].toString().replace(',', '.')) * 2 :
             (duomenysMaxIsmokai.metai < Object.keys(vdu)[0] ? parseFloat(vdu[Object.keys(vdu)[0]]["vdu_1"].toString().replace(',', '.')) * 2 : findLastPositive(vdu) * 2);
+        } else {
+            maxIsmoka = 1902.70;
+        }
         
         maxIsmoka.toFixed(2);
 
-        maxIsmoka = maxIsmoka === 0 ? 1902.70 : maxIsmoka;
 
         // PASIDAROM LENTELE SU ISMOKU SARASU PAMENESIUI
 
