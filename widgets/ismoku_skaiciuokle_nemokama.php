@@ -208,7 +208,12 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         $settings = $this->get_settings_for_display();
         $widget_id = $this->get_id();
         global $post;
-        $post_id = $post->ID;
+        if (isset($post) && isset($post->ID)) {
+            $post_id = $post->ID;
+        } else {
+            // Fallback if $post is not set
+            $post_id = get_queried_object_id(); // This will get the ID of the current queried object (post, page, etc.)
+        }
 		
 
         ?>

@@ -115,9 +115,14 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.bazineSocIsmoka = parseFloat(this.duomenysSkaiciavimams[ 'bazine_soc_ismoka'].toString().replace(',', '.'));
         this.minimumas = parseFloat(this.duomenysSkaiciavimams['minimumas'].toString().replace(',', '.'));
         
+        // if (!this.vdu?.[duomenysMaxIsmokai.metai] && !this.vdu?.[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis] && parseFloat(this.vdu?.[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis].toString().replace(',', '.')) === 0) {
+        //     console.log(this.uzpraeitasKetvirtis);
+        // }
+
+        //ketv baigiasi 03 31, 06 30, 09 30, 12 31 ir per 71 d nuo jo pabaigos tiketina gauti nauja info
 
         console.log([
-            this.vdu,
+        this.vdu,
         this.tevystesTarifas,
         this.motinystesTarifas,
         this.neperleidziamuMenesiuTarifas,
@@ -156,7 +161,42 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.postId = this.elements.$post_id_input.attr('value');
         this.widgetId = this.elements.$widget_id_input.attr('value');
         
-        this.updateWidgetContent();
+            
+        this.uzpraeitasKetvirtis = this.ketvirtisIsmokoms(new Date());
+        this.sisKetvirtis = {
+            metai: new Date().getFullYear(),
+            ketvirtis: 'vdu_' + (Math.floor(new Date().getMonth() / 3) + 1)
+        }
+        let duomenysAtnaujinimui = {
+            vdu_1: new Date(this.sisKetvirtis.metai + '-06-12'),
+            vdu_2: new Date(this.sisKetvirtis.metai + '-09-10'),
+            vdu_3: new Date(this.sisKetvirtis.metai + '-12-11'),
+            vdu_4: new Date(this.sisKetvirtis.metai + '-03-13')
+        }
+
+        let largestDate = null;
+        let vduNaujausias = null;
+        for (let key in duomenysAtnaujinimui) {
+            let currentDate = duomenysAtnaujinimui[key];
+            if (currentDate < new Date()) {
+                if (!largestDate || currentDate > largestDate) {
+                    largestDate = currentDate;
+                    vduNaujausias = key;
+                }
+            }
+        }
+        if(vduNaujausias === null) {
+            this.sisKetvirtis.metai -= 1;
+            vduNaujausias = 'vdu_4'
+        }
+
+        if (typeof elementor === 'undefined') {
+        if(!this.vdu && !this.vdu[this.sisKetvirtis.metai] && !this.vdu[this.sisKetvirtis.metai][vduNaujausias]) {
+
+                // Your AJAX call or function here
+                this.fetchVduData(this.vdu, this.sisKetvirtis.metai, vduNaujausias, this.postId, this.widgetId);
+            } 
+    }
         
     }
 
@@ -248,6 +288,54 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             this.omniTest(this.postId, this.widgetId);
         });
 
+    }
+
+    fetchVduData(vdu, sieMetai, vduNaujausias, postId, widgetId) {
+
+
+
+        const ketv = vduNaujausias.slice(-1);
+
+        if (!vdu) {
+
+            const metai = [ sieMetai - 1, sieMetai ];
+            const ketvirciai = [ 1, ketv ];
+
+            this.getOspData(metai, ketvirciai, postId, widgetId);
+
+        } else if (!this.vdu[sieMetai] || !this.vdu[sieMetai][vduNaujausias]) {
+
+            this.getOspData(sieMetai, ketv, postId, widgetId);
+
+        }
+    }
+
+    getOspData(sieMetai, ketv, postId, widgetId) {
+        console.log(sieMetai);
+        jQuery(document).ready(function ($) {
+            $.ajax({
+                url: my_widget_ajax.ajax_url,
+                type: 'POST',
+                data: {
+                    action: 'set_vdu',
+                    metai: sieMetai,
+                    ketvirtis: ketv,
+                    post_id: postId,
+                    widget_id: widgetId
+                },
+                // success: (response) => {
+                //     // Check if the response indicates success
+                //     if (response.success) {
+                //         console.log('vdu retrieved successfully:', response.data);
+                //     } else {
+                //         console.error('Error:', response);
+                //     }
+                // },
+                // error: (error) => {
+                //     console.error('AJAX Error:', error);
+                // }
+            });
+        });
     }
 
     rodytiLaukusIsmokosSkaiciavimui(ismoka) {
@@ -589,26 +677,10 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         minIsmoka.toFixed(2);
         minIsmoka = parseFloat(minIsmoka);
 
-        let duomenysMaxIsmokai = {
-            'metai': null,
-            'ketvirtis': null
-        };
-
         // PASIRENKAM, KURI KETVIRTI IMTI (IMA PRIESPASKUTINI)
-        function ketvirtisIsmokoms(data) {
-            let ketv;
 
-            if (Math.floor(data.getMonth() / 3) <= 0) {
-                duomenysMaxIsmokai.metai = data.getFullYear() - 1;
-                ketv = 4 + (Math.floor(data.getMonth() / 3));   
-            } else {
-                duomenysMaxIsmokai.metai = data.getFullYear();
-                ketv = Math.floor(data.getMonth() / 3);
-            };
-            duomenysMaxIsmokai.ketvirtis = "vdu_" + ketv;
-        };
 
-        ketvirtisIsmokoms(new Date(gimdymoData));
+        let duomenysMaxIsmokai = this.ketvirtisIsmokoms(new Date(gimdymoData));
 
         function flatten(arr) {
             return arr.reduce((flat, sub_arr) => flat.concat(sub_arr.slice(1)), []);
@@ -1114,6 +1186,24 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
         return rezultatuLentele;
 
+    }
+
+    ketvirtisIsmokoms(data) {
+        let ketv;
+        let ketvMaxIsmokai = {
+            'metai': null,
+            'ketvirtis': null
+        };
+
+        if (Math.floor(data.getMonth() / 3) <= 0) {
+            ketvMaxIsmokai.metai = data.getFullYear() - 1;
+            ketv = 4 + (Math.floor(data.getMonth() / 3));   
+        } else {
+            ketvMaxIsmokai.metai = data.getFullYear();
+            ketv = Math.floor(data.getMonth() / 3);
+        };
+        ketvMaxIsmokai.ketvirtis = "vdu_" + ketv;
+        return ketvMaxIsmokai;
     }
 
     omniTest(postId, widgetId) {

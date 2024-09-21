@@ -11,7 +11,8 @@ add_action('wp_ajax_nopriv_testas_send_email', 'testas_send_email');
 
 add_action('wp_ajax_skaiciuokle_check_omni_api', 'skaiciuokle_check_omni_api');
 
-add_action('wp_ajax_testing', 'testing');
+add_action('wp_ajax_set_vdu', 'set_vdu');
+add_action( 'wp_ajax_nopriv_set_vdu', 'set_vdu' );
 
 add_action('process_omnisend_subscription', 'process_omnisend_subscription_function', 10, 5);
 
@@ -83,7 +84,7 @@ function buildEmailMessageTestui($answer) {
     $message .= trim('<br>' . $answer);
     $message .= trim(createMessage(2, true));
     return $message;
-};
+}
 
     function buildEmailMessage($bendrosSumos, $vpaIsmokos, $motinystesIsmoka, $tevystesIsmoka, $paaiskinimai) {
             $message = trim(createMessage(1, false));
@@ -187,9 +188,10 @@ function process_omnisend_subscription_function($post_id, $widget_id, $subscribe
 
     // Prepare admin email
     $err_message = isset($responseData['error']) ?
-        "Omnisend subscription for user $subscriberEmail failed. Error message: " . print_r($responseData, true) :
-        "Omnisend subscription for user $subscriberEmail successful. Response message: " . print_r($responseData, true) ;
+        "Vartotojas $subscriberEmail neišsaugotas į prenumeratorių duombazę. Klaidos pranešimas: " . print_r($responseData, true) . "<br> Persiųsk šį laišką sandra.valaviciute@gmail.com." :
+        null ;
 
+    
     // Send admin notification email
     $err_message ?  wp_mail($admin_email, "Omni subscription error", $err_message) : null;
 }
@@ -199,10 +201,7 @@ function schedule_omnisend_subscription($post_id, $widget_id, $subscriberEmail, 
     wp_schedule_single_event(time(), 'process_omnisend_subscription', [$post_id, $widget_id, $subscriberEmail, $subscriberName, $subscriberSource]);
 }
 
-function testing() {
-
-    $post_id = $_POST['post_id'] ? $_POST['post_id'] : '' ;
-    $widget_id = $_POST['widget_id'] ? $_POST['widget_id'] : '';
+function get_widget_settings($post_id, $widget_id) {
 
     $widgets = \Elementor\Plugin::$instance->documents->get( $post_id )->get_elements_data();
 
@@ -226,8 +225,170 @@ function testing() {
     
     $widget_settings = find_widget_settings($widgets, $widget_id);
 
+    return $widget_settings;
+}
+
+function set_vdu() {
+
+    $ketv = $_POST['ketvirtis']; 
+    $metai = $_POST['metai']; 
+    $postId = $_POST['post_id']; 
+    $widgetId = $_POST['widget_id']; 
     
-    wp_send_json($widget_settings);
+    $data = GetDataFromOsp::get_data_from_osp($ketv, $metai);
+
+        if(isset($data['structure']['dimensions']['observation'])) {
+            $dataToSave = GetDataFromOsp::prepare_vdu_data($data);
+
+            $widget_settings = get_widget_settings($postId, $widgetId);
+
+
+            foreach ($dataToSave as $key => $value) {
+                $widget_settings['vdu_control'][$value['metai']]['vdu_' . $value['ketv']] = $value['vdu'];
+            }
+
+            save_widget_settings($postId, $widgetId, $widget_settings);
+            
+            return wp_send_json_success( [ 'data' =>  $widget_settings]);
+
+        }
+
+
+        return wp_send_json_error( [ 'data' => $data]);
+}
+
+function get_data_from_osp($ketv = '', $metai = '') {
+
+    if ($metai === '') {
+        $metaiStart = date('Y') - 1;
+        $metaiEnd = date('Y');
+    } else if ($metai[0]) {
+        $metaiStart = $metai[0];
+        $metaiEnd = $metai[1];
+    } else {
+        $metaiStart = $metai;
+        $metaiEnd = $metai;
+    }
+
+
+    if ($ketv === '') {
+
+        $ketvStart = 1;
+        $ketvEnd = ceil(date('n') / 3);
+    } else if($ketv[0]) {
+        $ketvStart = $ketv[0];
+        $ketvEnd = $ketv[1];
+    } else {
+        $ketvStart = $ketv;
+        $ketvEnd = $ketv;
+    }
+
+    $api_url = 'https://osp-rs.stat.gov.lt/rest_json/data/S3R0050_M3060322';
+
+    $api_url .= '?startPeriod=' . $metaiStart . '-Q' . $ketvStart . '&endPeriod=' . $metaiEnd . '-Q' . $ketvEnd;
+    // Fetch data from API
+    $response = wp_remote_get( $api_url, array(
+        'timeout' => 15,  // Increase timeout to 15 seconds
+        'headers' => array(
+            'Accept' => 'application/json',
+        ),
+    ));
+
+    if ( is_wp_error( $response ) ) {
+        return $response->get_error_message();
+    }
+
+    $body = wp_remote_retrieve_body( $response );
+
+    $data = json_decode( $body, true );
+
+    if ( ! $data ) {
+        return wp_send_json_error();
+    }
+
+    return $data;
+}
+
+function save_widget_settings($post_id, $widget_id, $updated_settings) {
+    // Get existing widget data
+    $document = \Elementor\Plugin::$instance->documents->get($post_id);
+    $widgets = $document->get_elements_data();
+
+    // Function to find and update the widget settings
+    function update_widget_settings(&$elements, $widget_id, $updated_settings) {
+        foreach ($elements as &$element) {
+            if ($element['id'] === $widget_id) {
+                $element['settings'] = $updated_settings;
+                return true;
+            }
+
+            if (!empty($element['elements'])) {
+                $updated = update_widget_settings($element['elements'], $widget_id, $updated_settings);
+                if ($updated) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Update the settings for the widget
+    update_widget_settings($widgets, $widget_id, $updated_settings);
+
+    // Save updated widgets back to the post meta
+    $document->save(array('elements' => $widgets));
+}
+
+function prepare_vdu_data($data) {
+    $searchKey = array_fill(0, 6, '');
+    $results = [];
+    $observationKeys = $data['structure']['dimensions']['observation'];
+    $laikotarpis = [];
+    $laikotarpisKeyPosition = 5;
+
+    $searchIdArr = array(
+        'Ekon_sektoriusM3061118' => '0in', //"id": "0in",  "name": "Šalies ūkis su individualiosiomis įmonėmis"
+        'savivaldybesRegdb' => '00', // "id": "00", "name": "Lietuvos Respublika"
+        'darboM3060321' => 'bruto', //"id": "bruto", "name": "Bruto"
+        'Lytis' => '0', //"id": "0",  "name": "Vyrai ir moterys"
+        'MATVNT'=> 'eur', 
+        'LAIKOTARPIS' => ''
+    );
+
+    foreach($observationKeys as $observationKey) {
+        $i = $observationKey['keyPosition'];
+        $searchId = $searchIdArr[$observationKey['id']];
+
+        if($observationKey['id'] !== 'LAIKOTARPIS') {
+
+            foreach ($observationKey['values'] as $index => $value) {
+                // Check if the current element's 'id' matches the search ID
+                if ($value['id'] === $searchId) { 
+                    $searchKey[$i] = $index;
+                }
+            }
+        } else {
+            $laikotarpis = $observationKey['values'];
+            $laikotarpisKeyPosition = $i;
+        }
+
+    }
+
+    foreach ($laikotarpis as $key => $value) {
+        $searchKey[$laikotarpisKeyPosition] = $key;
+
+        $thisSearchKey = implode(':', $searchKey);
+        if($data['dataSets'][0]['observations']) {
+            $results[$key] = array(
+                'metai' => substr($value['id'], 0, 4),
+                'ketv' => substr($value['id'], -1),
+                'vdu' => isset($data['dataSets'][0]['observations'][$thisSearchKey][0]) ? $data['dataSets'][0]['observations'][$thisSearchKey][0] : 0
+            );
+        }
+    }
+
+    return $results;
+
 }
 
 

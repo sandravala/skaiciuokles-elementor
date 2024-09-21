@@ -6,11 +6,7 @@
  * Author:      Sandra Valavičiūtė
  * Author URI:  https://www.12gm.lt
  * Text Domain: skaiciuokles-elementor
- *
 *
-* Requires Plugins: elementor
-* Elementor tested up to: 3.5.0
-* Elementor Pro tested up to: 3.5.0
 */
 
  if ( ! defined( 'ABSPATH' ) ) {
@@ -19,9 +15,9 @@
 
 define('TEXT_DOMAIN', 'skaiciuokles-elementor');
 
-include_once plugin_dir_path(__FILE__) . '/includes/nemokama_skaiciuokle_form_action.php';
-include_once plugin_dir_path(__FILE__) . '/includes/skaiciuokles_omni_action.php';
-include_once plugin_dir_path(__FILE__) . '/includes/omni_subscription.php';
+include_once plugin_dir_path(__FILE__) . 'includes/get_data_from_osp.php';
+include_once plugin_dir_path(__FILE__) . 'includes/nemokama_skaiciuokle_form_action.php';
+include_once plugin_dir_path(__FILE__) . 'includes/omni_subscription.php';
 
 function my_custom_widget_scripts() {
     wp_register_script('ismoku_skaiciuokle_nemokama_script', plugin_dir_url(__FILE__) . '/js/ismoku_skaiciuokle_nemokama_script.js', ['elementor-frontend', 'jquery', 'jquery-ui-datepicker'], null, true);
