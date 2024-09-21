@@ -16,8 +16,15 @@ var OmniControl = elementor.modules.controls.BaseMultiple.extend({
 
         var valuesToSave = {};
         
-        var omniApiValue = this.getControlValue('omniApi') ? this.getControlValue('omniApi') : '';
-        this.savedOmniResponse = this.getControlValue('omniResponse');
+        var omniApiValue = this.getControlValue('omniApi');
+        var savedOmniResponse = this.getControlValue('omniResponse');
+
+        omniApiValue = typeof omniApiValue !== 'string' || omniApiValue.trim() === '' ? '' : omniApiValue;
+        this.savedOmniResponse = typeof savedOmniResponse !== 'boolean' ? false : savedOmniResponse;
+
+        console.dir('omni api' + omniApiValue);
+        console.log('omni response ' + this.savedOmniResponse);
+
 
         this.loader.hide();
         this.omniInput.val(omniApiValue);
@@ -42,7 +49,7 @@ var OmniControl = elementor.modules.controls.BaseMultiple.extend({
 
     getOmniResponseText: function() {
 
-        var omni = this.getControlValue('omniResponse');
+        var omni = this.savedOmniResponse;
 
         if (omni === false || omni === null || omni === undefined || omni === '') {
             this.omniResponse.text(omniApiKeyNotValidText).addClass('not_valid').removeClass('valid');
