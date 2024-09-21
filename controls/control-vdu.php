@@ -8,20 +8,33 @@ class Control_VDU extends \Elementor\Base_Data_Control {
         return 'vdu';
     }
 
-    protected function get_default_settings() {
+    public function get_default_settings() {
         $current_year = date('Y');
-        $initial_metai = $current_year - 2;
+        $initial_metai = $current_year - 1;
+        $dataToSet = GetDataFromOsp::prepare_vdu_data(get_data_from_osp());
+
+        $initialData = [];
+        foreach ($dataToSet as $val) {
+            $initialData[$val['metai']]['vdu_' . $val['ketv']] = $val['vdu'];
+        }
         return [
-            'custom_control_table' => [
-                $initial_metai => [
-                    'vdu_1' => '',
-                    'vdu_2' => '',
-                    'vdu_3' => '',
-                    'vdu_4' => '',
-                ],
-            ],
+            'custom_control_table' => $initialData
         ];
     }
+
+    // public function get_default_value() {
+    //     $current_year = date('Y');
+    //     $initial_metai = $current_year - 1;
+    //     $dataToSet = GetDataFromOsp::prepare_vdu_data(get_data_from_osp());
+
+    //     $initialData = Array();
+    //     foreach ($dataToSet as $val) {
+    //         $initialData[$val['metai']]['vdu_' . $val['ketv']] = $val['vdu'];
+    //     }
+    //     return [
+    //         $initialData
+    //     ];
+    // }
 
     public function enqueue() {
         // Enqueue CSS and JS if needed
@@ -49,7 +62,7 @@ class Control_VDU extends \Elementor\Base_Data_Control {
 
                     </tbody>
                 </table>
-                <button id="add-control-row-button" class="elementor-button elementor-button-success"><?php _e('Add Row', 'plugin-name'); ?></button>
+                <button id="add-control-row-button" class="elementor-button elementor-button-success"><?php _e('Pridėti', TEXT_DOMAIN); ?></button>
             </div>
         </div>
         <?php

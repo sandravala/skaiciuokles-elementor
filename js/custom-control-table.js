@@ -28,8 +28,16 @@ var VduControl = elementor.modules.controls.BaseMultiple.extend({
         this.rows = this.getControlValue();
         if (_.isEmpty(this.rows)) {
             this.rows = this.model.get('custom_control_table');
+            this.saveRows();
         }
+
         this.listenTo(this.model, 'change:custom_control_table', this.renderRows); 
+    },
+
+    fetchVduData() {
+
+
+        
     },
 
     onReady: function () {
@@ -44,14 +52,15 @@ var VduControl = elementor.modules.controls.BaseMultiple.extend({
     renderRows: function () {
         var rowsContainer = this.$el.find('#dynamic-rows');
         rowsContainer.empty();
+        var rowCount = Object.keys(this.rows).length;
         var fragment = document.createDocumentFragment();
         for (var metai in this.rows) {
-            fragment.appendChild(this.createRowElement(this.rows[metai], metai));
+            fragment.appendChild(this.createRowElement(this.rows[metai], metai, rowCount));
         }
         rowsContainer.append(fragment);
     },
 
-    createRowElement: function (rowData, metai) {
+    createRowElement: function (rowData, metai, rowCount) {
         var row = document.createElement('tr');
 
         var deleteButtonCell = document.createElement('td');
@@ -60,6 +69,10 @@ var VduControl = elementor.modules.controls.BaseMultiple.extend({
         deleteButton.className = 'elementor-button elementor-button-danger delete-row';
         deleteButton.setAttribute('data-metai', metai);
         deleteButton.innerText = 'x';
+        if (rowCount === 1) {
+            deleteButton.disabled = true;
+            deleteButton.style.backgroundColor = '#ecebeb';
+        }
         deleteButtonCell.appendChild(deleteButton);
 
         var metaiCell = document.createElement('td');
@@ -126,7 +139,9 @@ var VduControl = elementor.modules.controls.BaseMultiple.extend({
             vdu_3: '',
             vdu_4: ''
         };
+        console.log(this.getControlValue());
         this.rows[newMetai] = newRowData;
+        console.log(this.getControlValue());
         this.addRow(newRowData, newMetai);
         this.saveRows();
     },
@@ -146,13 +161,26 @@ var VduControl = elementor.modules.controls.BaseMultiple.extend({
     },
 
     saveRows: function () {
+
+        this.setValue(this.rows);
         this.model.set('custom_control_table', this.rows);
-        this.setValue(this.rows); 
-        this.model.trigger('change'); 
+        this.model.trigger('change');
+ 
+    },
+    
+    setValue: function(key, value) {
+        
+        var newValues;
+        if ('object' === typeof key) {
+            newValues = key;
+        } else {
+            newValues = {};
+            newValues[key] = value;
+        }
+        this.setSettingsModel(newValues);
     },
 
     onBeforeDestroy: function () {
-        //this.saveRows();
         this.stopListening(this.model, 'change:custom_control_table', this.renderRows); // Stop listening to model changes
     }
 });
