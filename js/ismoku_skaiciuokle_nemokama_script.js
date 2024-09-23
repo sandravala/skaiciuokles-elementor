@@ -8,8 +8,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 resetButton: '#ismoku_skaiciuokle button[type="reset"].formbox__btn-reset',
                 sendButton: '#ismoku_skaiciuokle button[type="button"].formbox__btn-send',
                 alertContainer: '#ismoku_skaiciuokle #alert-container-skaiciuokle',
-                messageContainer: '#ismoku_skaiciuokle #message-container-skaiciuokle',
-                resultContainer: '#ismoku_skaiciuokle #result-container-skaiciuokle',
+                resultContainer: '#result-container-skaiciuokle',
                 gimdymoDatosInput: '#ismoku_skaiciuokle #gimdymoDatosInput',
                 npmNaudosisLabel: '#ismoku_skaiciuokle #npm-naudosis-label',
                 mamosPajamuLabel: '#ismoku_skaiciuokle #mamos-pajamos-label',
@@ -55,7 +54,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             $resetButton: this.$element.find(selectors.resetButton),
             $sendButton: this.$element.find(selectors.sendButton),
             $alertContainer: this.$element.find(selectors.alertContainer),
-            $messageContainer: this.$element.find(selectors.messageContainer),
             $resultContainer: this.$element.find(selectors.resultContainer),
             $gimdymoDatosInput: this.$element.find(selectors.gimdymoDatosInput),
             $npmNaudosisLabel: this.$element.find(selectors.npmNaudosisLabel),
@@ -235,7 +233,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         elements.$tecioIslaiduInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('tecioIslaiduInput');});	
         elements.$gimdymoDatosInput.on('change', () => {
             this.rodytiLaukusIsmokosSkaiciavimui('gimdymoDatosInput');
-            
+            const nonce_input = elements.$nonce_input;
             jQuery(document).ready(function ($) {
 
                 $.ajax({
@@ -246,7 +244,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                     },
                     success: function(response) {
                         if (response.success) {
-                            elements.$nonce_input.attr('value', response.data.nonce);
+                            nonce_input.attr('value', response.data.nonce);
                         } else {
                             console.error('Failed to fetch nonce:', response.data);
                         }
@@ -256,7 +254,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                     }
                 });
             });
-
+        
         });	
 
         elements.$emailInput.on('input', () => {
@@ -292,10 +290,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.elements.$submitButton.on('click', this.onFormSubmit.bind(this));
         this.elements.$resetButton.on('click', this.onReset.bind(this));
         this.elements.$sendButton.on('click', this.onSend.bind(this));
-        this.elements.$testBtn.on('click', () => {
-            this.omniTest(this.postId, this.widgetId);
-        });
-
     }
 
     fetchVduData(vdu, sieMetai, vduNaujausias, postId, widgetId) {
@@ -1212,31 +1206,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         return ketvMaxIsmokai;
     }
 
-    omniTest(postId, widgetId) {
-
-        jQuery(document).ready(function ($) {
-            $.ajax({
-                url: my_widget_ajax.ajax_url,
-                type: 'POST',
-                data: {
-                    action: 'test',
-                    post_id: postId,
-                    widget_id: widgetId
-                },
-                success: (response) => {
-                    // Check if the response indicates success
-                    if (response.success) {
-                    } else {
-                        console.error('Error:', response.data.error);
-                    }
-                },
-                error: (error) => {
-                    console.error('AJAX Error:', error);
-                }
-            });
-        });
-    }
-
     onFormSubmit(event) {
         event.preventDefault();
         this.getAlert();
@@ -1247,28 +1216,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
         this.elements.$alertContainer.empty();
         this.$element.find('#alert').removeClass('nerodyti');
-        const nonce_input = this.$element.find('#nonce_skaiciuokle');
 
-        jQuery(document).ready(function ($) {
-
-            $.ajax({
-                url: my_widget_ajax.ajax_url, // Replace with your AJAX URL
-                type: 'POST',
-                data: {
-                    action: 'generate_nonce_for_ajax' // The action name defined in PHP
-                },
-                success: function(response) {
-                    if (response.success) {
-                        nonce_input.attr('value', response.data.nonce);
-                    } else {
-                        console.error('Failed to fetch nonce:', response.data);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX error:', error);
-                }
-            });
-        });
 
         const result = this.skaiciuotiIsmokas(this.tevystesTarifas, this.motinystesTarifas, this.neperleidziamuMenesiuTarifas, this.tarifasAtostogos18men, this.tarifasAtostogos24men, this.mokesciaiNuoIsmoku, this.vdu, this.bazineSocIsmoka, this.motinystesIsmokaRodyti, this.tevystesIsmokaRodyti, this.vpaIsmokaRodyti, this.vpaTrukme, this.mamaArTetisVpa, this.naudosisNpm, this.mamosPajamuTipas, this.mamosPajamos, this.mamosIslaiduTipas, this.mamosIslaidos, this.tecioPajamuTipas, this.tecioPajamos, this.tecioIslaiduTipas, this.tecioIslaidos, this.gimdymoData);
 
@@ -1286,7 +1234,10 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
 
         const resultContainer = this.elements.$resultContainer;
-        resultContainer.html(result);      
+        resultContainer.html(result);  
+        
+        
+        
     }
 
     onSend(event) {

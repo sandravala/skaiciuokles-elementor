@@ -104,6 +104,9 @@ class TestasArGausiteIsmokaHandler extends elementorModules.frontend.handlers.Ba
         this.emailAnswer = '';
         const nonceInput = this.elements.$nonce_input;
 
+        const elements = this.getDefaultElements();
+        console.log(elements);
+
         jQuery(document).ready(function ($) {
 
             $.ajax({
