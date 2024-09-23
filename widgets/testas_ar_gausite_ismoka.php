@@ -237,25 +237,6 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base
                     </div>
                 </fieldset>
                 </div>
-
-
-                <!-- <div id="buttons">
-                        <div id="reset-div" class="nerodyti">
-                            <button type="reset" class="" id="reset_mygtukas">
-                                <span>
-                                    <span class=""> </span> <span class="formbox__btn-reset">IŠ NAUJO</span>
-                                </span>
-                            </button>
-                        </div>
-                        <div id="send-div" class="nerodyti">
-                            <button type="button" class="formbox__btn-send" id="send_mygtukas">
-                                <span>
-                                    <span class=""> </span> 
-                                    <span class="">NORIU GAUTI DAUGIAU INFORMACIJOS</span>
-                                </span>
-                            </button>
-                        </div>
-                    </div> -->
             </div>
         </form>
 

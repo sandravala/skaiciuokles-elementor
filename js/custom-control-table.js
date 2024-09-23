@@ -139,9 +139,8 @@ var VduControl = elementor.modules.controls.BaseMultiple.extend({
             vdu_3: '',
             vdu_4: ''
         };
-        console.log(this.getControlValue());
+
         this.rows[newMetai] = newRowData;
-        console.log(this.getControlValue());
         this.addRow(newRowData, newMetai);
         this.saveRows();
     },

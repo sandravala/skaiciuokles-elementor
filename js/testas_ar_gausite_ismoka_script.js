@@ -240,8 +240,6 @@ class TestasArGausiteIsmokaHandler extends elementorModules.frontend.handlers.Ba
         const name = this.elements.$nameInput.val();
         const postId = this.elements.$post_id_input.attr('value');
         const widgetId = this.elements.$widget_id_input.attr('value');
-        console.log(postId);
-        console.log(widgetId);
         const validationError = !this.validateEmail(email) || !this.validateName(name);
 
         if(validationError) {
@@ -302,7 +300,8 @@ class TestasArGausiteIsmokaHandler extends elementorModules.frontend.handlers.Ba
     }
 
     onReset() {
-
+        event.preventDefault();
+        location.reload();
     }
 
     validateEmail(email) {

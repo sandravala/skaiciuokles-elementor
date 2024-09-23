@@ -49,11 +49,6 @@ private function get_widget_settings() {
         // Get widget settings from Elementor
         $widgets = \Elementor\Plugin::$instance->documents->get($this->post_id)->get_elements_data();
         $widget_settings = $this->find_widget_settings($widgets, $this->widget_id);
-    
-        // if (!$widget_settings) {
-        //     // Return error if widget settings are not found
-        //     $widget_settings = '{"error": "Widget settings not found."}';
-        // }
 
         return $widget_settings;
 }

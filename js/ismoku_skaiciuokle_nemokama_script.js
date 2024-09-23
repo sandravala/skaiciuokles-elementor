@@ -114,25 +114,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.mokesciaiNuoIsmoku = parseFloat(this.duomenysSkaiciavimams['mokesciu_tarifas'].toString().replace(',', '.'));
         this.bazineSocIsmoka = parseFloat(this.duomenysSkaiciavimams[ 'bazine_soc_ismoka'].toString().replace(',', '.'));
         this.minimumas = parseFloat(this.duomenysSkaiciavimams['minimumas'].toString().replace(',', '.'));
-        
-        // if (!this.vdu?.[duomenysMaxIsmokai.metai] && !this.vdu?.[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis] && parseFloat(this.vdu?.[duomenysMaxIsmokai.metai][duomenysMaxIsmokai.ketvirtis].toString().replace(',', '.')) === 0) {
-        //     console.log(this.uzpraeitasKetvirtis);
-        // }
 
-        //ketv baigiasi 03 31, 06 30, 09 30, 12 31 ir per 71 d nuo jo pabaigos tiketina gauti nauja info
-
-        console.log([
-        this.vdu,
-        this.tevystesTarifas,
-        this.motinystesTarifas,
-        this.neperleidziamuMenesiuTarifas,
-        this.tarifasAtostogos18men,
-        this.tarifasAtostogos24men[0],
-        this.tarifasAtostogos24men[1],
-        this.mokesciaiNuoIsmoku,
-        this.bazineSocIsmoka,
-        this.minimumas
-        ])
         //nemokama skaiciuokle
         this.nemokamaSkaiciuokle = !this.mokamaSkaiciuokle;
         
@@ -167,6 +149,8 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             metai: new Date().getFullYear(),
             ketvirtis: 'vdu_' + (Math.floor(new Date().getMonth() / 3) + 1)
         }
+
+        //ketv baigiasi 03 31, 06 30, 09 30, 12 31 ir per 71 d nuo jo pabaigos tiketina gauti nauja info
         let duomenysAtnaujinimui = {
             vdu_1: new Date(this.sisKetvirtis.metai + '-06-12'),
             vdu_2: new Date(this.sisKetvirtis.metai + '-09-10'),
@@ -311,7 +295,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
     }
 
     getOspData(sieMetai, ketv, postId, widgetId) {
-        console.log(sieMetai);
         jQuery(document).ready(function ($) {
             $.ajax({
                 url: my_widget_ajax.ajax_url,
@@ -323,17 +306,16 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                     post_id: postId,
                     widget_id: widgetId
                 },
-                // success: (response) => {
-                //     // Check if the response indicates success
-                //     if (response.success) {
-                //         console.log('vdu retrieved successfully:', response.data);
-                //     } else {
-                //         console.error('Error:', response);
-                //     }
-                // },
-                // error: (error) => {
-                //     console.error('AJAX Error:', error);
-                // }
+                success: (response) => {
+                    // Check if the response indicates success
+                    if (response.success) {
+                    } else {
+                        console.error('Error:', response);
+                    }
+                },
+                error: (error) => {
+                    console.error('AJAX Error:', error);
+                }
             });
         });
     }
@@ -1220,7 +1202,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 success: (response) => {
                     // Check if the response indicates success
                     if (response.success) {
-                        console.log('Widget settings retrieved successfully:', response.data);
                     } else {
                         console.error('Error:', response.data.error);
                     }
@@ -1336,31 +1317,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
     onReset(event) {
 
         event.preventDefault();
-        //this.onInit();
         location.reload();
-        //this.elements.$form[0].reset();
-        // this.motinystesIsmokaRodyti = false;
-        // this.tevystesIsmokaRodyti = false;
-        // this.vpaIsmokaRodyti = this.mokamaSkaiciuokle === undefined;
-        // this.mamaArTetisVpa = null;
-        // this.vpaTrukme = null; 
-        // this.naudosisNpm = null;
-        // this.mamosPajamuTipas = null;
-        // this.mamosPajamos = null;
-        // this.mamosIslaiduTipas = null;
-        // this.mamosIslaidos = null;
-        // this.tecioPajamuTipas = null;
-        // this.tecioPajamos = null;
-        // this.tecioIslaiduTipas = null;
-        // this.tecioIslaidos = null;
-        // this.gimdymoData = null;
-        // this.isjungtiLaukus();
-        // this.elements.$messageContainer.empty();
-        // this.elements.$resultContainer.empty();
-        // this.elements.$alertContainer.empty();
-
-        // this.pastabaDelIvGrindu('#tecio-pajamos', false);
-        // this.pastabaDelIvGrindu('#mamos-pajamos', false);
 
     }
 

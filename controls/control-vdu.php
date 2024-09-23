@@ -22,19 +22,6 @@ class Control_VDU extends \Elementor\Base_Data_Control {
         ];
     }
 
-    // public function get_default_value() {
-    //     $current_year = date('Y');
-    //     $initial_metai = $current_year - 1;
-    //     $dataToSet = GetDataFromOsp::prepare_vdu_data(get_data_from_osp());
-
-    //     $initialData = Array();
-    //     foreach ($dataToSet as $val) {
-    //         $initialData[$val['metai']]['vdu_' . $val['ketv']] = $val['vdu'];
-    //     }
-    //     return [
-    //         $initialData
-    //     ];
-    // }
 
     public function enqueue() {
         // Enqueue CSS and JS if needed

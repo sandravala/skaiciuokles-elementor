@@ -6,7 +6,8 @@
  * Author:      Sandra Valavičiūtė
  * Author URI:  https://www.12gm.lt
  * Text Domain: skaiciuokles-elementor
-*
+* Requires Plugins: elementor
+ * Elementor tested up to: 4.0.0
 */
 
  if ( ! defined( 'ABSPATH' ) ) {
