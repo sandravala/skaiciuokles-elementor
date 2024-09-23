@@ -62,17 +62,18 @@ class TestasArGausiteIsmokaHandler extends elementorModules.frontend.handlers.Ba
     getDefaultSettings() {
         return {
             selectors: {
-                radioBtns: 'input[type="radio"]',
-                btnDiv: '#buttons',
-                sendDiv: '#send-div',
-                resetDiv: '#resetDiv',
-                emailInput: '#emailInput',
-                nameInput: '#nameInput',
+                radioBtns: '#testo_forma input[type="radio"]',
+                btnDiv: '#testo_forma #buttons',
+                sendDiv: '#testo_forma #send-div',
+                resetDiv: '#testo_forma #resetDiv',
+                emailInput: '#testo_forma #emailInput',
+                nameInput: '#testo_forma #nameInput',
                 resetButton: '#testo_forma button[type="reset"].formbox__btn-reset',
                 sendButton: '#testo_forma button[type="button"].formbox__btn-send',
                 alertContainer: '#testo_forma #alert-container-skaiciuokle',
-                widgetIdInput: '#widget_id',
-                postIdInput: '#post_id',
+                widgetIdInput: '#testo_forma #widget_id',
+                postIdInput: '#testo_forma #post_id',
+                nonceInput: '#testo_forma #nonce_testas',
             }
         }
     }
@@ -91,6 +92,7 @@ class TestasArGausiteIsmokaHandler extends elementorModules.frontend.handlers.Ba
             $alertContainer: this.$element.find(selectors.alertContainer),
             $post_id_input: this.$element.find(selectors.postIdInput),
             $widget_id_input: this.$element.find(selectors.widgetIdInput),
+            $nonce_input: this.$element.find(selectors.nonceInput),
         }
     }
 
@@ -100,6 +102,28 @@ class TestasArGausiteIsmokaHandler extends elementorModules.frontend.handlers.Ba
         super.onInit();
 
         this.emailAnswer = '';
+        const nonceInput = this.elements.$nonce_input;
+
+        jQuery(document).ready(function ($) {
+
+            $.ajax({
+                url: my_widget_ajax.ajax_url, // Replace with your AJAX URL
+                type: 'POST',
+                data: {
+                    action: 'generate_nonce_for_ajax' // The action name defined in PHP
+                },
+                success: function(response) {
+                    if (response.success) {
+                        nonceInput.attr('value', response.data.nonce);
+                    } else {
+                        console.error('Failed to fetch nonce:', response.data);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', error);
+                }
+            });
+        });
     }
 
 
@@ -260,6 +284,7 @@ class TestasArGausiteIsmokaHandler extends elementorModules.frontend.handlers.Ba
         const emailDiv = this.$element.find('#email');
         const loader = this.$element.find('#loader').parent().parent();
         const check = this.$element.find('#check');
+        const nonceValue = this.$element.find('#nonce_testas').attr('value');
 
         loader.removeClass('nerodyti');
         sendBtnDiv.addClass('nerodyti');
@@ -276,8 +301,10 @@ class TestasArGausiteIsmokaHandler extends elementorModules.frontend.handlers.Ba
                     name: name,
                     email: email,
                     answer: answer,
+                    nonce: nonceValue,
                 },
                 success: (response) => {
+                    if(response.success) {
                     resultContainer.text('Pasitikrinkite savo el. paštą! Papildoma informacija apie VPA išmokos gavimą - jau išsiųsta');
                     resultContainer.css({"color": "green"});
                     loader.addClass('nerodyti');
@@ -289,6 +316,13 @@ class TestasArGausiteIsmokaHandler extends elementorModules.frontend.handlers.Ba
                     setTimeout(function(){
                         resetBtnDiv.removeClass('nerodyti');
                     }, 3010);
+                } else {
+                    resultContainer.text('Laiško išsiųsti nepavyko. Susisiekite su svetainės administratoriumi.');
+                    resultContainer.css({"color": "red"});
+                    loader.addClass('nerodyti');
+                    emailDiv.addClass('nerodyti');
+                    resetBtnDiv.removeClass('nerodyti');
+                }
                 },
                 error: (error) => {
                     console.error('Error:', error);

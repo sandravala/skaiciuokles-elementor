@@ -67,7 +67,12 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base
 
         $widget_id = $this->get_id();
         global $post;
-        $post_id = $post->ID;
+        if (isset($post) && isset($post->ID)) {
+            $post_id = $post->ID;
+        } else {
+            // Fallback if $post is not set
+            $post_id = get_queried_object_id(); // This will get the ID of the current queried object (post, page, etc.)
+        }
 
         $kl = array(
             array(
@@ -154,6 +159,7 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base
         <form id="testo_forma" name="testas" novalidate style="display:grid;" class="formbox__skaiciuokles">
             <input type="hidden" id="widget_id" value="<?php echo $widget_id ?>">
             <input type="hidden" id="post_id" value="<?php echo $post_id ?>">
+            <input type="hidden" id="nonce_testas" value="">
             <div class="container" style="justify-self:center;width:auto;">
 
                 <?
@@ -166,7 +172,7 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base
                     $optionCount = 0;
 
                     foreach ($q[2] as $optionText => $optionValue) {
-                        echo '<input type="radio" value="' . $optionValue . '" id="form-field-' . $q[0] . '-' . $optionCount . '" name="' . $q[0] . '"><label for="form-field-' . $q[0] . '-' . $optionCount . '">' . $optionText . '</label>';
+                        echo '<div class="radioOptionDiv"><input type="radio" value="' . $optionValue . '" id="form-field-' . $q[0] . '-' . $optionCount . '" name="' . $q[0] . '"><label for="form-field-' . $q[0] . '-' . $optionCount . '">' . $optionText . '</label></div>';
                         $optionCount++;
                     };
 

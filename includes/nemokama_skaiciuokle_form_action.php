@@ -3,6 +3,9 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
+add_action( 'wp_ajax_generate_nonce_for_ajax', 'generate_nonce_for_ajax' );
+add_action( 'wp_ajax_nopriv_generate_nonce_for_ajax', 'generate_nonce_for_ajax' );
+
 add_action('wp_ajax_nemokama_skaiciuokle_send_email', 'nemokama_skaiciuokle_send_email');
 add_action('wp_ajax_nopriv_nemokama_skaiciuokle_send_email', 'nemokama_skaiciuokle_send_email');
 
@@ -16,7 +19,20 @@ add_action( 'wp_ajax_nopriv_set_vdu', 'set_vdu' );
 
 add_action('process_omnisend_subscription', 'process_omnisend_subscription_function', 10, 5);
 
+
+
 function nemokama_skaiciuokle_send_email() {
+
+    if ( ! isset( sanitize_text_field($_POST['nonce'] )) ) {
+        wp_send_json_error( array( 'message' => 'No nonce provided.' ) );
+        return;
+    }
+
+    // Verify nonce
+    if ( ! wp_verify_nonce( sanitize_text_field($_POST['nonce'], 'skaiciuokle_nonce_action' )) ) {
+        wp_send_json_error( array( 'message' => 'Nonce verification failed.' ) );
+        return;
+    }
 
     $formData = $_POST['calcData'];
     
@@ -43,6 +59,18 @@ function nemokama_skaiciuokle_send_email() {
 }
 
 function testas_send_email() {
+
+    if ( ! isset( sanitize_text_field($_POST['nonce'] )) ) {
+        wp_send_json_error( array( 'message' => 'No nonce provided.' ) );
+        return;
+    }
+
+    // Verify nonce
+    if ( ! wp_verify_nonce( sanitize_text_field($_POST['nonce']), 'skaiciuokle_nonce_action' ) ) {
+        wp_send_json_error( array( 'message' => 'Nonce verification failed.' ) );
+        return;
+    }
+
     $post_id = $_POST['post_id'] ? sanitize_text_field($_POST['post_id']) : '' ;
     $widget_id = $_POST['widget_id'] ? sanitize_text_field($_POST['widget_id']) : '';
     $subscriberSource = $_POST['source'] ? sanitize_text_field($_POST['source']) : '';
@@ -390,6 +418,17 @@ function prepare_vdu_data($data) {
     return $results;
 
 }
+
+function generate_nonce_for_ajax() {
+
+    // Generate the nonce
+    $nonce = wp_create_nonce( 'skaiciuokle_nonce_action' );
+
+    // Return the nonce to the frontend
+    wp_send_json_success( [ 'nonce' => $nonce ] );
+}
+
+
 
 
 

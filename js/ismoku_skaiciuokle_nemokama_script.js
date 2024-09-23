@@ -7,41 +7,41 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 submitButton: '#ismoku_skaiciuokle button[type="submit"]',
                 resetButton: '#ismoku_skaiciuokle button[type="reset"].formbox__btn-reset',
                 sendButton: '#ismoku_skaiciuokle button[type="button"].formbox__btn-send',
-                alertContainer: '#alert-container-skaiciuokle',
-                messageContainer: '#message-container-skaiciuokle',
-                resultContainer: '#result-container-skaiciuokle',
-                gimdymoDatosInput: '#gimdymoDatosInput',
-                npmNaudosisLabel: '#npm-naudosis-label',
-                mamosPajamuLabel: '#mamos-pajamos-label',
-                tecioPajamuLabel: '#tecio-pajamos-label',
-                motinystesCheck: '#motinystesCheck',
-                vpaCheck: '#vpaCheck',
-                tevystesCheck: '#tevystesCheck',
-                vpaTrukme18Radio: '#vpaTrukme18Radio',
-                vpaTrukme24Radio: '#vpaTrukme24Radio',
-                mamosRadio: '#mamosRadio',
-                tecioRadio: '#tecioRadio',
-                npmTaipRadio: '#npmTaipRadio',
-                npmNeRadio: '#npmNeRadio',
-                mamosDUpajamos: '#mamosDUpajamos',
-                mamosIVpajamos: '#mamosIVpajamos',
-                mamosIslaidos30: "#mamosIslaidos30",
-                mamosIslaidosFaktas: '#mamosIslaidosFaktas',
-                tecioDUpajamos: '#tecioDUpajamos',
-                tecioIVpajamos: '#tecioIVpajamos',
-                tecioIslaidos30: '#tecioIslaidos30',
-                tecioIslaidosFaktas: '#tecioIslaidosFaktas',
-                mamosPajamuInput: '#mamosPajamuInput',
-                mamosIslaiduInput: '#mamosIslaiduInput',
-                tecioPajamuInput: '#tecioPajamuInput',
-                tecioIslaiduInput: '#tecioIslaiduInput',
-                gimdymoDatosInput: '#gimdymoDatosInput',
-                emailInput: '#emailInput',
-                nameInput: '#nameInput',
-                klaida: '.klaida',
-                testBtn: '.omni',
-                widgetIdInput: '#widget_id',
-                postIdInput: '#post_id',
+                alertContainer: '#ismoku_skaiciuokle #alert-container-skaiciuokle',
+                messageContainer: '#ismoku_skaiciuokle #message-container-skaiciuokle',
+                resultContainer: '#ismoku_skaiciuokle #result-container-skaiciuokle',
+                gimdymoDatosInput: '#ismoku_skaiciuokle #gimdymoDatosInput',
+                npmNaudosisLabel: '#ismoku_skaiciuokle #npm-naudosis-label',
+                mamosPajamuLabel: '#ismoku_skaiciuokle #mamos-pajamos-label',
+                tecioPajamuLabel: '#ismoku_skaiciuokle #tecio-pajamos-label',
+                motinystesCheck: '#ismoku_skaiciuokle #motinystesCheck',
+                vpaCheck: '#ismoku_skaiciuokle #vpaCheck',
+                tevystesCheck: '#ismoku_skaiciuokle #tevystesCheck',
+                vpaTrukme18Radio: '#ismoku_skaiciuokle #vpaTrukme18Radio',
+                vpaTrukme24Radio: '#ismoku_skaiciuokle #vpaTrukme24Radio',
+                mamosRadio: '#ismoku_skaiciuokle #mamosRadio',
+                tecioRadio: '#ismoku_skaiciuokle #tecioRadio',
+                npmTaipRadio: '#ismoku_skaiciuokle #npmTaipRadio',
+                npmNeRadio: '#ismoku_skaiciuokle #npmNeRadio',
+                mamosDUpajamos: '#ismoku_skaiciuokle #mamosDUpajamos',
+                mamosIVpajamos: '#ismoku_skaiciuokle #mamosIVpajamos',
+                mamosIslaidos30: '#ismoku_skaiciuokle #mamosIslaidos30',
+                mamosIslaidosFaktas: '#ismoku_skaiciuokle #mamosIslaidosFaktas',
+                tecioDUpajamos: '#ismoku_skaiciuokle #tecioDUpajamos',
+                tecioIVpajamos: '#ismoku_skaiciuokle #tecioIVpajamos',
+                tecioIslaidos30: '#ismoku_skaiciuokle #tecioIslaidos30',
+                tecioIslaidosFaktas: '#ismoku_skaiciuokle #tecioIslaidosFaktas',
+                mamosPajamuInput: '#ismoku_skaiciuokle #mamosPajamuInput',
+                mamosIslaiduInput: '#ismoku_skaiciuokle #mamosIslaiduInput',
+                tecioPajamuInput: '#ismoku_skaiciuokle #tecioPajamuInput',
+                tecioIslaiduInput: '#ismoku_skaiciuokle #tecioIslaiduInput',
+                gimdymoDatosInput: '#ismoku_skaiciuokle #gimdymoDatosInput',
+                emailInput: '#ismoku_skaiciuokle #emailInput',
+                nameInput: '#ismoku_skaiciuokle #nameInput',
+                klaida: '#ismoku_skaiciuokle .klaida',
+                widgetIdInput: '#ismoku_skaiciuokle #widget_id',
+                postIdInput: '#ismoku_skaiciuokle #post_id',
+                nonceInput: '#ismoku_skaiciuokle #nonce_skaiciuokle',
             },
         };
     }
@@ -89,6 +89,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             $testBtn: this.$element.find(selectors.testBtn),
             $post_id_input: this.$element.find(selectors.postIdInput),
             $widget_id_input: this.$element.find(selectors.widgetIdInput),
+            $nonce_input: this.$element.find(selectors.nonceInput),
 
         };
     }
@@ -142,8 +143,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         this.vpaIsmokuPaaiskinimai = '';
         this.postId = this.elements.$post_id_input.attr('value');
         this.widgetId = this.elements.$widget_id_input.attr('value');
-        
-            
+
         this.uzpraeitasKetvirtis = this.ketvirtisIsmokoms(new Date());
         this.sisKetvirtis = {
             metai: new Date().getFullYear(),
@@ -233,7 +233,31 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         elements.$mamosIslaiduInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('mamosIslaiduInput');});	
         elements.$tecioPajamuInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('tecioPajamuInput');});	
         elements.$tecioIslaiduInput.on('input', () => {this.rodytiLaukusIsmokosSkaiciavimui('tecioIslaiduInput');});	
-        elements.$gimdymoDatosInput.on('change', () => {this.rodytiLaukusIsmokosSkaiciavimui('gimdymoDatosInput');});	
+        elements.$gimdymoDatosInput.on('change', () => {
+            this.rodytiLaukusIsmokosSkaiciavimui('gimdymoDatosInput');
+            
+            jQuery(document).ready(function ($) {
+
+                $.ajax({
+                    url: my_widget_ajax.ajax_url, // Replace with your AJAX URL
+                    type: 'POST',
+                    data: {
+                        action: 'generate_nonce_for_ajax' // The action name defined in PHP
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            elements.$nonce_input.attr('value', response.data.nonce);
+                        } else {
+                            console.error('Failed to fetch nonce:', response.data);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX error:', error);
+                    }
+                });
+            });
+
+        });	
 
         elements.$emailInput.on('input', () => {
             if(!this.validateEmail(elements.$emailInput.val())) {
@@ -1223,6 +1247,28 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
         this.elements.$alertContainer.empty();
         this.$element.find('#alert').removeClass('nerodyti');
+        const nonce_input = this.$element.find('#nonce_skaiciuokle');
+
+        jQuery(document).ready(function ($) {
+
+            $.ajax({
+                url: my_widget_ajax.ajax_url, // Replace with your AJAX URL
+                type: 'POST',
+                data: {
+                    action: 'generate_nonce_for_ajax' // The action name defined in PHP
+                },
+                success: function(response) {
+                    if (response.success) {
+                        nonce_input.attr('value', response.data.nonce);
+                    } else {
+                        console.error('Failed to fetch nonce:', response.data);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', error);
+                }
+            });
+        });
 
         const result = this.skaiciuotiIsmokas(this.tevystesTarifas, this.motinystesTarifas, this.neperleidziamuMenesiuTarifas, this.tarifasAtostogos18men, this.tarifasAtostogos24men, this.mokesciaiNuoIsmoku, this.vdu, this.bazineSocIsmoka, this.motinystesIsmokaRodyti, this.tevystesIsmokaRodyti, this.vpaIsmokaRodyti, this.vpaTrukme, this.mamaArTetisVpa, this.naudosisNpm, this.mamosPajamuTipas, this.mamosPajamos, this.mamosIslaiduTipas, this.mamosIslaidos, this.tecioPajamuTipas, this.tecioPajamos, this.tecioIslaiduTipas, this.tecioIslaidos, this.gimdymoData);
 
@@ -1240,8 +1286,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
 
         const resultContainer = this.elements.$resultContainer;
-        resultContainer.html(result);
-      
+        resultContainer.html(result);      
     }
 
     onSend(event) {
@@ -1276,11 +1321,13 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         const emailDiv = this.$element.find('#email');
         const loader = this.$element.find('#loader').parent().parent();
         const check = this.$element.find('#check');
+        const nonceValue = this.$element.find('#nonce_skaiciuokle').attr('value');
 
         loader.removeClass('nerodyti');
         sendBtnDiv.addClass('nerodyti');
 
         jQuery(document).ready(function ($) {
+
             $.ajax({
                 url: my_widget_ajax.ajax_url,
                 type: 'POST',
@@ -1292,8 +1339,11 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                     source: 'vpa-skaiciuokle-nemokama',
                     name: name,
                     email: email,
+                    nonce: nonceValue,
                 },
                 success: (response) => {
+
+                    if(response.success) {
                     resultContainer.text('Pasitikrinkite savo el. paštą! VPA išmokų detalizacija - jau išsiųsta');
                     resultContainer.css({"color": "green"});
                     loader.addClass('nerodyti');
@@ -1305,6 +1355,13 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                     setTimeout(function(){
                         resetBtnDiv.removeClass('nerodyti');
                     }, 3010);
+                    } else {
+                        resultContainer.text('Laiško išsiųsti nepavyko. Susisiekite su svetainės administratoriumi.');
+                        resultContainer.css({"color": "red"});
+                        loader.addClass('nerodyti');
+                        emailDiv.addClass('nerodyti');
+                        resetBtnDiv.removeClass('nerodyti');
+                    }
                 },
                 error: (error) => {
                     console.error('Error:', error);
