@@ -1439,7 +1439,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         }
     
         // Regular expression to allow only letters, spaces, hyphens, and apostrophes
-        const nameRegex = /^[a-zA-Z\s'-]+$/;
+        const nameRegex = /^[a-zA-ZĄČĘĖĮŠŲŪŽąčęėįšųūž\s'-]+$/;
     
         // Validate against the regular expression
         if (!nameRegex.test(trimmedName)) {
