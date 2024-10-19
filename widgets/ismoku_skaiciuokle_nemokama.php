@@ -482,7 +482,6 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <div id="result-container-cta" style="z-index: 2; align-self: center;">Daugiau informacijos (pilna VPA išmokų detalizacija visam laikotarpiui, kiekvienam mėnesiui) - el. paštu</div>
                 <? } ?>
                 <div id="result-container-skaiciuokle" style="width: 100%;"></div>
-                </div>
             </fieldset>
 
         </div>

@@ -32,7 +32,7 @@ function my_custom_widget_scripts() {
     ]);
     
 }
-add_action('wp_enqueue_scripts', 'my_custom_widget_scripts');
+add_action('wp_enqueue_scripts', 'my_custom_widget_scripts', 999);
 
 function my_plugin_stylesheets() {
     wp_register_style( 'custom-skaiciuokles-style-1', plugins_url( '/css/style.css', __FILE__ ) );

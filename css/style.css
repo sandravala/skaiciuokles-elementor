@@ -9,7 +9,6 @@
 }
 
 
-
 .loader {
     width: 20px;
     height: 20px;
@@ -321,7 +320,7 @@ fieldset.formbox__container#nameInputFieldset {
 
 @media screen and (min-width: 776px) {
     .formbox__container {
-        grid-template-columns: 2fr 3fr
+        grid-template-columns: 2fr 2fr
     }
 
     .formbox__container.is-vertical {

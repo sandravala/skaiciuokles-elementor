@@ -80,7 +80,7 @@ private function prepare_payload() {
                 "source" => $this->subscriberSource,
                 "channels" => [
                     "email" => [
-                        "status" => "subscribed"
+                        "status" => "nonSubscribed"
                     ]
                 ],
                 'consent' => [
