@@ -175,7 +175,8 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         // Fetch data from OSP API
         $default_data = [];
         try {
-            $dataToSave = GetDataFromOsp::prepare_vdu_data(get_data_from_osp());
+            $dataFromOsp = GetDataFromOsp::get_data_from_osp();
+            $dataToSave = GetDataFromOsp::prepare_vdu_data($dataFromOsp);
 
             error_log('Data from osp in widget: ' . print_r($dataToSave, true));
             foreach ($dataToSave as $key => $value) {

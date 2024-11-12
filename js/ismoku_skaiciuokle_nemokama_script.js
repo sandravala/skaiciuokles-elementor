@@ -1236,8 +1236,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         const resultContainer = this.elements.$resultContainer;
         resultContainer.html(result);  
         
-        
-        
     }
 
     onSend(event) {
