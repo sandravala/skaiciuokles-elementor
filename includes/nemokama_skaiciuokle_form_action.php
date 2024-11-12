@@ -289,57 +289,6 @@ function set_vdu() {
         return wp_send_json_error( [ 'data' => $data]);
 }
 
-function get_data_from_osp($ketv = '', $metai = '') {
-
-    if ($metai === '') {
-        $metaiStart = date('Y') - 1;
-        $metaiEnd = date('Y');
-    } else if ($metai[0]) {
-        $metaiStart = $metai[0];
-        $metaiEnd = $metai[1];
-    } else {
-        $metaiStart = $metai;
-        $metaiEnd = $metai;
-    }
-
-
-    if ($ketv === '') {
-
-        $ketvStart = 1;
-        $ketvEnd = ceil(date('n') / 3);
-    } else if($ketv[0]) {
-        $ketvStart = $ketv[0];
-        $ketvEnd = $ketv[1];
-    } else {
-        $ketvStart = $ketv;
-        $ketvEnd = $ketv;
-    }
-
-    $api_url = 'https://osp-rs.stat.gov.lt/rest_json/data/S3R0050_M3060322';
-
-    $api_url .= '?startPeriod=' . $metaiStart . '-Q' . $ketvStart . '&endPeriod=' . $metaiEnd . '-Q' . $ketvEnd;
-    // Fetch data from API
-    $response = wp_remote_get( $api_url, array(
-        'timeout' => 15,  // Increase timeout to 15 seconds
-        'headers' => array(
-            'Accept' => 'application/json',
-        ),
-    ));
-
-    if ( is_wp_error( $response ) ) {
-        return $response->get_error_message();
-    }
-
-    $body = wp_remote_retrieve_body( $response );
-
-    $data = json_decode( $body, true );
-
-    if ( ! $data ) {
-        return wp_send_json_error();
-    }
-
-    return $data;
-}
 
 function save_widget_settings($post_id, $widget_id, $updated_settings) {
     // Get existing widget data
@@ -371,57 +320,6 @@ function save_widget_settings($post_id, $widget_id, $updated_settings) {
     $document->save(array('elements' => $widgets));
 }
 
-function prepare_vdu_data($data) {
-    $searchKey = array_fill(0, 6, '');
-    $results = [];
-    $observationKeys = $data['structure']['dimensions']['observation'];
-    $laikotarpis = [];
-    $laikotarpisKeyPosition = 5;
-
-    $searchIdArr = array(
-        'Ekon_sektoriusM3061118' => '0in', //"id": "0in",  "name": "Šalies ūkis su individualiosiomis įmonėmis"
-        'savivaldybesRegdb' => '00', // "id": "00", "name": "Lietuvos Respublika"
-        'darboM3060321' => 'bruto', //"id": "bruto", "name": "Bruto"
-        'Lytis' => '0', //"id": "0",  "name": "Vyrai ir moterys"
-        'MATVNT'=> 'eur', 
-        'LAIKOTARPIS' => ''
-    );
-
-    foreach($observationKeys as $observationKey) {
-        $i = $observationKey['keyPosition'];
-        $searchId = $searchIdArr[$observationKey['id']];
-
-        if($observationKey['id'] !== 'LAIKOTARPIS') {
-
-            foreach ($observationKey['values'] as $index => $value) {
-                // Check if the current element's 'id' matches the search ID
-                if ($value['id'] === $searchId) { 
-                    $searchKey[$i] = $index;
-                }
-            }
-        } else {
-            $laikotarpis = $observationKey['values'];
-            $laikotarpisKeyPosition = $i;
-        }
-
-    }
-
-    foreach ($laikotarpis as $key => $value) {
-        $searchKey[$laikotarpisKeyPosition] = $key;
-
-        $thisSearchKey = implode(':', $searchKey);
-        if($data['dataSets'][0]['observations']) {
-            $results[$key] = array(
-                'metai' => substr($value['id'], 0, 4),
-                'ketv' => substr($value['id'], -1),
-                'vdu' => isset($data['dataSets'][0]['observations'][$thisSearchKey][0]) ? $data['dataSets'][0]['observations'][$thisSearchKey][0] : 0
-            );
-        }
-    }
-
-    return $results;
-
-}
 
 function generate_nonce_for_ajax() {
 
