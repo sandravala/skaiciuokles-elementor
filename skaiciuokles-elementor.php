@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Skaičiuoklės Elementor
  * Description: Custom Skaičiuoklės motinystės išmokų centrui
- * Version:     1.0.0
+ * Version:     1.0.2
  * Author:      Sandra Valavičiūtė
  * Author URI:  https://www.12gm.lt
  * Text Domain: skaiciuokles-elementor
@@ -45,6 +45,7 @@ add_action( 'elementor/frontend/before_enqueue_styles', 'my_plugin_stylesheets' 
 
 
 function register_custom_control($controls_manager) {
+
 	require_once(__DIR__ . '/controls/control-vdu.php');
     $controls_manager->register_control('vdu', new Control_VDU());
 

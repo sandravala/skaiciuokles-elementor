@@ -45,24 +45,34 @@ class GetDataFromOsp {
     
         $api_url .= '?startPeriod=' . $metaiStart . '-Q' . $ketvStart . '&endPeriod=' . $metaiEnd . '-Q' . $ketvEnd;
         // Fetch data from API
-        $response = wp_remote_get( $api_url, array(
-            'timeout' => 15,  // Increase timeout to 15 seconds
-            'headers' => array(
-                'Accept' => 'application/json',
-            ),
-        ));
-    
-        if ( is_wp_error( $response ) ) {
-            return $response->get_error_message();
+        $data = [];
+        try {
+            $response = wp_remote_get( $api_url, array(
+                'timeout' => 15,  // Increase timeout to 15 seconds
+                'headers' => array(
+                    'Accept' => 'application/json',
+                ),
+            ));
+        
+            if ( is_wp_error( $response ) ) {
+                error_log('API Error: ' .  $response->get_error_message());
+                return [];
+            }
+        
+            $body = wp_remote_retrieve_body( $response );
+        
+            $data = json_decode( $body, true );
+        
+            if ( ! $data ) {
+                error_log('No data found: ' .  wp_send_json_error());
+                return [];
+            }
+
+        } catch (Exception $e) {
+            error_log('Exception caught in get_data_from_osp: ' . $e->getMessage());
+            return [];
         }
-    
-        $body = wp_remote_retrieve_body( $response );
-    
-        $data = json_decode( $body, true );
-    
-        if ( ! $data ) {
-            return wp_send_json_error();
-        }
+        
     
         return $data;
     }
@@ -76,6 +86,9 @@ class GetDataFromOsp {
 
 
     public static function prepare_vdu_data($data) {
+        if(isset($data['structure']['dimensions']['observation'])) {
+            return [];
+        }
         $searchKey = array_fill(0, 6, '');
         $results = [];
         $observationKeys = $data['structure']['dimensions']['observation'];
