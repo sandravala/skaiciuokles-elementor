@@ -294,8 +294,6 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
 
     fetchVduData(vdu, sieMetai, vduNaujausias, postId, widgetId) {
 
-
-
         const ketv = vduNaujausias.slice(-1);
 
         if (!vdu) {
@@ -479,6 +477,19 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
                 break;
 
         }
+
+        if(this.$element.find('#result-container-skaiciuokle').length > 0 && this.$element.find('#result-container-skaiciuokle').children().length > 0) {
+            console.log('yra lentele');
+            const result = this.skaiciuotiIsmokas(this.tevystesTarifas, this.motinystesTarifas, this.neperleidziamuMenesiuTarifas, this.tarifasAtostogos18men, this.tarifasAtostogos24men, this.mokesciaiNuoIsmoku, this.vdu, this.bazineSocIsmoka, this.motinystesIsmokaRodyti, this.tevystesIsmokaRodyti, this.vpaIsmokaRodyti, this.vpaTrukme, this.mamaArTetisVpa, this.naudosisNpm, this.mamosPajamuTipas, this.mamosPajamos, this.mamosIslaiduTipas, this.mamosIslaidos, this.tecioPajamuTipas, this.tecioPajamos, this.tecioIslaiduTipas, this.tecioIslaidos, this.gimdymoData);
+            const resultContainer = this.elements.$resultContainer;
+            resultContainer.html(result);  
+            if(this.elements.$sendButton.length > 0) {
+                this.elements.$sendButton.parent().removeClass('nerodyti');
+                this.$element.find('#email').removeClass('nerodyti');
+                this.elements.$resetButton.parent().addClass('nerodyti');
+            } 
+        }
+
     }
 
     pastabaDelIvGrindu(laukelisPoKuriuoPridetiPastaba, arPrideti) {
