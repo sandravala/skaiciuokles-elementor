@@ -30,14 +30,12 @@ var VduControl = elementor.modules.controls.BaseMultiple.extend({
             this.rows = this.model.get('custom_control_table');
             this.saveRows();
         }
-
+        
         this.listenTo(this.model, 'change:custom_control_table', this.renderRows); 
     },
 
-    fetchVduData() {
 
-
-        
+    fetchVduData() {  
     },
 
     onReady: function () {
@@ -131,8 +129,9 @@ var VduControl = elementor.modules.controls.BaseMultiple.extend({
     },
 
     onAddRow: function (event) {
-
-        var newMetai = getNextYear(this.model.get('custom_control_table') || {}); // You might want to generate or prompt for a new year
+        
+        var newMetai = getNextYear(this.model.get('custom_control_table').length ? this.model.get('custom_control_table') : this.rows);        
+        
         var newRowData = {
             vdu_1: '',
             vdu_2: '',

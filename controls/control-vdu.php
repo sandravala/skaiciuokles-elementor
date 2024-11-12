@@ -9,18 +9,65 @@ class Control_VDU extends \Elementor\Base_Data_Control {
     }
 
     public function get_default_settings() {
-        $current_year = date('Y');
-        $initial_metai = $current_year - 1;
-        $dataToSet = GetDataFromOsp::prepare_vdu_data(get_data_from_osp());
+        // error_log('Control_VDU: get_default_settings called');
+
+        // $current_year = date('Y');
+        // $initial_metai = $current_year - 1;
+
+        // error_log('Control_VDU: retrieving data from OSP');
+        // //$dataToSet = GetDataFromOsp::prepare_vdu_data(get_data_from_osp());
+
+        // try {
+        //     error_log('Control_VDU: calling get_data_from_osp()');
+        //     $rawData = get_data_from_osp();
+        //     error_log('Control_VDU: get_data_from_osp() returned - ' . print_r($rawData, true));
+        
+        //     error_log('Control_VDU: calling prepare_vdu_data()');
+        //     $dataToSet = GetDataFromOsp::prepare_vdu_data($rawData);
+        //     error_log('Control_VDU: prepare_vdu_data() returned - ' . print_r($dataToSet, true));
+        // } catch (Exception $e) {
+        //     error_log('Control_VDU: Exception caught - ' . $e->getMessage());
+        //     return [];
+        // }
+
+        // if (empty($dataToSet)) {
+        //     error_log('Control_VDU: data retrieval failed or returned empty');
+        //     return [];
+        // }
+    
+        // // Log retrieved data
+        // error_log('Control_VDU: data retrieved - ' . print_r($dataToSet, true));
+        // $initialData = [];
+        // foreach ($dataToSet as $val) {
+        //     $initialData[$val['metai']]['vdu_' . $val['ketv']] = $val['vdu'];
+        // }
+
+        // error_log('Control_VDU: settings prepared - ' . print_r($initialData, true));
 
         $initialData = [];
-        foreach ($dataToSet as $val) {
-            $initialData[$val['metai']]['vdu_' . $val['ketv']] = $val['vdu'];
-        }
         return [
             'custom_control_table' => $initialData
         ];
     }
+
+
+    // public function get_default_value() {
+    //     // Fetch the data only when needed
+    //     error_log('Control_VDU: get_default_value called');
+    //     //$dataToSet = GetDataFromOsp::get_data_from_osp();
+
+
+
+    //     if (empty($dataToSet)) {
+    //         error_log('Control_VDU: No data returned from get_data_from_osp');
+    //         $dataToSet = [];
+    //     }
+
+    //     // Return the data as the default value
+    //     return [
+    //         'custom_control_table' => $dataToSet,
+    //     ];
+    // }
 
 
     public function enqueue() {

@@ -172,12 +172,40 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             ]
         );
 
+        // Fetch data from OSP API
+        $default_data = [];
+        try {
+            $dataToSave = GetDataFromOsp::prepare_vdu_data(get_data_from_osp());
+
+            error_log('Data from osp in widget: ' . print_r($dataToSave, true));
+            foreach ($dataToSave as $key => $value) {
+                $default_data[$value['metai']]['vdu_' . $value['ketv']] = $value['vdu'];
+            }
+            if (empty($default_data)) {
+                $default_data = [
+                    '2023' => [
+                        'vdu_1' => '1000',
+                        'vdu_2' => '1100',
+                        'vdu_3' => '1200',
+                        'vdu_4' => '1300',
+                    ],
+                ];
+            }
+        } catch (Exception $e) {
+            error_log('My_Custom_Widget: Exception caught - ' . $e->getMessage());
+            $default_data = [];
+        }
+        error_log('Default Data (First Item): ' . print_r($default_data[0], true));
+            error_log('Default Data (First Item Keys): ' . implode(', ', array_keys($default_data[0])));
+        
+
             $this->add_control(
                 'vdu_control',
                 [
                     'label' => __('Custom Control Table', TEXT_DOMAIN),
                     'type' => 'vdu',
                     'frontend_available' => true,
+                    'default' => $default_data,
                 ]
             );
 
