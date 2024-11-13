@@ -48,7 +48,7 @@ class GetDataFromOsp {
         $data = [];
         try {
             $response = wp_remote_get( $api_url, array(
-                'timeout' => 15,  // Increase timeout to 15 seconds
+                'timeout' => 15,  
                 'headers' => array(
                     'Accept' => 'application/json',
                 ),
@@ -86,7 +86,7 @@ class GetDataFromOsp {
 
 
     public static function prepare_vdu_data($data) {
-        if(isset($data['structure']['dimensions']['observation'])) {
+        if(!isset($data['structure']['dimensions']['observation'])) {
             return [];
         }
         $searchKey = array_fill(0, 6, '');
