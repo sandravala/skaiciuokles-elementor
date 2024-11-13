@@ -60,7 +60,7 @@
     stroke-dashoffset: 166;
     stroke-width: 2;
     stroke-miterlimit: 10;
-    stroke: $green;
+    stroke: green;
     fill: none;
     animation: stroke .6s cubic-bezier(0.650, 0.000, 0.450, 1.000) forwards;
   }
