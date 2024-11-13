@@ -173,13 +173,11 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         }
 
         if (typeof elementor === 'undefined') {
-        if(!this.vdu && !this.vdu[this.sisKetvirtis.metai] && !this.vdu[this.sisKetvirtis.metai][vduNaujausias]) {
-
-                // Your AJAX call or function here
+            if(!this.vdu && !this.vdu[this.sisKetvirtis.metai] && !this.vdu[this.sisKetvirtis.metai][vduNaujausias]) {
                 this.fetchVduData(this.vdu, this.sisKetvirtis.metai, vduNaujausias, this.postId, this.widgetId);
             } 
-    }
-        
+        }
+
     }
 
 

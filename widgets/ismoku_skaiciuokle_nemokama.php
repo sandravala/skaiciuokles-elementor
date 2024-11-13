@@ -176,28 +176,30 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         $default_data = [];
         try {
             $dataFromOsp = GetDataFromOsp::get_data_from_osp();
-            $dataToSave = GetDataFromOsp::prepare_vdu_data($dataFromOsp);
+            if (isset($dataFromOsp['structure']['dimensions']['observation'])) {
+                
+                $dataToSave = GetDataFromOsp::prepare_vdu_data($dataFromOsp);
 
-            error_log('Data from osp in widget: ' . print_r($dataToSave, true));
-            foreach ($dataToSave as $key => $value) {
-                $default_data[$value['metai']]['vdu_' . $value['ketv']] = $value['vdu'];
+                foreach ($dataToSave as $key => $value) {
+                    $default_data[$value['metai']]['vdu_' . $value['ketv']] = $value['vdu'];
+                }
             }
+
+
             if (empty($default_data)) {
                 $default_data = [
                     '2023' => [
-                        'vdu_1' => '1000',
-                        'vdu_2' => '1100',
-                        'vdu_3' => '1200',
-                        'vdu_4' => '1300',
+                        'vdu_1' => '1947.9',
+                        'vdu_2' => '1987.8',
+                        'vdu_3' => '2005.9',
+                        'vdu_4' => '2097.3',
                     ],
                 ];
             }
         } catch (Exception $e) {
-            error_log('My_Custom_Widget: Exception caught - ' . $e->getMessage());
+            $message = $e->getMessage();
             $default_data = [];
         }
-        error_log('Default Data (First Item): ' . print_r($default_data[0], true));
-            error_log('Default Data (First Item Keys): ' . implode(', ', array_keys($default_data[0])));
         
 
             $this->add_control(

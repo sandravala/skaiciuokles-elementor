@@ -267,6 +267,7 @@ function set_vdu() {
     $postId = $_POST['post_id']; 
     $widgetId = $_POST['widget_id']; 
     
+    
     $data = GetDataFromOsp::get_data_from_osp($ketv, $metai);
 
         if(isset($data['structure']['dimensions']['observation'])) {
