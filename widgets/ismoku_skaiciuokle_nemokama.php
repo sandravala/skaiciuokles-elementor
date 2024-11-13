@@ -78,7 +78,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             [
                 'label' => esc_html__('Tėvystės tarifas, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => 78.00,
+                'default' => 77.58,
 				'frontend_available' => true,
             ]
         );
@@ -88,7 +88,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             [
                 'label' => esc_html__('Motinystės tarifas, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => 78.00,
+                'default' => 77.58,
 				'frontend_available' => true,
             ]
         );
@@ -108,7 +108,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             [
                 'label' => esc_html__('VPA 18 mėn. tarifas, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => 78.00,
+                'default' => 60.00,
 				'frontend_available' => true,
             ]
         );
@@ -118,7 +118,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             [
                 'label' => esc_html__('VPA 24 mėn. tarifas 1, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => 78.00,
+                'default' => 45.00,
 				'frontend_available' => true,
             ]
         );
@@ -128,7 +128,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             [
                 'label' => esc_html__('VPA 24 mėn. tarifas 2, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => 78.00,
+                'default' => 30.00,
 				'frontend_available' => true,
             ]
         );
@@ -138,7 +138,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             [
                 'label' => esc_html__('Mokesčiai nuo išmokų, %', TEXT_DOMAIN),
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => 78.00,
+                'default' => 21.00,
 				'frontend_available' => true,
             ]
         );
@@ -177,7 +177,6 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         try {
             $dataFromOsp = GetDataFromOsp::get_data_from_osp();
             if (isset($dataFromOsp['structure']['dimensions']['observation'])) {
-                
                 $dataToSave = GetDataFromOsp::prepare_vdu_data($dataFromOsp);
 
                 foreach ($dataToSave as $key => $value) {
@@ -197,7 +196,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 ];
             }
         } catch (Exception $e) {
-            $message = $e->getMessage();
+            error_log($e->getMessage());
             $default_data = [];
         }
         
