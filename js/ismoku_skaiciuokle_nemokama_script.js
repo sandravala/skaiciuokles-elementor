@@ -879,7 +879,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         const npmLasttEnd = addMonthsToDate(new Date(gimimoDiena), vpaTrukme);
         npmLasttEnd.setDate(npmLasttEnd.getDate() - 1);
 
-        const npmLastStart = addMonthsToDate(new Date(npmLasttEnd), -2);
+        const npmLastStart = addDaysToDate(new Date(npmLasttEnd), -62);
 
         const vpaEnd = new Date(npmLastStart);
         vpaEnd.setDate(vpaEnd.getDate() - 1);
