@@ -260,36 +260,107 @@ function get_widget_settings($post_id, $widget_id) {
     return $widget_settings;
 }
 
-function set_vdu() {
+// function set_vdu() {
 
-    $ketv = $_POST['ketvirtis']; 
-    $metai = $_POST['metai']; 
-    $postId = $_POST['post_id']; 
-    $widgetId = $_POST['widget_id']; 
+//     $ketv = $_POST['ketvirtis']; 
+//     $metai = $_POST['metai']; 
+//     $postId = $_POST['post_id']; 
+//     $widgetId = $_POST['widget_id']; 
     
     
+//     $data = GetDataFromOsp::get_data_from_osp($ketv, $metai);
+
+//         if(isset($data['structure']['dimensions']['observation'])) {
+//             $dataToSave = GetDataFromOsp::prepare_vdu_data($data);
+
+//             $widget_settings = get_widget_settings($postId, $widgetId);
+
+
+//             foreach ($dataToSave as $key => $value) {
+//                 $widget_settings['vdu_control'][$value['metai']]['vdu_' . $value['ketv']] = $value['vdu'];
+//             }
+
+//             save_widget_settings($postId, $widgetId, $widget_settings);
+            
+//             return wp_send_json_success( [ 'data' =>  $widget_settings]);
+
+//         }
+
+
+//         return wp_send_json_error( [ 'data' => $data]);
+// }
+
+function set_vdu() {
+    // Log the incoming request
+    error_log('Incoming request to set_vdu: ' . print_r($_POST, true));
+
+    $ketv = isset($_POST['ketvirtis']) ? sanitize_text_field($_POST['ketvirtis']) : null;
+    $metai = isset($_POST['metai']) ? sanitize_text_field($_POST['metai']) : null;
+    $postId = isset($_POST['post_id']) ? intval($_POST['post_id']) : null;
+    $widgetId = isset($_POST['widget_id']) ? sanitize_text_field($_POST['widget_id']) : null;
+
+    // Log sanitized inputs
+    error_log("Sanitized inputs - Ketv: $ketv, Metai: $metai, Post ID: $postId, Widget ID: $widgetId");
+
+    if (!$ketv || !$metai || !$postId || !$widgetId) {
+        error_log('Missing required parameters.');
+        return wp_send_json_error(['message' => 'Missing required parameters']);
+    }
+
+    // Fetch data
     $data = GetDataFromOsp::get_data_from_osp($ketv, $metai);
 
-        if(isset($data['structure']['dimensions']['observation'])) {
-            $dataToSave = GetDataFromOsp::prepare_vdu_data($data);
+    // Log the response from OSP API
+    error_log('OSP API Response: ' . print_r($data, true));
 
-            $widget_settings = get_widget_settings($postId, $widgetId);
+    if (isset($data['structure']['dimensions']['observation'])) {
+        // Prepare data for saving
+        $dataToSave = GetDataFromOsp::prepare_vdu_data($data);
 
+        // Log the prepared data
+        error_log('Prepared data for saving: ' . print_r($dataToSave, true));
 
-            foreach ($dataToSave as $key => $value) {
-                $widget_settings['vdu_control'][$value['metai']]['vdu_' . $value['ketv']] = $value['vdu'];
-            }
-
-            save_widget_settings($postId, $widgetId, $widget_settings);
-            
-            return wp_send_json_success( [ 'data' =>  $widget_settings]);
-
+        if (empty($dataToSave)) {
+            error_log('Data preparation failed. No data to save.');
+            return wp_send_json_error(['message' => 'Data preparation failed', 'data' => $data]);
         }
 
+        // Retrieve widget settings
+        $widget_settings = get_widget_settings($postId, $widgetId);
 
-        return wp_send_json_error( [ 'data' => $data]);
+        // Log existing widget settings
+        error_log('Existing widget settings: ' . print_r($widget_settings, true));
+
+        if (!is_array($widget_settings)) {
+            error_log('Invalid widget settings retrieved.');
+            return wp_send_json_error(['message' => 'Invalid widget settings']);
+        }
+
+        // Update settings with new data
+        foreach ($dataToSave as $key => $value) {
+            $widget_settings['vdu_control'][$value['metai']]['vdu_' . $value['ketv']] = $value['vdu'];
+        }
+
+        // Log updated widget settings
+        error_log('Updated widget settings: ' . print_r($widget_settings, true));
+
+        // Save the updated settings
+        $save_result = save_widget_settings($postId, $widgetId, $widget_settings);
+
+        if (!$save_result) {
+            error_log('Failed to save widget settings.');
+            return wp_send_json_error(['message' => 'Failed to save widget settings']);
+        }
+
+        // Log successful save and return response
+        error_log('Widget settings saved successfully.');
+        return wp_send_json_success(['data' => $widget_settings]);
+    }
+
+    // Log error for missing observation data
+    error_log('Invalid data received from OSP. Observation data missing.');
+    return wp_send_json_error(['message' => 'Invalid data received from OSP', 'data' => $data]);
 }
-
 
 function save_widget_settings($post_id, $widget_id, $updated_settings) {
     // Get existing widget data
