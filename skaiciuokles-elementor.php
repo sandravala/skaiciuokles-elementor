@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Skaičiuoklės Elementor
  * Description: Custom Skaičiuoklės motinystės išmokų centrui
- * Version:     1.0.2
+ * Version:     1.0.3
  * Author:      Sandra Valavičiūtė
  * Author URI:  https://www.12gm.lt
  * Text Domain: skaiciuokles-elementor
@@ -30,6 +30,11 @@ function my_custom_widget_scripts() {
     wp_localize_script('testas_ar_gausite_ismoka_script', 'my_widget_ajax', [
         'ajax_url' => admin_url('admin-ajax.php')
     ]);
+
+    // wp_register_script('max_du_vpa_skaiciuokle_script', plugin_dir_url(__FILE__) . '/js/max_du_vpa_skaiciuokle_script.js', ['elementor-frontend', 'jquery'], null, true);
+    // wp_localize_script('max_vdu_vpa_skaiciuokle_script', 'my_widget_ajax', [
+    //     'ajax_url' => admin_url('admin-ajax.php')
+    // ]);
     
 }
 add_action('wp_enqueue_scripts', 'my_custom_widget_scripts', 999);
@@ -69,6 +74,10 @@ function register_custom_skaiciuokles_widget( $widgets_manager ) {
    require_once( __DIR__ . '/widgets/ismoku_skaiciuokle_nemokama.php' );
 
    $widgets_manager->register( new \Ismoku_Skaiciuokle_Nemokama() );
+
+//    require_once( __DIR__ . '/widgets/max_du_vpa_skaiciuokle.php' );
+
+//    $widgets_manager->register( new \Max_DU_VPA_Skaiciuokle() );
    
 
 }

@@ -860,14 +860,21 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             return newDate;
         }
 
+        function addDaysToDate(date, days) {
+            const result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+
 
         let avgBusinessDaysInAYear = countBusinessDays(new Date(gimimoDiena.getFullYear(), 0, 1), new Date(gimimoDiena.getFullYear(), 11, 31), generatePublicHolidays(gimimoDiena.getFullYear())) / 12;
         avgBusinessDaysInAYear = avgBusinessDaysInAYear.toFixed(1);
 
         const npmFirstStart = vpaPradzia;
 
-        const npmFirstEnd = addMonthsToDate(new Date(npmFirstStart), 2);
+        const npmFirstEnd = addDaysToDate(npmFirstStart, 62); 
         npmFirstEnd.setDate(npmFirstEnd.getDate());
+
 
         const npmLasttEnd = addMonthsToDate(new Date(gimimoDiena), vpaTrukme);
         npmLasttEnd.setDate(npmLasttEnd.getDate() - 1);
