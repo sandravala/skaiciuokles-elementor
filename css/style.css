@@ -916,6 +916,7 @@ select {
         display: flex;
         justify-content: flex-start;
         gap: 10%;
+        align-items: end;
     }
     
     .input-container {
