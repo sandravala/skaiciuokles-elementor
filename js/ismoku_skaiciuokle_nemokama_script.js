@@ -149,7 +149,7 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
             ketvirtis: 'vdu_' + (Math.floor(new Date().getMonth() / 3) + 1)
         }
 
-        console.log(this.sisKetvirtis);
+        //console.log(this.sisKetvirtis);
         //ketv baigiasi 03 31, 06 30, 09 30, 12 31 ir per 71 d nuo jo pabaigos tiketina gauti nauja info
         let duomenysAtnaujinimui = {
             vdu_1: new Date(this.sisKetvirtis.metai + '-06-12'),
@@ -175,11 +175,11 @@ class MyCustomWidgetHandler extends elementorModules.frontend.handlers.Base {
         }
 
         if (typeof elementor === 'undefined') {
-            console.log("elementor undefined");
-            console.log(this.vdu);
-            console.log(vduNaujausias);
+            // console.log("elementor undefined");
+            // console.log(this.vdu);
+            // console.log(vduNaujausias);
             if(this.vdu && !this.vdu[this.sisKetvirtis.metai] && !this.vdu[this.sisKetvirtis.metai][vduNaujausias]) {
-                console.log("!this.vdu && !this.vdu[this.sisKetvirtis.metai] && !this.vdu[this.sisKetvirtis.metai][vduNaujausias]");
+                // console.log("!this.vdu && !this.vdu[this.sisKetvirtis.metai] && !this.vdu[this.sisKetvirtis.metai][vduNaujausias]");
                 this.fetchVduData(this.vdu, this.sisKetvirtis.metai, vduNaujausias, this.postId, this.widgetId);
             } 
         }
