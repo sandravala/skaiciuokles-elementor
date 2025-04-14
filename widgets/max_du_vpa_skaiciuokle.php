@@ -107,12 +107,12 @@ class Max_DU_VPA_Skaiciuokle extends \Elementor\Widget_Base
                 <div class="form-group">
                     <div class="input-container">
                         <label for="ismoka">PATEIKITE PASKIRTĄ VPA IŠMOKĄ NR. 1 IŠ PAVYZDŽIO</label>
-                        <input type="number" id="ismoka" step="100" min="0" />
+                        <input type="text" id="ismoka" />
                     </div>
 
                     <div class="input-container">
                         <label for="du_suma">PATEIKITE KOMPENSUOJAMĄ UŽDARBIO SUMĄ NR. 2 IŠ PAVYZDŽIO</label>
-                        <input type="number" id="du_suma" step="100" min="0" />
+                        <input type="text" id="du_suma" />
                     </div>
 
                 </div>
@@ -154,12 +154,12 @@ class Max_DU_VPA_Skaiciuokle extends \Elementor\Widget_Base
                     <div class="form-group">
                         <div class="input-container">
                             <label for="du_is_ds">JŪSŲ DU (BRUTO) IŠ DARBO SUTARTIES:</label>
-                            <input type="number" id="du_is_ds" step="any" min="0" />
+                            <input type="text" id="du_is_ds" />
                         </div>
 
                         <div class="input-container" id="etatas_is_ds_container">
                             <label for="etatas_is_ds">ETATO DYDIS SUTARTYJE:</label>
-                            <input type="number" id="etatas_is_ds" step="any" min="0" />
+                            <input type="text" id="etatas_is_ds" />
                         </div>
                     </div>
                 </div>
