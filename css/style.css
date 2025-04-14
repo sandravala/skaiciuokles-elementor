@@ -947,6 +947,7 @@ select {
     align-items: end;
   }
 
+<<<<<<< HEAD
   .input-container {
     display: flex;
     flex-direction: column;
@@ -956,6 +957,23 @@ select {
 
   label {
     /* font-size: 14px;
+=======
+    .form-group {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10%;
+        align-items: end;
+    }
+    
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    label {
+        /* font-size: 14px;
+>>>>>>> d224e464b0e83c97e9462fb0ef0d7ca7c9af1177
         margin-bottom: 5px; */
 
     padding-top: calc(var(--form-field-height) / 2 - var(--formbox-title-size));
