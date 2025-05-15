@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Skaičiuoklės Elementor
  * Description: Custom Skaičiuoklės motinystės išmokų centrui
- * Version:     1.1.5
+ * Version:     1.1.6
  * Author:      Sandra Valavičiūtė
  * Author URI:  https://www.12gm.lt
  * Text Domain: skaiciuokles-elementor
@@ -21,17 +21,17 @@ include_once plugin_dir_path(__FILE__) . 'includes/nemokama_skaiciuokle_form_act
 include_once plugin_dir_path(__FILE__) . 'includes/omni_subscription.php';
 
 function my_custom_widget_scripts() {
-    wp_register_script('ismoku_skaiciuokle_nemokama_script', plugin_dir_url(__FILE__) . '/js/ismoku_skaiciuokle_nemokama_script.js', ['elementor-frontend', 'jquery', 'jquery-ui-datepicker'], '1.1.5', true);
+    wp_register_script('ismoku_skaiciuokle_nemokama_script', plugin_dir_url(__FILE__) . '/js/ismoku_skaiciuokle_nemokama_script.js', ['elementor-frontend', 'jquery', 'jquery-ui-datepicker'], '1.1.6', true);
 	wp_localize_script('ismoku_skaiciuokle_nemokama_script', 'my_widget_ajax', [
         'ajax_url' => admin_url('admin-ajax.php')
     ]);
     
-    wp_register_script('testas_ar_gausite_ismoka_script', plugin_dir_url(__FILE__) . '/js/testas_ar_gausite_ismoka_script.js', ['elementor-frontend', 'jquery'], '1.1.5', true);
+    wp_register_script('testas_ar_gausite_ismoka_script', plugin_dir_url(__FILE__) . '/js/testas_ar_gausite_ismoka_script.js', ['elementor-frontend', 'jquery'], '1.1.6', true);
     wp_localize_script('testas_ar_gausite_ismoka_script', 'my_widget_ajax', [
         'ajax_url' => admin_url('admin-ajax.php')
     ]);
 
-    wp_register_script('max_du_vpa_skaiciuokle_script', plugin_dir_url(__FILE__) . '/js/max_du_vpa_skaiciuokle_script.js', ['elementor-frontend', 'jquery'], '1.1.5', true);
+    wp_register_script('max_du_vpa_skaiciuokle_script', plugin_dir_url(__FILE__) . '/js/max_du_vpa_skaiciuokle_script.js', ['elementor-frontend', 'jquery'], '1.1.6', true);
     // wp_localize_script('max_vdu_vpa_skaiciuokle_script', 'my_widget_ajax', [
     //     'ajax_url' => admin_url('admin-ajax.php')
     // ]);

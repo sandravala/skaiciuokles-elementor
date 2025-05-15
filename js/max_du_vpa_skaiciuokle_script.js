@@ -129,8 +129,8 @@ class MaxDuVpaSkaiciuokleHandler extends elementorModules.frontend.handlers
     let monthlyVDU = vduVal / 12;
     this.galimasDu = 0;
     
-    if(monthlyVDU > this.maxVDU * 5) {
-      this.galimasDu = this.maxVDU * 5;
+    if(monthlyVDU > this.maxVDU * 5 - ismokaVal) {
+      this.galimasDu = this.maxVDU * 5 - ismokaVal;
     } else
      if((monthlyVDU - ismokaVal) > 0) {
       this.galimasDu = (monthlyVDU - ismokaVal).toFixed(2);
