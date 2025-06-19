@@ -162,7 +162,7 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base
             <input type="hidden" id="nonce_testas" value="">
             <div class="container" style="justify-self:center;width:auto;">
 
-                <?
+                <?php
                 foreach ($kl as $q) {
 
                     $classNerodyti = array_search($q, $kl) > 0 ? 'nerodyti' : '';
@@ -249,5 +249,4 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base
         <?php
     }
 
-    protected function _content_template() {}
 }

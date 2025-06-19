@@ -41,7 +41,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
         return ['vpa', 'skaiciuokle', 'skaičiuoklė', 'ismoku', 'išmokų', 'nemokama'];
     }
 
-    protected function _register_controls()
+    protected function register_controls()
     {
         $this->start_controls_section(
             'skaiciuokles_tipo_pasirinkimas',
@@ -253,7 +253,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 <input type="hidden" id="widget_id" value="<?php echo $widget_id ?>">
                 <input type="hidden" id="post_id" value="<?php echo $post_id ?>">
                 <input type="hidden" id="nonce_skaiciuokle" value="">
-            <?  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
+            <?php  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="kuria-ismoka-rodyti" class="formbox__container has_border">
             <div class="formbox__title">Pažymėkite, kurias išmokas skaičiuoti</div>
             <div class="formbox__body">
@@ -273,8 +273,8 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </div>
             </fieldset>
-                <? } ?>
-            <fieldset id="vpa-trukme" class="formbox__container has_border <? if ( $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?> ">
+                <?php } ?>
+            <fieldset id="vpa-trukme" class="formbox__container has_border <?php if ( $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?> ">
                 <div class="formbox__title">VPA išmokos gavimo trukmė</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -290,7 +290,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <fieldset id="vpa-ims" class="formbox__container has_border <? if ( $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?>">
+            <fieldset id="vpa-ims" class="formbox__container has_border <?php if ( $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?>">
                 <div class="formbox__title">Vaiko priežiūros atostogomis naudosis:</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -322,7 +322,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <?  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
+            <?php  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="mamos-pajamu-tipas" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Mamos pajamų tipas</div>
                 <div class="formbox__body">
@@ -338,7 +338,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                     </div>
                 </div>
             </fieldset>
-            <? } ?>
+            <?php } ?>
 
             <fieldset id="mamos-pajamos" class="formbox__container has_border nerodyti">
                 <div id="mamos-pajamos-label" class="formbox__title">Mamos pajamos</div>
@@ -351,7 +351,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <?  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
+            <?php  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="mamos-islaidu-tipas" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Kaip skaičiuojamos mamos išlaidos?</div>
                 <div class="formbox__body">
@@ -394,7 +394,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                     </div>
                 </div>
             </fieldset>
-            <? } ?>
+            <?php } ?>
 
             <fieldset id="tecio-pajamos" class="formbox__container has_border nerodyti">
                 <div id="tecio-pajamos-label" class="formbox__title">Tėčio pajamos</div>
@@ -407,7 +407,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <?  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
+            <?php  if ( $settings['skaiciuokles_tipas'] ) {  ?> 
             <fieldset id="tecio-islaidu-tipas" class="formbox__container has_border nerodyti">
                 <div class="formbox__title">Kaip skaičiuojamos tėčio išlaidos?</div>
                 <div class="formbox__body">
@@ -434,9 +434,9 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                     </div>
                 </div>
             </fieldset>
-            <? } ?>
+            <?php } ?>
 
-            <fieldset id="gimdymo-data" class="formbox__container has_border <? if ( $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?>">
+            <fieldset id="gimdymo-data" class="formbox__container has_border <?php if ( $settings['skaiciuokles_tipas'] ) { echo 'nerodyti';} ?>">
                 <div class="formbox__title">Numatyta gimdymo data</div>
                 <div class="formbox__body">
                     <div class="formbox__field">
@@ -445,7 +445,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
             </fieldset>
 
-            <?  if ( !$settings['skaiciuokles_tipas'] ) {  ?>
+            <?php  if ( !$settings['skaiciuokles_tipas'] ) {  ?>
             <fieldset id="email" class="formbox__container has_border nerodyti" style="padding-bottom: 1em;display:block;">
                 <fieldset id="emailInputFieldset" class="formbox__container">
                 <div class="formbox__title">Jūsų el. pašto adresas</div>
@@ -468,7 +468,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                 </div>
                 </fieldset>
             </fieldset>
-            <? } ?>
+            <?php } ?>
 
             <fieldset id="alert" class="formbox__container nerodyti" style="padding-top: 1em; padding-bottom: 1em;">
                 <div id="alert-container-skaiciuokle" style="color: red; "></div>
@@ -477,7 +477,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
             <fieldset id="mygtukai" class="formbox__container" style="display: flex;justify-content: center; padding-bottom: 0;">
 
                 <div class="formbox__body" style="display: flex;">
-                <?  if ( !$settings['skaiciuokles_tipas'] ) {  ?> 
+                <?php  if ( !$settings['skaiciuokles_tipas'] ) {  ?> 
                     <div class="formbox__btn nerodyti">
                         <button type="button" class="formbox__btn-send">
                             Siųsti rezultatus el. paštu</button>
@@ -492,7 +492,7 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
                         <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
                         <div style="align-content: center; padding-left: .5em; color: green;">Išsiųsta</div>
                     </div>
-                    <?}?>
+                    <?php } ?>
 
                     <div class="formbox__btn">
                         <button type="submit" class="formbox__btn-calc">Skaičiuoti</button>
@@ -508,21 +508,15 @@ class Ismoku_Skaiciuokle_Nemokama extends \Elementor\Widget_Base
 
             </form>
             <fieldset id="rezultatai" class="formbox__container has_border nerodyti" style="display: flex; flex-direction: column;">
-            <? if ( !$settings['skaiciuokles_tipas'] ) { ?>
+            <?php if ( !$settings['skaiciuokles_tipas'] ) { ?>
                 <div id="result-container-cta" style="z-index: 2; align-self: center;">Daugiau informacijos (pilna VPA išmokų detalizacija visam laikotarpiui, kiekvienam mėnesiui) - el. paštu</div>
-                <? } ?>
+                <?php } ?>
                 <div id="result-container-skaiciuokle" style="width: 100%;"></div>
             </fieldset>
 
         </div>
 
-		<?php
-    }
-
-    protected function _content_template()
-    {
-
+        <?php
     }
 
 }
-
