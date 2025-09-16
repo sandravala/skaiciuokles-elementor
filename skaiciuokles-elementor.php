@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Skaičiuoklės Elementor
  * Description: Custom Skaičiuoklės motinystės išmokų centrui
- * Version:     1.1.8
+ * Version:     1.2.0
  * Author:      Sandra Valavičiūtė
  * Author URI:  https://www.12gm.lt
  * Text Domain: skaiciuokles-elementor
@@ -15,7 +15,7 @@
 }
 
 define('TEXT_DOMAIN', 'skaiciuokles-elementor');
-define('SKAICIUOKLES_ELEMENTOR_VERSION', '1.1.8');
+define('SKAICIUOKLES_ELEMENTOR_VERSION', '1.2.0');
 
 include_once plugin_dir_path(__FILE__) . 'includes/get_data_from_osp.php';
 include_once plugin_dir_path(__FILE__) . 'includes/nemokama_skaiciuokle_form_action.php';
@@ -36,7 +36,9 @@ function my_custom_widget_scripts() {
     // wp_localize_script('max_vdu_vpa_skaiciuokle_script', 'my_widget_ajax', [
     //     'ajax_url' => admin_url('admin-ajax.php')
     // ]);
-    
+
+        wp_register_script('vsd_sumos_sav_skaiciuokle_script', plugin_dir_url(__FILE__) . '/js/vsd_sumos_sav_skaiciuokle_script.js', ['elementor-frontend', 'jquery'], SKAICIUOKLES_ELEMENTOR_VERSION, true);
+
 }
 add_action('wp_enqueue_scripts', 'my_custom_widget_scripts', 999);
 
@@ -79,7 +81,10 @@ function register_custom_skaiciuokles_widget( $widgets_manager ) {
    require_once( __DIR__ . '/widgets/max_du_vpa_skaiciuokle.php' );
 
    $widgets_manager->register( new \Max_DU_VPA_Skaiciuokle() );
-   
+
+   require_once( __DIR__ . '/widgets/vsd_sumos_sav_skaiciuokle.php' );
+
+   $widgets_manager->register( new \VSD_sumos_SAV_skaiciuokle() );
 
 }
 add_action( 'elementor/widgets/register', 'register_custom_skaiciuokles_widget' );

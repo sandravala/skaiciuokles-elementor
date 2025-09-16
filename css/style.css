@@ -260,6 +260,7 @@ fieldset.formbox__container {
   grid-gap: 0.75em;
   padding-bottom: 2em;
   padding-left: 2em;
+  border: none;
 
   &.has_border {
     padding-top: 2em;
@@ -467,7 +468,7 @@ fieldset.formbox__container#nameInputFieldset {
   display: -webkit-flex;
   display: flex;
   -webkit-align-items: flex-start;
-  align-items: flex-start;
+  align-items: center;
   line-height: 1;
   gap: 0.5em;
 }
@@ -665,6 +666,12 @@ fieldset.formbox__container#nameInputFieldset {
 
 #main-results {
   margin-top: 2em;
+}
+
+.max_du_vpa_skaiciuokle #main-results {
+  margin-top: 0;
+      padding: 2em;
+    border-top: var(--formbox-field-border-width) solid var(--formbox-field-border-color);
 }
 
 @media screen and (max-width: 776px) {
