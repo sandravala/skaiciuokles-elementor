@@ -204,7 +204,8 @@ div.datos-laukas {
 
 .formbox .is-hidden,
 .formbox textarea[hidden],
-.max_du_vpa_skaiciuokle .is-hidden {
+.max_du_vpa_skaiciuokle .is-hidden,
+.vsd_sumos_sav_skaiciuokle .is-hidden {
   display: none;
 }
 
@@ -670,9 +671,85 @@ fieldset.formbox__container#nameInputFieldset {
 
 .max_du_vpa_skaiciuokle #main-results {
   margin-top: 0;
-      padding: 2em;
-    border-top: var(--formbox-field-border-width) solid var(--formbox-field-border-color);
+  padding: 2em;
+  border-top: var(--formbox-field-border-width) solid
+    var(--formbox-field-border-color);
 }
+
+.vsd_sumos_sav_skaiciuokle {
+    select {
+    padding: 0.75em 1.5em 0.75em 1em;
+    background: var(--formbox-field-background)
+      url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E)
+      no-repeat right 5px top 55%;
+    background-size: 1em 1em;
+    cursor: pointer;
+    font-size: 0.85em;
+    -webkit-appearance: none;
+    vertical-align: middle;
+    width: 100%;
+    height: var(--form-field-height);
+    max-width: 100%;
+    margin: 0;
+    box-shadow: none;
+    background-color: var(--formbox-field-background);
+    border: var(--formbox-field-border-width) solid
+      var(--formbox-field-border-color);
+    border-radius: var(--formbox-radius);
+    outline: 0;
+    color: var(--formbox-field-color);
+    font-size: 0.85em;
+    line-height: 1;
+    padding: 0.75em 1em;
+    display: inline-block;
+    min-height: 40px;
+  }
+
+}
+
+.vsd_sumos_sav_skaiciuokle #main-results {
+  margin-top: 0;
+  padding: 2em;
+  border-top: var(--formbox-field-border-width) solid
+    var(--formbox-field-border-color);
+  text-align: center;
+
+
+
+  table.sav_pvz {
+    font: 12px sans-serif;
+    margin-top: 1em;
+  }
+  td.field_value {
+    border: 2px solid #e1e0e0;
+    background: #ffffc9;
+    text-align: right;
+    padding: 3px 2px;
+  }
+  td.field_name {
+    padding: 0 10px;
+    font-size: 10px;
+    font-weight: bold;
+    vertical-align: middle;
+    border: none;
+  }
+  th {
+    font: 8px sans-serif;
+    max-width: 140px;
+    text-align: left;
+    align-content: end;
+    padding-bottom: 4px;
+    border: none;
+  }
+}
+
+/* Only add responsive container and mobile display properties */
+.table-responsive {
+    overflow-x: auto;
+}
+
+
+
 
 @media screen and (max-width: 776px) {
   .formbox__btn {
@@ -821,7 +898,6 @@ fieldset.formbox__container#nameInputFieldset {
   color: currentColor;
 }
 
-
 select {
   width: 100%;
   border: 1px solid #212121;
@@ -954,8 +1030,7 @@ select {
     align-items: end;
   }
 
-<<<<<<< HEAD
-  .input-container {
+  HEAD .input-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1088,3 +1163,67 @@ select {
     margin-top: 2em;
   }
 }
+
+/*
+
+@media screen and (max-width: 768px) {
+
+  
+  
+    .sav_pvz thead {
+        display: none;
+    }
+    
+    
+    .sav_pvz tbody tr {
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+        grid-template-rows: repeat(4, auto);
+        width: 100%;
+        margin-bottom: 1em;
+    }
+
+    
+    
+    .sav_pvz tbody td:nth-child(1),
+    .sav_pvz tbody td:nth-child(2) {
+        grid-row: 1;
+    }
+    
+    .sav_pvz tbody td:nth-child(3),
+    .sav_pvz tbody td:nth-child(4) {
+        grid-row: 2;
+    }
+    
+    .sav_pvz tbody td:nth-child(5),
+    .sav_pvz tbody td:nth-child(6) {
+        grid-row: 3;
+    }
+    
+    .sav_pvz tbody td:nth-child(7),
+    .sav_pvz tbody td:nth-child(8) {
+        grid-row: 4;
+    }
+    
+
+    .sav_pvz tbody td:nth-child(odd) {
+        grid-column: 1;
+    }
+    
+
+    .sav_pvz tbody td:nth-child(even) {
+        grid-column: 2;
+    }
+    
+    .sav_pvz tbody td.field_value:before {
+        content: attr(data-label);
+        display: block;
+        font: 8px sans-serif;
+        max-width: 140px;
+        text-align: left;
+        align-content: end;
+        padding-bottom: 4px;
+        border: none;
+    }
+ }
+*/

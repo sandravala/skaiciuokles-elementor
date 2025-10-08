@@ -8,13 +8,18 @@ class VSDsumosSAVSkaiciuokleHandler extends elementorModules.frontend.handlers
     this.pajamos = undefined;
     this.pensijuKaupimas = false;
     this.islaiduTipas = "islaidos30"; // Default to 30% if not selected
-    
+    //how do i get current month in js
+    const currentMonth = new Date().getMonth() + 1;
+    this.savMenuo = currentMonth;
+    this.savMenuoText = Array( "sausio", "vasario", "kovo", "balandžio", "gegužės", "birželio", "liepos", "rugpjūčio", "rugsėjo", "spalio", "lapkričio", "gruodžio" )[ currentMonth - 1 ];
+
   }
 
   getDefaultSettings() {
     return {
       selectors: {
         mainContainer: ".vsd_sumos_sav_skaiciuokle",
+        savMenuo: "#sav-menuo-select",
         pajamos: "#pajamos-input",
         islaiduTipasRadios: 'input[name="islaidu-tipas"]',
         faktinesIslaidosInput: "#faktinesIslaidosInput",
@@ -25,7 +30,12 @@ class VSDsumosSAVSkaiciuokleHandler extends elementorModules.frontend.handlers
         errorMsgMain: "#error-msg-main",
         errorMsg: "#error-msg",
         pensijuKaupimasRadios: 'input[name="papildomas-pensiju-kaupimas"]',
-
+        resultSavMenuo: '#sav_pvz_menuo',
+        resultSavPajamos: '#sav_pvz_pajamos',
+        resultSavTarifas: '#sav_pvz_tarifas',
+        resultSavImokos: '#sav_pvz_imokos',
+        currentMonthExpenseText: '#current-month-text-expense',
+        currentMonthIncomeText: '#current-month-text-income',
       },
     };
   }
@@ -35,6 +45,7 @@ class VSDsumosSAVSkaiciuokleHandler extends elementorModules.frontend.handlers
     const widgetId = this.$element.data("widget-id");
     return {
       mainContainer: this.$element.find(selectors.mainContainer),
+      savMenuo: this.$element.find(selectors.savMenuo),
       pajamos: this.$element.find(selectors.pajamos),
       islaiduTipasRadios: this.$element.find(selectors.islaiduTipasRadios),
       faktinesIslaidosInput: this.$element.find(selectors.faktinesIslaidosInput),
@@ -44,6 +55,12 @@ class VSDsumosSAVSkaiciuokleHandler extends elementorModules.frontend.handlers
       clearBtnMain: this.$element.find(selectors.clearBtnMain),
       errorMsg: this.$element.find(selectors.errorMsgMain),
       pensijuKaupimasRadios: this.$element.find(selectors.pensijuKaupimasRadios),
+      resultSavMenuo: this.$element.find(selectors.resultSavMenuo),
+      resultSavPajamos: this.$element.find(selectors.resultSavPajamos),
+      resultSavTarifas: this.$element.find(selectors.resultSavTarifas),
+      resultSavImokos: this.$element.find(selectors.resultSavImokos),
+      currentMonthExpenseText: this.$element.find(selectors.currentMonthExpenseText),
+      currentMonthIncomeText: this.$element.find(selectors.currentMonthIncomeText),
     };
   }
 
@@ -51,6 +68,11 @@ class VSDsumosSAVSkaiciuokleHandler extends elementorModules.frontend.handlers
     this.elements.calcBtn.on("click", (e) => {
       e.preventDefault();
       this.calculateMain();
+    });
+
+    this.elements.savMenuo.on("change", (e) => {
+      e.preventDefault();
+      this.handleMenuoChange(e.target);
     });
 
     this.elements.pajamos.on("input", () => {
@@ -78,6 +100,13 @@ class VSDsumosSAVSkaiciuokleHandler extends elementorModules.frontend.handlers
       this.clearAll();
     });
     
+  }
+
+  handleMenuoChange(select) {
+    this.savMenuo = select.value;
+    this.savMenuoText = Array( "sausio", "vasario", "kovo", "balandžio", "gegužės", "birželio", "liepos", "rugpjūčio", "rugsėjo", "spalio", "lapkričio", "gruodžio" )[ select.value - 1 ];
+    this.elements.currentMonthExpenseText.text(this.savMenuoText);
+    this.elements.currentMonthIncomeText.text(this.savMenuoText);
   }
 
   handleIslaiduTipasChange(radio) {
@@ -109,11 +138,13 @@ class VSDsumosSAVSkaiciuokleHandler extends elementorModules.frontend.handlers
     }
 
     let vsdTarifas = this.pensijuKaupimas ? 0.1552 : 0.1252;
-    let vsdSuma = (pajamosVal - islaidosVal) * 0.9 * vsdTarifas;
+    let apmokestinamosPajamos = (pajamosVal - islaidosVal) * 0.9;
+    let vsdSuma = apmokestinamosPajamos * vsdTarifas;
 
-    this.vsdSumaText = "VSD suma, kurią turite nurodyti SAV pranešime: " + vsdSuma.toFixed(2) + " €";
-
-    this.elements.resultVSDsuma.text(this.vsdSumaText);
+    this.elements.resultSavMenuo.text(this.savMenuo);
+    this.elements.resultSavPajamos.text(apmokestinamosPajamos.toFixed(2).replace('.', ','));
+    this.elements.resultSavTarifas.text((vsdTarifas * 100).toFixed(2).replace('.', ','));
+    this.elements.resultSavImokos.text(vsdSuma.toFixed(2).replace('.', ','));
 
     this.elements.mainResults.removeClass("is-hidden");
     this.elements.clearBtnMain.removeClass("is-hidden");
