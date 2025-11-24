@@ -190,7 +190,7 @@ class VSDsumosSAVSkaiciuokleHandler extends elementorModules.frontend.handlers
   checkInput($input) {
     let inputStr = $input.val().replace(/,/g, '.');
     let inputVal = parseFloat(inputStr);
-    if (isNaN(inputVal) || inputVal <= 0) {
+    if (isNaN(inputVal) || inputVal < 0) {
       $input.closest("fieldset").addClass("klaida");
       this.elements.errorMsg.removeClass("is-hidden");
       return false;

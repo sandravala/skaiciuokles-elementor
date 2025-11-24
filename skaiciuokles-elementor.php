@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Skaičiuoklės Elementor
  * Description: Custom Skaičiuoklės motinystės išmokų centrui
- * Version:     1.2.0
+ * Version:     1.2.2
  * Author:      Sandra Valavičiūtė
  * Author URI:  https://www.12gm.lt
  * Text Domain: skaiciuokles-elementor
@@ -15,7 +15,7 @@
 }
 
 define('TEXT_DOMAIN', 'skaiciuokles-elementor');
-define('SKAICIUOKLES_ELEMENTOR_VERSION', '1.2.0');
+define('SKAICIUOKLES_ELEMENTOR_VERSION', '1.2.2');
 
 include_once plugin_dir_path(__FILE__) . 'includes/get_data_from_osp.php';
 include_once plugin_dir_path(__FILE__) . 'includes/nemokama_skaiciuokle_form_action.php';
@@ -43,7 +43,14 @@ function my_custom_widget_scripts() {
 add_action('wp_enqueue_scripts', 'my_custom_widget_scripts', 999);
 
 function my_plugin_stylesheets() {
-    wp_register_style( 'custom-skaiciuokles-style-1', plugins_url( '/css/style.css', __FILE__ ) );
+
+    wp_register_style( 
+        'custom-skaiciuokles-style-1', 
+        plugins_url( '/css/style.css', __FILE__ ),
+        array(),
+        SKAICIUOKLES_ELEMENTOR_VERSION,
+        'all'
+    );
     wp_enqueue_style( 'custom-skaiciuokles-style-1' );
     wp_enqueue_style('jquery-ui-css', 'https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css');
 }
