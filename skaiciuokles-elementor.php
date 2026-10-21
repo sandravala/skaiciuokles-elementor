@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Skaičiuoklės Elementor
  * Description: Custom Skaičiuoklės motinystės išmokų centrui
- * Version:     1.2.2
+ * Version:     1.2.3
  * Author:      Sandra Valavičiūtė
  * Author URI:  https://www.12gm.lt
  * Text Domain: skaiciuokles-elementor
@@ -15,7 +15,7 @@
 }
 
 define('TEXT_DOMAIN', 'skaiciuokles-elementor');
-define('SKAICIUOKLES_ELEMENTOR_VERSION', '1.2.2');
+define('SKAICIUOKLES_ELEMENTOR_VERSION', '1.2.3');
 
 include_once plugin_dir_path(__FILE__) . 'includes/get_data_from_osp.php';
 include_once plugin_dir_path(__FILE__) . 'includes/nemokama_skaiciuokle_form_action.php';
