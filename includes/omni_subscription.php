@@ -127,6 +127,12 @@ private function send_request($payload, $api_key, $check_api = false) {
 
     $response = curl_exec($curl);
 
+    if ($response === false) {
+        $curl_error = curl_error($curl);
+        curl_close($curl);
+        return json_encode(['error' => 'cURL request failed: ' . $curl_error]);
+    }
+
     curl_close($curl);
 
     return $response;
