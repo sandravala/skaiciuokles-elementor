@@ -36,7 +36,7 @@ class VSD_sumos_SAV_skaiciuokle extends \Elementor\Widget_Base
         return ['custom-skaiciuokles-style-1', 'jquery-ui-css'];
     }
 
-    protected function _register_controls()
+    protected function register_controls()
     {
         $this->start_controls_section(
             'content_section',

@@ -40,7 +40,7 @@ class Testas_Ar_Gausite_Ismoka extends \Elementor\Widget_Base
     }
 
 
-    protected function _register_controls()
+    protected function register_controls()
     {
 
         
