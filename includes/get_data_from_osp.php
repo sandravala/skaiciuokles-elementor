@@ -64,7 +64,7 @@ class GetDataFromOsp {
             $data = json_decode( $body, true );
         
             if ( ! $data ) {
-                error_log('No data found: ' .  wp_send_json_error());
+                error_log('No data found in OSP API response.');
                 return [];
             }
 

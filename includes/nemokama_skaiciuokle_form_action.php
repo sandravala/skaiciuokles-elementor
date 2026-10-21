@@ -36,7 +36,7 @@ function nemokama_skaiciuokle_send_email() {
         return;
     }
 
-    $formData = $_POST['calcData'];
+    $formData = isset($_POST['calcData']) ? $_POST['calcData'] : array();
     
     // Gather form data
     $bendrosSumos = isset($formData['bendrosSumos']) ? $formData['bendrosSumos']: array();
@@ -46,11 +46,11 @@ function nemokama_skaiciuokle_send_email() {
     $paaiskinimai = isset($formData['vpaIsmokuPaaiskinimai']) ? $formData['vpaIsmokuPaaiskinimai']: '';
 
     // gather other required data
-    $post_id = $_POST['post_id'] ? sanitize_text_field($_POST['post_id']) : '' ;
-    $widget_id = $_POST['widget_id'] ? sanitize_text_field($_POST['widget_id']) : '';
-    $subscriberSource = $_POST['source'] ? sanitize_text_field($_POST['source']) : '';
-    $subscriberName = $_POST['name'] ? sanitize_text_field($_POST['name']) : '';
-    $subscriberEmail = $_POST['email'] ? sanitize_email($_POST['email']) : '';
+    $post_id = ! empty($_POST['post_id']) ? sanitize_text_field($_POST['post_id']) : '';
+    $widget_id = ! empty($_POST['widget_id']) ? sanitize_text_field($_POST['widget_id']) : '';
+    $subscriberSource = ! empty($_POST['source']) ? sanitize_text_field($_POST['source']) : '';
+    $subscriberName = ! empty($_POST['name']) ? sanitize_text_field($_POST['name']) : '';
+    $subscriberEmail = ! empty($_POST['email']) ? sanitize_email($_POST['email']) : '';
 
     // Prepare email
     $subject = "Jūsų planuojamos VPA išmokos";
@@ -75,12 +75,12 @@ function testas_send_email() {
         return;
     }
 
-    $post_id = $_POST['post_id'] ? sanitize_text_field($_POST['post_id']) : '' ;
-    $widget_id = $_POST['widget_id'] ? sanitize_text_field($_POST['widget_id']) : '';
-    $subscriberSource = $_POST['source'] ? sanitize_text_field($_POST['source']) : '';
-    $subscriberName = $_POST['name'] ? sanitize_text_field($_POST['name']) : '';
-    $subscriberEmail = $_POST['email'] ? sanitize_email($_POST['email']) : '';
-    $answer = $_POST['answer'] ? sanitize_text_field($_POST['answer']) : '';
+    $post_id = ! empty($_POST['post_id']) ? sanitize_text_field($_POST['post_id']) : '';
+    $widget_id = ! empty($_POST['widget_id']) ? sanitize_text_field($_POST['widget_id']) : '';
+    $subscriberSource = ! empty($_POST['source']) ? sanitize_text_field($_POST['source']) : '';
+    $subscriberName = ! empty($_POST['name']) ? sanitize_text_field($_POST['name']) : '';
+    $subscriberEmail = ! empty($_POST['email']) ? sanitize_email($_POST['email']) : '';
+    $answer = ! empty($_POST['answer']) ? sanitize_text_field($_POST['answer']) : '';
 
 
     // Prepare email
@@ -195,7 +195,7 @@ function skaiciuokle_check_omni_api() {
         // $post_id = $_POST['post_id'] ? sanitize_text_field($_POST['post_id']) : '' ;
         // $widget_id = $_POST['widget_id'] ? sanitize_text_field($_POST['widget_id']) : '';
 
-        $api_key = $_POST['omni'] ? sanitize_text_field($_POST['omni']) : '';
+        $api_key = ! empty($_POST['omni']) ? sanitize_text_field($_POST['omni']) : '';
 
         $omni_subscribe = new OmniSubscription($api_key);
 
@@ -233,29 +233,29 @@ function schedule_omnisend_subscription($post_id, $widget_id, $subscriberEmail, 
     wp_schedule_single_event(time(), 'process_omnisend_subscription', [$post_id, $widget_id, $subscriberEmail, $subscriberName, $subscriberSource]);
 }
 
+// Recursively find a widget's settings inside Elementor elements data.
+function skaiciuokles_find_widget_settings($elements, $widget_id) {
+    foreach ($elements as $element) {
+        if ($element['id'] === $widget_id) {
+            return $element['settings'];
+        }
+
+        // If the element has children (e.g., it's a section or column)
+        if (!empty($element['elements'])) {
+            $settings = skaiciuokles_find_widget_settings($element['elements'], $widget_id);
+            if ($settings) {
+                return $settings;
+            }
+        }
+    }
+    return null;
+}
+
 function get_widget_settings($post_id, $widget_id) {
 
     $widgets = \Elementor\Plugin::$instance->documents->get( $post_id )->get_elements_data();
 
-
-    function find_widget_settings($elements, $widget_id) {
-        foreach ($elements as $element) {
-            if ($element['id'] === $widget_id) {
-                return $element['settings'];
-            }
-            
-            // If the element has children (e.g., it's a section or column)
-            if (!empty($element['elements'])) {
-                $settings = find_widget_settings($element['elements'], $widget_id);
-                if ($settings) {
-                    return $settings;
-                }
-            }
-        }
-        return null;
-    }
-    
-    $widget_settings = find_widget_settings($widgets, $widget_id);
+    $widget_settings = skaiciuokles_find_widget_settings($widgets, $widget_id);
 
     return $widget_settings;
 }
@@ -362,31 +362,31 @@ function set_vdu() {
     return wp_send_json_error(['message' => 'Invalid data received from OSP', 'data' => $data]);
 }
 
+// Recursively find a widget inside Elementor elements data and replace its settings.
+function skaiciuokles_update_widget_settings(&$elements, $widget_id, $updated_settings) {
+    foreach ($elements as &$element) {
+        if ($element['id'] === $widget_id) {
+            $element['settings'] = $updated_settings;
+            return true;
+        }
+
+        if (!empty($element['elements'])) {
+            $updated = skaiciuokles_update_widget_settings($element['elements'], $widget_id, $updated_settings);
+            if ($updated) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 function save_widget_settings($post_id, $widget_id, $updated_settings) {
     // Get existing widget data
     $document = \Elementor\Plugin::$instance->documents->get($post_id);
     $widgets = $document->get_elements_data();
 
-    // Function to find and update the widget settings
-    function update_widget_settings(&$elements, $widget_id, $updated_settings) {
-        foreach ($elements as &$element) {
-            if ($element['id'] === $widget_id) {
-                $element['settings'] = $updated_settings;
-                return true;
-            }
-
-            if (!empty($element['elements'])) {
-                $updated = update_widget_settings($element['elements'], $widget_id, $updated_settings);
-                if ($updated) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     // Update the settings for the widget
-    update_widget_settings($widgets, $widget_id, $updated_settings);
+    skaiciuokles_update_widget_settings($widgets, $widget_id, $updated_settings);
 
     // Save updated widgets back to the post meta
     $document->save(array('elements' => $widgets));
